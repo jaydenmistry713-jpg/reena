@@ -468,7 +468,7 @@
             if (v && !isNaN(d.getTime())) return d.toLocaleDateString('en-GB', { dateStyle: 'medium' });
             return v || '';
         }
-        const quoteLink = (id) => window.location.origin + '/quote.html?id=' + encodeURIComponent(id);
+        const quoteLink = (id) => window.location.origin + '/quote/' + encodeURIComponent(id);
 
         function summaryLine(inq) {
             return [
@@ -662,7 +662,7 @@
                 const data = await api('create-quote', payload);
                 const id = data.id;
                 lastCreatedQuote = data.quote || Object.assign({ id: id }, payload);
-                const link = `${window.location.origin}/quote.html?id=${encodeURIComponent(id)}`;
+                const link = `${window.location.origin}/quote/${encodeURIComponent(id)}`;
                 $('result-link').value = link;
                 $('preview-link').href = link;
                 $('quote-form-panel').classList.add('hidden');

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Your Quote | Punjabi Folk Entertainment</title>
-    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
-    <link rel="stylesheet" href="css/variables-crimson.css">
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+    <link rel="stylesheet" href="/css/variables-crimson.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -186,8 +186,7 @@
         <!-- Error / not found -->
         <div id="error-state" class="state hidden">
             <h2>Quote not found</h2>
-            <p>This quote link is invalid or has expired. Please contact us and we'll be happy to help.</p>
-            <p style="margin-top:1.5rem;"><a class="btn btn-primary" href="contact.html">Contact us</a></p>
+            <p>This quote link is invalid or has expired. Please reply to the email you received from us and we'll be happy to help.</p>
         </div>
 
         <!-- Quote -->
@@ -200,7 +199,7 @@
                             <path d="M88 18 L54 50 L88 82"/>
                         </svg>
                     </div>
-                    <span class="logo-badge"><img src="assets/images/logo/logo.png" alt="Punjabi Folk Entertainment"></span>
+                    <span class="logo-badge"><img src="/assets/images/logo/logo.png" alt="Punjabi Folk Entertainment"></span>
                     <div class="kicker">Your Personalised Quote</div>
                     <h1>Punjabi Folk Entertainment</h1>
                     <div class="ornament" style="margin-top:1rem;">
@@ -222,13 +221,7 @@
                     </div>
 
                     <div class="cta anim">
-                        <p>Ready to book, or have a question about this quote?</p>
-                        <a class="btn btn-primary" href="contact.html">Contact Us to Book</a>
-                        <div class="quick">
-                            <a href="tel:+447931669333">Call +44 7931 669333</a>
-                            <span class="sep">|</span>
-                            <a href="mailto:info@punjabifolkentertainment.com">Email us</a>
-                        </div>
+                        <p>To confirm your booking or ask a question, simply reply to the email that contained this quote.</p>
                     </div>
                 </div>
             </div>
@@ -303,7 +296,13 @@
             show('quote-view');
         }
 
-        const id = new URLSearchParams(window.location.search).get('id');
+        // Prefer the clean path /quote/<id>; fall back to the legacy ?id= form.
+        function getQuoteId() {
+            const m = window.location.pathname.match(/^\/quote\/(.+?)\/?$/);
+            if (m && m[1]) { try { return decodeURIComponent(m[1]); } catch (e) { return m[1]; } }
+            return new URLSearchParams(window.location.search).get('id');
+        }
+        const id = getQuoteId();
         if (!id) { show('error-state'); return; }
 
         fetch('/.netlify/functions/get-quote?id=' + encodeURIComponent(id))

@@ -3,3 +3,10 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# Clean quote URLs: /quote/<name-slug>-<id> serves the quote page.
+# The page reads the id from the path; the random suffix is the access token.
+[[redirects]]
+  from = "/quote/*"
+  to = "/quote.html"
+  status = 200

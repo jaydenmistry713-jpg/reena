@@ -14,6 +14,16 @@
 
 const crypto = require('crypto');
 
+// Turn a name into a URL-safe slug (lowercase, a-z0-9 and hyphens only).
+function slugify(s) {
+  return String(s || '')
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '') // strip accents
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-+|-+$)/g, '')
+    .slice(0, 40);
+}
+
 // Open a Blobs store. Uses Netlify's automatic config when available (Git/CLI
 // deploys), and falls back to explicit credentials (siteID + token) so it also
 // works on manual drag-and-drop deploys, which do NOT auto-provision Blobs.
@@ -119,7 +129,11 @@ exports.handler = async (event) => {
         if (!message || price === undefined || price === null || price === '') {
           return json(400, { error: 'message and price are required' });
         }
-        const id = crypto.randomBytes(8).toString('hex'); // 16-char access token
+        // Readable, URL-safe id: <name-slug>-<random>. The random suffix keeps
+        // links unique and unguessable (it is the quote's only access control).
+        const rand = crypto.randomBytes(5).toString('hex'); // 10 hex chars
+        const nameSlug = slugify(customer && customer.name);
+        const id = nameSlug ? nameSlug + '-' + rand : rand;
         const quote = {
           id,
           createdAt: new Date().toISOString(),
