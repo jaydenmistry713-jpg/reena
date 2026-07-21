@@ -26,7 +26,48 @@ exports.handler = async (event, context) => {
   try {
     // Parse form data
     const data = JSON.parse(event.body);
-    
+
+    // --- Additive: persist the inquiry to Netlify Blobs ---------------------
+    // This runs BEFORE the email so an email failure can't stop the save, and
+    // it is fully wrapped so a blob failure can't break the email flow.
+    try {
+      const { getStore } = await import('@netlify/blobs');
+      const crypto = require('crypto');
+
+      // Automatic config on Git/CLI deploys; explicit credentials otherwise
+      // (manual drag-and-drop deploys don't auto-provision Blobs).
+      const _siteID = process.env.NETLIFY_SITE_ID || process.env.BLOBS_SITE_ID;
+      const _token = process.env.NETLIFY_BLOBS_TOKEN || process.env.BLOBS_TOKEN;
+      const inquiries = (_siteID && _token)
+        ? getStore({ name: 'inquiries', siteID: _siteID, token: _token })
+        : getStore('inquiries');
+
+      const createdAt = new Date().toISOString();
+      const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
+
+      const record = {
+        id,
+        createdAt,
+        status: 'new',
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        'event-type': data['event-type'],
+        'event-date': data['event-date'],
+        'event-time': data['event-time'],
+        venue: data.venue,
+        'event-location': data['event-location'],
+        'number-of-guests': data['number-of-guests'],
+        message: data.message
+      };
+
+      await inquiries.setJSON(id, record);
+    } catch (blobErr) {
+      // Never let a storage problem affect the email notification.
+      console.error('Failed to save inquiry to Blobs (email will still send):', blobErr);
+    }
+    // -----------------------------------------------------------------------
+
     // Email template with light theme and gray boxes
     const emailHTML = `
 <!DOCTYPE html>

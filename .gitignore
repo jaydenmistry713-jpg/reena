@@ -6,3 +6,6 @@ node_modules/
 
 # Large video files hosted separately (Netlify Large Media / CDN)
 assets/videos/
+
+# Local Netlify folder
+.netlify

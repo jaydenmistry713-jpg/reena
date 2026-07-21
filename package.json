@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Punjabi Folk Entertainment website with custom form notifications",
   "dependencies": {
+    "@netlify/blobs": "^8.1.0",
     "nodemailer": "^6.9.7"
   }
 }

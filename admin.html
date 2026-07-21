@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard | Punjabi Folk Entertainment</title>
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <link rel="stylesheet" href="css/variables-crimson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: var(--font-body), sans-serif;
+            background: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            line-height: var(--line-height-normal);
+        }
+        h1, h2, h3 { font-family: var(--font-heading), serif; margin: 0; }
+        a { color: var(--color-primary); }
+        button { font-family: inherit; cursor: pointer; }
+
+        /* ---- Login ---- */
+        .login-wrap {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+        }
+        .login-card {
+            background: var(--color-white); padding: 2.5rem; border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl); width: 100%; max-width: 380px; text-align: center;
+        }
+        .login-card img { height: 56px; margin-bottom: 1rem; }
+        .login-card h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .login-card p { color: var(--color-text-secondary); font-size: 0.9rem; margin: 0 0 1.5rem; }
+
+        .field { text-align: left; margin-bottom: 1rem; }
+        .field label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--color-text-secondary); }
+        .field input, .field textarea, .field select {
+            width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--color-gray);
+            border-radius: var(--border-radius-md); font-size: 0.95rem; font-family: inherit; background: #fff;
+        }
+        .field textarea { min-height: 110px; resize: vertical; }
+        .field input:focus, .field textarea:focus, .field select:focus {
+            outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(196,30,58,0.12);
+        }
+
+        .btn {
+            border: none; border-radius: var(--border-radius-md); padding: 0.7rem 1.1rem;
+            font-size: 0.9rem; font-weight: 600; transition: var(--transition-all);
+        }
+        .btn-primary { background: var(--gradient-primary); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+        .btn-block { width: 100%; }
+        .btn-ghost { background: var(--color-light-gray); color: var(--color-text-primary); }
+        .btn-ghost:hover { background: var(--color-gray); }
+        .btn-danger { background: #fff; color: #b71c1c; border: 1px solid #f0c2c2; }
+        .btn-danger:hover { background: #fdecec; }
+        .btn-sm { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
+
+        .error-msg { color: #b71c1c; font-size: 0.85rem; margin-top: 0.75rem; min-height: 1rem; }
+
+        /* ---- Dashboard shell ---- */
+        .topbar {
+            background: var(--color-white); box-shadow: var(--shadow-sm);
+            padding: 0.9rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 10;
+        }
+        .topbar .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .topbar img { height: 34px; }
+        .topbar h1 { font-size: 1.15rem; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+
+        .toolbar { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem; }
+        .toolbar .spacer { flex: 1; }
+
+        .section-title { font-size: 1.25rem; margin: 2rem 0 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .count-pill { background: var(--color-primary); color: #fff; font-size: 0.7rem; font-weight: 600;
+            padding: 0.15rem 0.5rem; border-radius: var(--border-radius-full); font-family: var(--font-body); }
+
+        .card {
+            background: var(--color-white); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-sm);
+            padding: 1.1rem 1.25rem; margin-bottom: 0.85rem; border-left: 4px solid var(--color-gray);
+        }
+        .card.status-new { border-left-color: var(--color-primary); }
+        .card.status-handled { border-left-color: #2e7d32; opacity: 0.85; }
+        .card-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+        .card-head .who { font-weight: 600; font-size: 1.02rem; }
+        .card-head .meta { color: var(--color-text-secondary); font-size: 0.85rem; }
+        .badge { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+            padding: 0.12rem 0.5rem; border-radius: var(--border-radius-full); }
+        .badge-new { background: rgba(196,30,58,0.12); color: var(--color-primary-dark); }
+        .badge-handled { background: rgba(46,125,50,0.14); color: #2e7d32; }
+
+        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.5rem 1.25rem; margin: 0.5rem 0 0.9rem; }
+        .detail-grid .lbl { font-size: 0.7rem; color: var(--color-medium-gray); text-transform: uppercase; letter-spacing: 0.03em; }
+        .detail-grid .val { font-size: 0.9rem; word-break: break-word; }
+        .card-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+        .empty { color: var(--color-text-secondary); font-size: 0.9rem; padding: 1.5rem; text-align: center;
+            background: var(--color-white); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-sm); }
+
+        /* ---- Quote row ---- */
+        .quote-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+        .quote-row .q-main { flex: 1; min-width: 200px; }
+        .quote-row .q-price { font-weight: 700; color: var(--color-primary-dark); }
+        .link-box { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
+        .link-box input { flex: 1; padding: 0.5rem 0.6rem; border: 1px solid var(--color-gray);
+            border-radius: var(--border-radius-md); font-size: 0.82rem; background: var(--color-light-gray); }
+
+        /* ---- Modal ---- */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;
+            align-items: flex-start; justify-content: center; padding: 2rem 1rem; z-index: 1000; overflow-y: auto; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: var(--color-white); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-2xl);
+            width: 100%; max-width: 560px; padding: 1.75rem; }
+        .modal h2 { font-size: 1.35rem; margin-bottom: 0.25rem; }
+        .modal .sub { color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+        @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+        .modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1.25rem; }
+
+        .result-panel { display: none; text-align: center; }
+        .result-panel.show { display: block; }
+        .result-panel .check { font-size: 2.5rem; }
+        .hidden { display: none !important; }
+
+        /* ---- Off-screen capture card (rendered to PNG via html2canvas) ---- */
+        .qcap-stage { position: fixed; left: -10000px; top: 0; }
+        .qcap { width: 620px; background: #fff; font-family: var(--font-body), sans-serif;
+            color: var(--color-text-primary); border: 1px solid var(--color-gray); overflow: hidden; }
+        .qcap-header { background: var(--gradient-primary); color: #fff; padding: 34px 30px; text-align: center; }
+        .qcap-logo { display: inline-block; background: #fff; border-radius: 8px; padding: 12px 18px; margin-bottom: 16px; }
+        .qcap-logo img { height: 46px; display: block; }
+        .qcap-kicker { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.9; }
+        .qcap-title { font-family: var(--font-heading), serif; font-size: 30px; font-weight: 700; margin-top: 6px; }
+        .qcap-body { padding: 30px; }
+        .qcap-greeting { font-size: 17px; margin-bottom: 18px; color: var(--color-text-primary); }
+        .qcap-message { background: var(--color-light-gray); border-left: 4px solid var(--color-secondary);
+            border-radius: 8px; padding: 16px 18px; margin-bottom: 24px; white-space: pre-wrap; line-height: 1.7; font-size: 15px; }
+        .qcap-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--color-medium-gray);
+            font-weight: 600; margin-bottom: 10px; }
+        .qcap-details { border: 1px solid var(--color-gray); border-radius: 8px; overflow: hidden; margin-bottom: 24px; }
+        .qcap-row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 16px;
+            border-bottom: 1px solid var(--color-gray); font-size: 14px; }
+        .qcap-row:last-child { border-bottom: none; }
+        .qcap-k { color: var(--color-text-secondary); }
+        .qcap-v { font-weight: 500; text-align: right; }
+        .qcap-price { text-align: center; background: var(--color-off-white); border: 2px dashed var(--color-primary);
+            border-radius: 12px; padding: 22px; margin-bottom: 24px; }
+        .qcap-plabel { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--color-text-secondary); }
+        .qcap-pval { font-family: var(--font-heading), serif; font-size: 40px; font-weight: 700;
+            color: var(--color-primary-dark); line-height: 1.1; margin-top: 4px; }
+        .qcap-contact { text-align: center; border-top: 1px solid var(--color-gray); padding-top: 18px;
+            font-size: 13px; color: var(--color-text-secondary); line-height: 1.9; }
+        .qcap-contact .web { color: var(--color-primary-dark); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!-- ============ LOGIN ============ -->
+    <div id="login-view" class="login-wrap">
+        <div class="login-card">
+            <img src="assets/images/logo/logo.png" alt="Punjabi Folk Entertainment">
+            <h1>Admin Dashboard</h1>
+            <p>Enter the password to continue</p>
+            <form id="login-form">
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="login-btn">Log in</button>
+                <div class="error-msg" id="login-error"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============ DASHBOARD ============ -->
+    <div id="dashboard-view" class="hidden">
+        <div class="topbar">
+            <div class="brand">
+                <img src="assets/images/logo/logo.png" alt="Logo">
+                <h1>Inquiries &amp; Quotes</h1>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="logout-btn">Log out</button>
+        </div>
+
+        <div class="container">
+            <div class="toolbar">
+                <button class="btn btn-primary" id="new-quote-btn">+ New blank quote</button>
+                <button class="btn btn-ghost btn-sm" id="refresh-btn">Refresh</button>
+            </div>
+
+            <h2 class="section-title">Inquiries <span class="count-pill" id="inq-count">0</span></h2>
+            <div id="inquiries-list"></div>
+
+            <h2 class="section-title">Generated quotes <span class="count-pill" id="quote-count">0</span></h2>
+            <div id="quotes-list"></div>
+        </div>
+    </div>
+
+    <!-- ============ QUOTE MODAL ============ -->
+    <div class="modal-overlay" id="quote-modal">
+        <div class="modal">
+            <!-- form -->
+            <div id="quote-form-panel">
+                <h2>Create a quote</h2>
+                <p class="sub">Customer &amp; event details are pre-filled from the inquiry (editable). Add a message and price to generate the quote link.</p>
+                <form id="quote-form">
+                    <div class="form-row">
+                        <div class="field"><label>Customer name</label><input type="text" id="q-name"></div>
+                        <div class="field"><label>Email</label><input type="email" id="q-email"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field"><label>Phone</label><input type="text" id="q-phone"></div>
+                        <div class="field"><label>Event type</label><input type="text" id="q-event-type"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field"><label>Event date</label><input type="text" id="q-event-date"></div>
+                        <div class="field"><label>Event time</label><input type="text" id="q-event-time"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field"><label>Venue</label><input type="text" id="q-venue"></div>
+                        <div class="field"><label>Location</label><input type="text" id="q-event-location"></div>
+                    </div>
+                    <div class="field"><label>Number of guests</label><input type="text" id="q-number-of-guests"></div>
+
+                    <div class="field"><label>Message to customer *</label><textarea id="q-message" placeholder="e.g. Thank you for your enquiry. We would be delighted to perform at your event..." required></textarea></div>
+                    <div class="field"><label>Price (GBP £) *</label><input type="text" id="q-price" placeholder="e.g. 1,200 or 1200" required></div>
+
+                    <div class="error-msg" id="quote-error"></div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-ghost" id="quote-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="quote-generate">Generate quote link</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- result -->
+            <div id="quote-result-panel" class="result-panel">
+                <div class="check">✅</div>
+                <h2>Quote link ready</h2>
+                <p class="sub">Copy this link and send it to your customer.</p>
+                <div class="link-box">
+                    <input type="text" id="result-link" readonly>
+                    <button class="btn btn-primary btn-sm" id="copy-result">Copy</button>
+                </div>
+                <div class="modal-actions">
+                    <a class="btn btn-ghost btn-sm" id="preview-link" target="_blank" rel="noopener">Preview</a>
+                    <button class="btn btn-ghost btn-sm" id="save-img-result">⬇ Save image</button>
+                    <button class="btn btn-primary btn-sm" id="quote-done">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ OFF-SCREEN CAPTURE CARD (for PNG export) ============ -->
+    <div class="qcap-stage" aria-hidden="true">
+        <div id="qcap" class="qcap">
+            <div class="qcap-header">
+                <span class="qcap-logo"><img src="assets/images/logo/logo.png" alt="Punjabi Folk Entertainment" crossorigin="anonymous"></span>
+                <div class="qcap-kicker">Your Personalised Quote</div>
+                <div class="qcap-title">Punjabi Folk Entertainment</div>
+            </div>
+            <div class="qcap-body">
+                <div class="qcap-greeting" id="qcap-greeting"></div>
+                <div class="qcap-message" id="qcap-message"></div>
+                <div id="qcap-details-wrap">
+                    <div class="qcap-label">Event details</div>
+                    <div class="qcap-details" id="qcap-details"></div>
+                </div>
+                <div class="qcap-price">
+                    <div class="qcap-plabel">Total Quote</div>
+                    <div class="qcap-pval" id="qcap-price"></div>
+                </div>
+                <div class="qcap-contact">
+                    <div>Call +44 7931 669333&nbsp;&nbsp;&middot;&nbsp;&nbsp;Email info@punjabifolkentertainment.com</div>
+                    <div class="web">punjabifolkentertainment.com</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/html2canvas.min.js"></script>
+    <script>
+    (function () {
+        const $ = (id) => document.getElementById(id);
+        const API = '/.netlify/functions/admin-api';
+        const SKEY = 'pfe_admin_pw';
+
+        let lastCreatedQuote = null;   // full quote from the last create-quote call
+        let quotesById = {};           // id -> quote, for the quotes-list save buttons
+
+        const esc = (s) => String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+        const getPw = () => sessionStorage.getItem(SKEY) || '';
+
+        async function api(action, payload) {
+            let res;
+            try {
+                res = await fetch(API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.assign({ password: getPw(), action }, payload || {}))
+                });
+            } catch (netErr) {
+                const e = new Error('Could not reach the server. Check your connection.');
+                e.status = 0;
+                throw e;
+            }
+            let data = null;
+            try { data = await res.json(); } catch (_) { data = null; }
+            if (!res.ok) {
+                const e = new Error((data && data.error) || ('Server error (HTTP ' + res.status + ').'));
+                e.status = res.status;
+                throw e;
+            }
+            return data;
+        }
+
+        // ---- Auth ----
+        function showLogin() {
+            $('login-view').classList.remove('hidden');
+            $('dashboard-view').classList.add('hidden');
+        }
+        function showDashboard() {
+            $('login-view').classList.add('hidden');
+            $('dashboard-view').classList.remove('hidden');
+        }
+        function logout() {
+            sessionStorage.removeItem(SKEY);
+            showLogin();
+        }
+
+        $('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pw = $('password').value;
+            $('login-error').textContent = '';
+            $('login-btn').disabled = true; $('login-btn').textContent = 'Checking...';
+            sessionStorage.setItem(SKEY, pw);
+            try {
+                await loadAll();       // will throw on 401
+                showDashboard();
+                $('password').value = '';
+            } catch (err) {
+                sessionStorage.removeItem(SKEY);
+                if (err.status === 401) {
+                    $('login-error').textContent = 'Incorrect password. Please try again.';
+                } else if (err.status === 0) {
+                    $('login-error').textContent = err.message;
+                } else {
+                    $('login-error').textContent = err.message + ' The admin function is failing — check the Netlify function logs.';
+                }
+            } finally {
+                $('login-btn').disabled = false; $('login-btn').textContent = 'Log in';
+            }
+        });
+        $('logout-btn').addEventListener('click', logout);
+
+        // ---- Rendering ----
+        const EVENT_FIELDS = [
+            ['event-type', 'Event type'], ['event-date', 'Date'], ['event-time', 'Time'],
+            ['number-of-guests', 'Guests'], ['venue', 'Venue'], ['event-location', 'Location']
+        ];
+
+        function fmtDate(iso) {
+            try { return new Date(iso).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }); }
+            catch (e) { return iso || ''; }
+        }
+
+        function renderInquiries(list) {
+            $('inq-count').textContent = list.length;
+            const wrap = $('inquiries-list');
+            if (!list.length) { wrap.innerHTML = '<div class="empty">No inquiries yet.</div>'; return; }
+            wrap.innerHTML = list.map((q) => {
+                const details = EVENT_FIELDS.map(([k, lbl]) =>
+                    `<div><div class="lbl">${lbl}</div><div class="val">${esc(q[k] || '—')}</div></div>`).join('');
+                const handled = q.status === 'handled';
+                return `
+                <div class="card status-${handled ? 'handled' : 'new'}">
+                    <div class="card-head">
+                        <span class="who">${esc(q.name || 'Unknown')}</span>
+                        <span class="badge ${handled ? 'badge-handled' : 'badge-new'}">${handled ? 'Handled' : 'New'}</span>
+                        <span class="meta">${esc(fmtDate(q.createdAt))}</span>
+                    </div>
+                    <div class="card-head">
+                        <span class="meta">📞 ${esc(q.phone || '—')}</span>
+                        <span class="meta">✉️ <a href="mailto:${esc(q.email)}">${esc(q.email || '—')}</a></span>
+                    </div>
+                    <div class="detail-grid">${details}</div>
+                    ${q.message ? `<div><div class="lbl">Message</div><div class="val">${esc(q.message)}</div></div>` : ''}
+                    <div class="card-actions" style="margin-top:0.9rem;">
+                        <button class="btn btn-primary btn-sm" data-quote='${esc(JSON.stringify(q))}'>Create quote</button>
+                        <button class="btn btn-ghost btn-sm" data-toggle="${esc(q.id)}" data-status="${handled ? 'new' : 'handled'}">
+                            ${handled ? 'Mark as new' : 'Mark handled'}</button>
+                        <button class="btn btn-danger btn-sm" data-del-inq="${esc(q.id)}">Delete</button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            wrap.querySelectorAll('[data-quote]').forEach((btn) =>
+                btn.addEventListener('click', () => openQuoteModal(JSON.parse(btn.getAttribute('data-quote')))));
+            wrap.querySelectorAll('[data-toggle]').forEach((btn) =>
+                btn.addEventListener('click', async () => {
+                    btn.disabled = true;
+                    try { await api('set-inquiry-status', { id: btn.getAttribute('data-toggle'), status: btn.getAttribute('data-status') }); await loadAll(); }
+                    catch (e) { alert(e.message); btn.disabled = false; }
+                }));
+            wrap.querySelectorAll('[data-del-inq]').forEach((btn) =>
+                btn.addEventListener('click', async () => {
+                    if (!confirm('Delete this inquiry permanently?')) return;
+                    btn.disabled = true;
+                    try { await api('delete-inquiry', { id: btn.getAttribute('data-del-inq') }); await loadAll(); }
+                    catch (e) { alert(e.message); btn.disabled = false; }
+                }));
+        }
+
+        function renderQuotes(list) {
+            $('quote-count').textContent = list.length;
+            const wrap = $('quotes-list');
+            if (!list.length) { wrap.innerHTML = '<div class="empty">No quotes generated yet.</div>'; return; }
+            const origin = window.location.origin;
+            quotesById = {};
+            list.forEach((q) => { quotesById[q.id] = q; });
+            wrap.innerHTML = list.map((q) => {
+                const link = `${origin}/quote.html?id=${encodeURIComponent(q.id)}`;
+                return `
+                <div class="card">
+                    <div class="quote-row">
+                        <div class="q-main">
+                            <div class="who">${esc(q.customer && q.customer.name || 'Customer')}
+                                <span class="q-price">· £${esc(q.price)}</span></div>
+                            <div class="meta">${esc(q.event && q.event['event-type'] || '')} · ${esc(fmtDate(q.createdAt))}</div>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" data-save-img="${esc(q.id)}">⬇ Save image</button>
+                        <button class="btn btn-danger btn-sm" data-del-quote="${esc(q.id)}">Delete</button>
+                    </div>
+                    <div class="link-box">
+                        <input type="text" readonly value="${esc(link)}">
+                        <button class="btn btn-primary btn-sm" data-copy="${esc(link)}">Copy</button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            wrap.querySelectorAll('[data-copy]').forEach((btn) =>
+                btn.addEventListener('click', () => copyText(btn.getAttribute('data-copy'), btn)));
+            wrap.querySelectorAll('[data-save-img]').forEach((btn) =>
+                btn.addEventListener('click', () => saveQuoteImage(quotesById[btn.getAttribute('data-save-img')], btn)));
+            wrap.querySelectorAll('[data-del-quote]').forEach((btn) =>
+                btn.addEventListener('click', async () => {
+                    if (!confirm('Delete this quote? The link will stop working.')) return;
+                    btn.disabled = true;
+                    try { await api('delete-quote', { id: btn.getAttribute('data-del-quote') }); await loadAll(); }
+                    catch (e) { alert(e.message); btn.disabled = false; }
+                }));
+        }
+
+        async function loadAll() {
+            const [inq, qs] = await Promise.all([api('list-inquiries'), api('list-quotes')]);
+            renderInquiries(inq.inquiries || []);
+            renderQuotes(qs.quotes || []);
+        }
+        $('refresh-btn').addEventListener('click', () => loadAll().catch((e) => alert(e.message)));
+
+        // ---- Quote modal ----
+        const modal = $('quote-modal');
+        function openQuoteModal(inq) {
+            inq = inq || {};
+            $('q-name').value = inq.name || '';
+            $('q-email').value = inq.email || '';
+            $('q-phone').value = inq.phone || '';
+            $('q-event-type').value = inq['event-type'] || '';
+            $('q-event-date').value = inq['event-date'] || '';
+            $('q-event-time').value = inq['event-time'] || '';
+            $('q-venue').value = inq.venue || '';
+            $('q-event-location').value = inq['event-location'] || '';
+            $('q-number-of-guests').value = inq['number-of-guests'] || '';
+            $('q-message').value = '';
+            $('q-price').value = '';
+            $('quote-error').textContent = '';
+            $('quote-form-panel').classList.remove('hidden');
+            $('quote-result-panel').classList.remove('show');
+            modal.classList.add('open');
+        }
+        function closeModal() { modal.classList.remove('open'); }
+
+        $('new-quote-btn').addEventListener('click', () => openQuoteModal({}));
+        $('quote-cancel').addEventListener('click', closeModal);
+        $('quote-done').addEventListener('click', () => { closeModal(); loadAll().catch(() => {}); });
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        $('quote-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            $('quote-error').textContent = '';
+            const message = $('q-message').value.trim();
+            const price = $('q-price').value.trim();
+            if (!message || !price) { $('quote-error').textContent = 'Message and price are required.'; return; }
+
+            const payload = {
+                customer: { name: $('q-name').value.trim(), email: $('q-email').value.trim(), phone: $('q-phone').value.trim() },
+                event: {
+                    'event-type': $('q-event-type').value.trim(),
+                    'event-date': $('q-event-date').value.trim(),
+                    'event-time': $('q-event-time').value.trim(),
+                    venue: $('q-venue').value.trim(),
+                    'event-location': $('q-event-location').value.trim(),
+                    'number-of-guests': $('q-number-of-guests').value.trim()
+                },
+                message, price
+            };
+
+            const genBtn = $('quote-generate');
+            genBtn.disabled = true; genBtn.textContent = 'Generating...';
+            try {
+                const data = await api('create-quote', payload);
+                const id = data.id;
+                lastCreatedQuote = data.quote || Object.assign({ id: id }, payload);
+                const link = `${window.location.origin}/quote.html?id=${encodeURIComponent(id)}`;
+                $('result-link').value = link;
+                $('preview-link').href = link;
+                $('quote-form-panel').classList.add('hidden');
+                $('quote-result-panel').classList.add('show');
+            } catch (err) {
+                $('quote-error').textContent = err.message || 'Failed to create quote.';
+            } finally {
+                genBtn.disabled = false; genBtn.textContent = 'Generate quote link';
+            }
+        });
+
+        $('copy-result').addEventListener('click', (e) => copyText($('result-link').value, e.target));
+
+        function copyText(text, btn) {
+            const done = () => { if (btn) { const t = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = t, 1500); } };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+            } else { fallbackCopy(text, done); }
+        }
+        function fallbackCopy(text, done) {
+            const ta = document.createElement('textarea');
+            ta.value = text; document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {} document.body.removeChild(ta);
+        }
+
+        // ---- Save quote as image ----
+        function formatPrice(p) {
+            const s = String(p == null ? '' : p).trim();
+            if (!s) return '';
+            return /[£$€]/.test(s) ? s : '£' + s;
+        }
+        const slug = (s) => (String(s == null ? '' : s).toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40) || 'quote');
+
+        function populateCaptureCard(q) {
+            const name = (q.customer && q.customer.name || '').trim();
+            $('qcap-greeting').textContent = name ? ('Dear ' + name + ',') : 'Thank you for your enquiry,';
+            $('qcap-message').textContent = q.message || '';
+            $('qcap-price').textContent = formatPrice(q.price);
+            const ev = q.event || {};
+            const rows = [
+                ['Event', ev['event-type']], ['Date', ev['event-date']], ['Time', ev['event-time']],
+                ['Venue', ev['venue']], ['Location', ev['event-location']], ['Guests', ev['number-of-guests']]
+            ].filter(([, v]) => v && String(v).trim());
+            if (rows.length) {
+                $('qcap-details').innerHTML = rows.map(([k, v]) =>
+                    '<div class="qcap-row"><span class="qcap-k">' + esc(k) +
+                    '</span><span class="qcap-v">' + esc(v) + '</span></div>').join('');
+                $('qcap-details-wrap').style.display = '';
+            } else {
+                $('qcap-details-wrap').style.display = 'none';
+            }
+        }
+
+        async function saveQuoteImage(q, btn) {
+            if (!q) return;
+            if (typeof html2canvas !== 'function') { alert('Image library failed to load. Refresh and try again.'); return; }
+            const label = btn ? btn.textContent : null;
+            if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+            try {
+                populateCaptureCard(q);
+                // Make sure fonts and the logo are ready so the render is crisp.
+                try { await document.fonts.ready; } catch (e) {}
+                const logo = document.querySelector('#qcap .qcap-logo img');
+                if (logo && !logo.complete) {
+                    await new Promise((res) => { logo.onload = logo.onerror = res; });
+                }
+                await new Promise((r) => setTimeout(r, 60));
+                const canvas = await html2canvas($('qcap'), { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
+                const filename = 'quote-' + slug(q.customer && q.customer.name) + '-' + slug(formatPrice(q.price)) + '.png';
+                await new Promise((resolve) => {
+                    canvas.toBlob((blob) => {
+                        if (!blob) { alert('Could not generate the image.'); return resolve(); }
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url; a.download = filename;
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(url), 1000);
+                        resolve();
+                    }, 'image/png');
+                });
+            } catch (err) {
+                console.error('saveQuoteImage failed:', err);
+                alert('Sorry, generating the image failed: ' + (err.message || err));
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = label; }
+            }
+        }
+
+        // Save-image button on the result panel uses the just-created quote.
+        $('save-img-result').addEventListener('click', (e) => saveQuoteImage(lastCreatedQuote, e.currentTarget));
+
+        // ---- Boot: try existing session ----
+        if (getPw()) {
+            loadAll().then(showDashboard).catch(showLogin);
+        } else {
+            showLogin();
+        }
+    })();
+    </script>
+</body>
+</html>
