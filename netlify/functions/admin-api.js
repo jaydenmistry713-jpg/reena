@@ -101,11 +101,21 @@ exports.handler = async (event) => {
       case 'delete-inquiry': {
         if (!body.id) return json(400, { error: 'id required' });
         await inquiries.delete(body.id);
-        return json(200, { ok: true });
+        // Cascade: remove any quotes generated from this inquiry.
+        let removedQuotes = 0;
+        try {
+          const all = await readAll(quotes);
+          const linked = all.filter((q) => q.inquiryId === body.id);
+          await Promise.all(linked.map((q) => quotes.delete(q.id)));
+          removedQuotes = linked.length;
+        } catch (e) {
+          console.error('Quote cascade delete failed:', e);
+        }
+        return json(200, { ok: true, removedQuotes });
       }
 
       case 'create-quote': {
-        const { customer, event: ev, message, price } = body;
+        const { customer, event: ev, message, price, inquiryId } = body;
         if (!message || price === undefined || price === null || price === '') {
           return json(400, { error: 'message and price are required' });
         }
@@ -114,6 +124,7 @@ exports.handler = async (event) => {
           id,
           createdAt: new Date().toISOString(),
           status: 'active',
+          inquiryId: inquiryId || null,
           customer: {
             name: (customer && customer.name) || '',
             email: (customer && customer.email) || '',
