@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Crawl-delay: 5
+
+# Block admin or private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /cgi-bin/
+
+# Allow important resources
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://punjabifolkentertainment.com/sitemap.xml
+
+# Additional bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /assets/images/

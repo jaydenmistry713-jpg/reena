@@ -1,0 +1,8 @@
+{
+  "name": "punjabi-folk-entertainment",
+  "version": "1.0.0",
+  "description": "Punjabi Folk Entertainment website with custom form notifications",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}

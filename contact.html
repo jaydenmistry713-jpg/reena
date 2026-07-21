@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Book Sangeet Singers & Dhol Players | Punjabi Folk Entertainment</title>
+    <meta name="description" content="Book Punjabi entertainment by Reena Kaur for your wedding or event. Contact us for Sangeet singers, dhol players, Ladies Sangeet & DJs in London, Birmingham & UK-wide. Get a quote today.">
+    <meta name="keywords" content="book sangeet, book ladies sangeet, hire dhol players, punjabi entertainment booking, reena kaur contact, wedding entertainment quote, london punjabi entertainment">
+    <link rel="canonical" href="https://punjabifolkentertainment.com/contact.html">
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <link rel="stylesheet" href="css/variables-crimson.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-group {margin-bottom: 1.5rem;}
+        .form-label {display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--color-text-primary);}
+        .form-input, .form-textarea, .form-select {width: 100%; padding: 0.875rem 1rem; border: 2px solid var(--color-gray); border-radius: var(--border-radius-md); font-size: var(--font-size-base); font-family: var(--font-body); transition: var(--transition-base);}
+        .form-input:focus, .form-textarea:focus, .form-select:focus {outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);}
+        .form-textarea {resize: vertical; min-height: 150px;}
+        .form-submit {width: 100%; padding: 1rem; background: var(--gradient-primary); color: white; border: none; border-radius: var(--border-radius-md); font-size: var(--font-size-lg); font-weight: 600; cursor: pointer; transition: var(--transition-all);}
+        .form-submit:hover {transform: translateY(-2px); box-shadow: var(--shadow-xl);}
+        .contact-info-card {background: white; padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 2rem;}
+        .contact-info-item {display: flex; align-items: start; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--color-gray);}
+        .contact-info-item:last-child {border-bottom: none;}
+        .contact-icon {width: 50px; height: 50px; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; flex-shrink: 0;}
+        
+        /* Desktop: Make form and contact info sections appear side by side */
+        @media (min-width: 769px) {
+            main {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0 4rem;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 2rem;
+            }
+            
+            /* Hero spans both columns */
+            main > section:first-child {
+                grid-column: 1 / -1;
+            }
+            
+            /* Form section - left column */
+            section[data-form-section] {
+                grid-column: 1;
+                grid-row: 2;
+                padding: 6rem 0 !important;
+            }
+            
+            /* Contact info section - right column, same row as form */
+            section[data-contact-info-section] {
+                grid-column: 2;
+                grid-row: 2;
+                padding: 6rem 0 !important;
+            }
+            
+            /* Testimonials span both columns */
+            section[data-testimonials-section] {
+                grid-column: 1 / -1;
+            }
+            
+            /* FAQ spans both columns */
+            section[data-faq-section] {
+                grid-column: 1 / -1;
+            }
+            
+            section[data-form-section] .container,
+            section[data-contact-info-section] .container {
+                padding: 0;
+                max-width: none;
+            }
+        }
+        
+        /* Testimonial Videos Responsive */
+        @media (max-width: 1024px) {
+            .testimonial-videos {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 1.5rem !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .testimonial-videos {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.5rem !important;
+            }
+            
+            /* Mobile: Reorder sections using flexbox */
+            main {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            /* Order sections on mobile */
+            main > section:first-child {
+                order: 0; /* Hero */
+            }
+            
+            section[data-form-section] {
+                order: 1; /* Form first */
+            }
+            
+            section[data-testimonials-section] {
+                order: 2; /* Testimonials second */
+            }
+            
+            section[data-contact-info-section] {
+                order: 3; /* Contact info third */
+            }
+            
+            section[data-faq-section] {
+                order: 4; /* FAQ last */
+            }
+            
+            /* Center headings on mobile */
+            section[data-form-section] h2,
+            section[data-contact-info-section] h2,
+            section[data-testimonials-section] h2,
+            section[data-faq-section] h2 {
+                text-align: center !important;
+            }
+        }
+    </style>
+    
+    <!-- FAQ Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How far in advance should I book Punjabi entertainment?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We recommend booking at least 12 months in advance for weddings and major events. However, we understand last-minute needs and will do our best to accommodate your request."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What areas do you serve for Punjabi entertainment?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We are based in the United Kingdom and serve clients worldwide. We travel internationally to bring authentic Punjabi entertainment to your celebration, wherever you are. Our primary service areas include London, Birmingham, and across the UK, with international bookings available including the USA."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can we customize the music selection for our event?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! We work closely with you to understand your preferences and create a customized playlist that perfectly matches your event's atmosphere. Our repertoire includes traditional Punjabi folk songs, Pakistani classics, Bollywood music, and modern fusion."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <div class="scroll-progress"></div>
+    <header class="site-header">
+        <nav class="navigation">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo/logo.png" alt="Punjabi Folk Entertainment" style="height: 100px; width: auto;">
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="videos.html" class="nav-link">Videos</a></li>
+                <li class="nav-item"><a href="team.html" class="nav-link">Meet the Team</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link active">Contact Us</a></li>
+                <li class="nav-cta"><a href="contact.html" class="btn btn-primary">Book Now</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+        </nav>
+    </header>
+    <div class="mobile-menu-overlay"></div>
+    
+    <main>
+        <section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color: white; padding: 6rem 0 4rem; text-align: center;">
+            <div class="container scroll-animate">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Get in Touch</h1>
+                <p style="font-size: 1.25rem; color: var(--color-off-white); max-width: 700px; margin: 0 auto;">Let's discuss how we can make your event unforgettable with authentic Punjabi entertainment</p>
+            </div>
+        </section>
+        <!-- FORM SECTION -->
+        <section data-form-section style="padding: 6rem 0 3rem;">
+            <div class="container">
+                <div class="scroll-slide-right">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--color-primary);">Send Us a Message</h2>
+                    <form class="contact-form" id="contact-form">
+                        <div id="form-status" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center;"></div>
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name *</label>
+                            <input type="text" id="name" name="name" class="form-input" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-input" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-type" class="form-label">Event Type *</label>
+                            <select id="event-type" name="event-type" class="form-select" required>
+                                <option value="">Select event type...</option>
+                                <option value="ladies-sangeet">Ladies Sangeet</option>
+                                <option value="sangeet">Sangeet</option>
+                                <option value="dholki">Dholki</option>
+                                <option value="lohri">Lohri</option>
+                                <option value="birthday">Birthday</option>
+                                <option value="baby-shower">Baby Shower</option>
+                                <option value="bridal-shower">Bridal Shower</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date" class="form-label">Event Date *</label>
+                            <input type="date" id="event-date" name="event-date" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-time" class="form-label">Event Time *</label>
+                            <input type="time" id="event-time" name="event-time" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="venue" class="form-label">Venue Type</label>
+                            <select id="venue" name="venue" class="form-select">
+                                <option value="">Select venue type...</option>
+                                <option value="home">Home</option>
+                                <option value="villa">Villa</option>
+                                <option value="farmhouse">Farmhouse</option>
+                                <option value="colonial">Colonial Architecture</option>
+                                <option value="mansion">Mansion</option>
+                                <option value="function-hall">Function Hall</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-location" class="form-label">Event Location *</label>
+                            <input type="text" id="event-location" name="event-location" class="form-input" required placeholder="Enter event location (city, venue address)">
+                        </div>
+                        <div class="form-group">
+                            <label for="number-of-guests" class="form-label">Number of Guests *</label>
+                            <input type="number" id="number-of-guests" name="number-of-guests" class="form-input" required placeholder="Enter estimated number of guests" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" name="message" class="form-textarea" placeholder="Tell us about your event and any specific requirements..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+            
+            <!-- CONTACT INFORMATION SECTION -->
+            <section data-contact-info-section style="padding: 3rem 0 6rem;">
+                <div class="container">
+                    <div class="scroll-slide-left">
+                        <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--color-primary);">Contact Information</h2>
+                        
+                        <div class="contact-info-card">
+                            <div class="contact-info-item">
+                                <div class="contact-icon">📧</div>
+                                <div>
+                                    <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-primary);">Email Us</h4>
+                                    <a href="mailto:info@punjabifolkentertainment.com" style="color: var(--color-text-secondary); text-decoration: none;">info@punjabifolkentertainment.com</a>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.875rem; margin-top: 0.25rem;">We respond within 24 hours</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-info-item">
+                                <div class="contact-icon">📱</div>
+                                <div>
+                                    <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-primary);">Call Us</h4>
+                                    <a href="tel:+447931669333" style="color: var(--color-text-secondary); text-decoration: none;">+44 7931 669333</a>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-info-item">
+                                <div class="contact-icon">📍</div>
+                                <div>
+                                    <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-primary);">Location</h4>
+                                    <p style="color: var(--color-text-secondary);">Based in the United Kingdom</p>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.875rem; margin-top: 0.25rem;">Available for events worldwide</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--color-bg-secondary); padding: 2rem; border-radius: var(--border-radius-lg); margin-top: 2rem;">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--color-primary);">Why Choose Us?</h3>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>25+ years of experience</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>Authentic Punjabi entertainment</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>Professional team</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>Customised services</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        
+        <!-- TESTIMONIALS SECTION -->
+        <section data-testimonials-section style="padding: 3rem 0 6rem; background: white;">
+            <div class="container">
+                <div class="section-header scroll-animate" style="text-align: center; margin-bottom: 4rem;">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--color-primary);">Real Reviews from Real Clients</h2>
+                    <p style="font-size: 1.125rem; color: var(--color-text-secondary); max-width: 700px; margin: 0 auto;">Hear directly from families we've had the honor of entertaining</p>
+                    <p style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 1rem; font-style: italic;">Tap to play</p>
+                </div>
+                
+                <div class="testimonial-videos" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 2rem;">
+                    <!-- Testimonial Video 1 -->
+                    <div class="testimonial-card scroll-animate" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl); position: relative;">
+                        <div class="video-wrapper" style="position: relative; aspect-ratio: 9/16; overflow: hidden;">
+                            <video class="testimonial-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="assets/videos/testimonial/testimonial-1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- Play/Pause Overlay -->
+                            <div class="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;">
+                                <div class="play-icon" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">▶</div>
+                            </div>
+                            <!-- Sound Toggle -->
+                            <button class="sound-toggle" style="position: absolute; bottom: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: var(--shadow-md); z-index: 10;">🔇</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial Video 2 -->
+                    <div class="testimonial-card scroll-animate stagger-2" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl); position: relative;">
+                        <div class="video-wrapper" style="position: relative; aspect-ratio: 9/16; overflow: hidden;">
+                            <video class="testimonial-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="assets/videos/testimonial/testimonial-2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- Play/Pause Overlay -->
+                            <div class="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;">
+                                <div class="play-icon" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">▶</div>
+                            </div>
+                            <!-- Sound Toggle -->
+                            <button class="sound-toggle" style="position: absolute; bottom: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: var(--shadow-md); z-index: 10;">🔇</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial Video 3 -->
+                    <div class="testimonial-card scroll-animate stagger-3" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl); position: relative;">
+                        <div class="video-wrapper" style="position: relative; aspect-ratio: 9/16; overflow: hidden;">
+                            <video class="testimonial-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="assets/videos/testimonial/testimonial-3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- Play/Pause Overlay -->
+                            <div class="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;">
+                                <div class="play-icon" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">▶</div>
+                            </div>
+                            <!-- Sound Toggle -->
+                            <button class="sound-toggle" style="position: absolute; bottom: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: var(--shadow-md); z-index: 10;">🔇</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial Video 4 -->
+                    <div class="testimonial-card scroll-animate stagger-4" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl); position: relative;">
+                        <div class="video-wrapper" style="position: relative; aspect-ratio: 9/16; overflow: hidden;">
+                            <video class="testimonial-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="assets/videos/testimonial/testimonial-4.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- Play/Pause Overlay -->
+                            <div class="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;">
+                                <div class="play-icon" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">▶</div>
+                            </div>
+                            <!-- Sound Toggle -->
+                            <button class="sound-toggle" style="position: absolute; bottom: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: var(--shadow-md); z-index: 10;">🔇</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial Video 5 -->
+                    <div class="testimonial-card scroll-animate stagger-5" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl); position: relative;">
+                        <div class="video-wrapper" style="position: relative; aspect-ratio: 9/16; overflow: hidden;">
+                            <video class="testimonial-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="assets/videos/testimonial/testimonial-5.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- Play/Pause Overlay -->
+                            <div class="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;">
+                                <div class="play-icon" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">▶</div>
+                            </div>
+                            <!-- Sound Toggle -->
+                            <button class="sound-toggle" style="position: absolute; bottom: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: var(--shadow-md); z-index: 10;">🔇</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial Video 6 -->
+                    <div class="testimonial-card scroll-animate stagger-6" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl); position: relative;">
+                        <div class="video-wrapper" style="position: relative; aspect-ratio: 9/16; overflow: hidden;">
+                            <video class="testimonial-video" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="assets/videos/testimonial/testimonial-6.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <!-- Play/Pause Overlay -->
+                            <div class="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;">
+                                <div class="play-icon" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">▶</div>
+                            </div>
+                            <!-- Sound Toggle -->
+                            <button class="sound-toggle" style="position: absolute; bottom: 1rem; right: 1rem; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: var(--shadow-md); z-index: 10;">🔇</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section data-faq-section style="background: var(--color-bg-secondary); padding: 4rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--color-primary);">Frequently Asked Questions</h2>
+                <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="scroll-animate" style="background: white; padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--color-primary);">How far in advance should I book?</h3>
+                        <p style="color: var(--color-text-secondary);">We recommend booking at least 12 months in advance for weddings and major events. However, we understand last-minute needs and will do our best to accommodate your request.</p>
+                    </div>
+                    <div class="scroll-animate stagger-2" style="background: white; padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--color-primary);">What areas do you serve?</h3>
+                        <p style="color: var(--color-text-secondary);">We are based in the United Kingdom and serve clients worldwide. We travel internationally to bring authentic Punjabi entertainment to your celebration, wherever you are. Contact us to discuss your event location.</p>
+                    </div>
+                    <div class="scroll-animate stagger-3" style="background: white; padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--color-primary);">Can we customise the music selection?</h3>
+                        <p style="color: var(--color-text-secondary);">Absolutely! We work closely with you to understand your preferences and create a customised playlist that perfectly matches your event's atmosphere.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="footer-logo">Punjabi Folk Entertainment</h3>
+                    <p>Over 25 years of preserving and celebrating authentic Punjabi culture through music, dance, and entertainment.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="services.html" class="footer-link">Services</a></li>
+                        <li><a href="videos.html" class="footer-link">Videos</a></li>
+                        <li><a href="team.html" class="footer-link">Meet the Team</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="footer-contact">
+                        <div class="contact-item"><span>📧</span><a href="mailto:info@punjabifolkentertainment.com">info@punjabifolkentertainment.com</a></div>
+                        <div class="contact-item"><span>📱</span><a href="tel:+447931669333">+44 7931 669333</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2025 Punjabi Folk Entertainment Ltd. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <button class="back-to-top" aria-label="Back to top">↑</button>
+    <script src="js/main.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        
+        // Testimonial Video Interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const testimonialCards = document.querySelectorAll('.testimonial-card');
+            
+            testimonialCards.forEach((card, index) => {
+                const video = card.querySelector('.testimonial-video');
+                const overlay = card.querySelector('.video-overlay');
+                const soundToggle = card.querySelector('.sound-toggle');
+                const playIcon = card.querySelector('.play-icon');
+                
+                let isPlaying = false;
+                
+                // Intersection Observer for auto-play when in view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !isPlaying) {
+                            video.play();
+                            isPlaying = true;
+                            overlay.style.opacity = '0';
+                        } else if (!entry.isIntersecting && isPlaying) {
+                            video.pause();
+                            isPlaying = false;
+                            overlay.style.opacity = '1';
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(card);
+                
+                // Click to play/pause
+                overlay.addEventListener('click', function() {
+                    if (video.paused) {
+                        video.play();
+                        isPlaying = true;
+                        overlay.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        isPlaying = false;
+                        overlay.style.opacity = '1';
+                    }
+                });
+                
+                // Sound toggle
+                soundToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    if (video.muted) {
+                        // Unmute this video and mute all others
+                        document.querySelectorAll('.testimonial-video').forEach(v => {
+                            v.muted = true;
+                            v.parentElement.querySelector('.sound-toggle').textContent = '🔇';
+                        });
+                        
+                        video.muted = false;
+                        soundToggle.textContent = '🔊';
+                    } else {
+                        video.muted = true;
+                        soundToggle.textContent = '🔇';
+                    }
+                });
+                
+                // Show overlay on hover
+                card.addEventListener('mouseenter', function() {
+                    if (!isPlaying) {
+                        overlay.style.opacity = '1';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (isPlaying) {
+                        overlay.style.opacity = '0';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Form Submission Handler -->
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formStatus = document.getElementById('form-status');
+            const submitButton = this.querySelector('.form-submit');
+            
+            // Disable submit button
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value || 'Not provided',
+                'event-type': document.getElementById('event-type').value,
+                'event-date': document.getElementById('event-date').value,
+                'event-time': document.getElementById('event-time').value,
+                venue: document.getElementById('venue').value || 'Not specified',
+                'event-location': document.getElementById('event-location').value,
+                'number-of-guests': document.getElementById('number-of-guests').value,
+                message: document.getElementById('message').value || 'No additional message'
+            };
+            
+            try {
+                const response = await fetch('/.netlify/functions/form-submission', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    // Success message
+                    formStatus.style.display = 'block';
+                    formStatus.style.backgroundColor = '#d4edda';
+                    formStatus.style.color = '#155724';
+                    formStatus.style.border = '1px solid #c3e6cb';
+                    formStatus.textContent = '✓ Thank you! Your enquiry has been submitted successfully. We will contact you soon.';
+                    
+                    // Reset form
+                    this.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        formStatus.style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                // Error message
+                formStatus.style.display = 'block';
+                formStatus.style.backgroundColor = '#f8d7da';
+                formStatus.style.color = '#721c24';
+                formStatus.style.border = '1px solid #f5c6cb';
+                formStatus.textContent = '✗ Sorry, there was an error submitting your form. Please try again or contact us directly.';
+            } finally {
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            }
+        });
+    </script>
+</body>
+</html>
