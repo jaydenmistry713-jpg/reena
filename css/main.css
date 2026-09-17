@@ -338,62 +338,10 @@ img {
     z-index: var(--z-base);
 }
 
-/* CRITICAL: Force hero overlay to always be visible */
-.hero-overlay {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    opacity: 0.6 !important;
-    z-index: 1 !important;
-    display: block !important;
-    pointer-events: none !important;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%) !important;
-}
-
-/* Force visibility at all screen sizes */
-@media (max-width: 1920px) {
-    .hero-overlay {
-        opacity: 0.6 !important;
-        display: block !important;
-    }
-}
-
-@media (max-width: 1440px) {
-    .hero-overlay {
-        opacity: 0.6 !important;
-        display: block !important;
-    }
-}
-
-@media (max-width: 1200px) {
-    .hero-overlay {
-        opacity: 0.6 !important;
-        display: block !important;
-    }
-}
-
-@media (max-width: 1024px) {
-    .hero-overlay {
-        opacity: 0.6 !important;
-        display: block !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-overlay {
-        opacity: 0.6 !important;
-        display: block !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-overlay {
-        opacity: 0.6 !important;
-        display: block !important;
-    }
-}
+/* Hero overlay/scrim now lives in redesign.css (.hero-scrim).
+   The old .hero-overlay rule and its six !important media-query repeats were
+   removed: they existed only to fight each other, and only index.html ever
+   used the class. */
 
 /* ===== LOADING SPINNER ===== */
 .loader {
@@ -445,12 +393,7 @@ textarea:focus {
 }
 
 /* ===== HERO SECTION ===== */
-.hero-section {
-    min-height: 600px;
-    display: flex;
-    align-items: center;
-}
-
+/* See redesign.css section 5. */
 .hero-section .container {
     width: 100%;
 }

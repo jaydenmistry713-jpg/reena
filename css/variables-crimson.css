@@ -119,3 +119,62 @@
 /* Mobile: < 640px */
 /* Tablet: 640px - 1024px */
 /* Desktop: > 1024px */
+
+/* ================================
+   REDESIGN TOKENS (Sept 2026)
+   Additive only. Nothing above this line changed, so admin.html and
+   quote.html — which load this file but not redesign.css — render exactly
+   as before, including the html2canvas quote image.
+   ================================ */
+:root {
+    /* ===== GROUNDS =====
+       The warm peach washes, kept — but assigned in a deliberate order and
+       separated by white so the page has rhythm instead of one long blur.
+       --ink is a warm plum-black (a Sangeet evening under lamps). */
+    --ink: #1A0B10;
+    --ink-raised: #26121A;
+    --paper: #FBF7F2;
+
+    --wash-blush: linear-gradient(135deg, #FFF9F5 0%, #FFF3EB 100%);
+    --wash-cream: linear-gradient(135deg, #FFF8F0 0%, #FFF0E5 100%);
+    --wash-amber: linear-gradient(135deg, #FFF5E9 0%, #FFEBD1 100%);
+
+    /* ===== GOLD =====
+       Two golds because one cannot serve both grounds. The legacy
+       --color-secondary (#FFD700) is 1.4:1 on white, so it can only ever
+       decorate; these are text-safe on their named ground.
+         --gold-leaf on --ink   8.40:1
+         --gold-ink  on --paper 5.13:1  */
+    --gold-leaf: #D4A537;
+    --gold-ink: #8A6212;
+
+    /* Decorative gold for rules, hairlines and frames on the light washes.
+       3.4:1 - above the 3:1 floor for non-text UI, below the 4.5:1 needed
+       for words, so it never carries meaning on its own. */
+    --gold-deco: #A8780A;
+
+    /* ===== TEXT ON INK ===== */
+    --on-ink: #FBF7F2;         /* 17.9:1 */
+    --on-ink-muted: #C8B8A8;   /*  9.9:1 */
+    --hairline-ink: rgba(212, 165, 55, 0.28);
+    --hairline-paper: rgba(26, 11, 16, 0.12);
+
+    /* ===== TYPE =====
+       Fraunces for display (soft serif, variable opsz/SOFT/WONK),
+       Karla for body. Public pages only — loaded via redesign.css. */
+    --font-display: 'Fraunces', 'Playfair Display', Georgia, serif;
+    --font-ui: 'Karla', 'Poppins', system-ui, -apple-system, sans-serif;
+
+    /* ===== FLUID TYPE SCALE ===== */
+    --step-eyebrow: 0.78rem;
+    --step-sm: clamp(0.88rem, 0.84rem + 0.2vw, 0.95rem);
+    --step-base: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
+    --step-lead: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+    --step-h3: clamp(1.3rem, 1.15rem + 0.7vw, 1.6rem);
+    --step-h2: clamp(1.85rem, 1.5rem + 1.6vw, 2.9rem);
+    --step-h1: clamp(2.6rem, 1.6rem + 4.4vw, 5.5rem);
+
+    /* ===== MOTION ===== */
+    --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --beat: 90ms;
+}

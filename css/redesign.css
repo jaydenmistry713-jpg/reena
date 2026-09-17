@@ -1,0 +1,1101 @@
+/* ================================
+   REDESIGN (Sept 2026)
+   Loaded by public pages only. admin.html and quote.html do not load this
+   file, so the dashboard and the html2canvas quote image are unaffected.
+
+   Depends on the REDESIGN TOKENS block at the foot of variables-crimson.css.
+   Load order: variables -> main -> animations -> header -> footer ->
+   responsive -> redesign. Last, so it wins without needing !important.
+   ================================ */
+
+/* ================================
+   1. BASE
+   ================================ */
+
+body {
+    font-family: var(--font-ui);
+    font-size: var(--step-base);
+    line-height: 1.65;
+    background: var(--color-white);
+    /* Karla's default figures are proportional; tabular reads better in the
+       trust strip and anywhere a number sits next to a label. */
+    font-variant-numeric: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 20, 'WONK' 1;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    text-wrap: balance;
+}
+
+h1 { font-size: var(--step-h1); font-weight: 700; }
+h2 { font-size: var(--step-h2); font-weight: 600; }
+h3 { font-size: var(--step-h3); font-weight: 600; }
+
+p {
+    text-wrap: pretty;
+    max-width: 68ch;
+}
+
+/* Focus only for keyboard users — the blanket a:focus rule in main.css
+   fires a ring on every mouse click too. */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible) {
+    outline: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--gold-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* The dark-gold ring is invisible on the hero and the crimson CTA. */
+.hero-section a:focus-visible,
+.hero-section button:focus-visible,
+.closing a:focus-visible,
+.closing button:focus-visible,
+.site-footer a:focus-visible,
+.on-ink a:focus-visible,
+.on-ink button:focus-visible {
+    outline-color: #FFE9A8;
+}
+
+/* ================================
+   2. SIGNATURE — THE BEAT RULE
+
+   Punjabi folk is played over an eight-beat cycle. The first beat (sam) and
+   the fifth (khali) are the two the whole cycle is felt against, so they are
+   the two marks that carry weight. This replaces the 80px gold bar that sat
+   under every section title.
+   ================================ */
+
+.beat-rule {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 4px;
+}
+
+.beat-rule .beat {
+    display: block;
+    width: 14px;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    opacity: 0.45;
+}
+
+.beat-rule .beat.is-sam,
+.beat-rule .beat.is-khali {
+    height: 4px;
+    opacity: 1;
+}
+
+.beat-rule .beat.is-sam { width: 22px; }
+
+/* Centred variant used under section titles */
+.beat-rule--centred {
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* The one orchestrated moment on the page: the cycle counts itself in once,
+   on load, then holds still. */
+.beat-rule--hero .beat {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: beatIn 380ms var(--ease-out) forwards;
+}
+
+.beat-rule--hero .beat:nth-child(1) { animation-delay: calc(var(--beat) * 0); }
+.beat-rule--hero .beat:nth-child(2) { animation-delay: calc(var(--beat) * 1); }
+.beat-rule--hero .beat:nth-child(3) { animation-delay: calc(var(--beat) * 2); }
+.beat-rule--hero .beat:nth-child(4) { animation-delay: calc(var(--beat) * 3); }
+.beat-rule--hero .beat:nth-child(5) { animation-delay: calc(var(--beat) * 4); }
+.beat-rule--hero .beat:nth-child(6) { animation-delay: calc(var(--beat) * 5); }
+.beat-rule--hero .beat:nth-child(7) { animation-delay: calc(var(--beat) * 6); }
+.beat-rule--hero .beat:nth-child(8) { animation-delay: calc(var(--beat) * 7); }
+
+@keyframes beatIn {
+    from { opacity: 0; transform: scaleX(0); }
+    to   { opacity: 0.34; transform: scaleX(1); }
+}
+
+.beat-rule--hero .beat.is-sam,
+.beat-rule--hero .beat.is-khali {
+    animation-name: beatInAccent;
+}
+
+@keyframes beatInAccent {
+    from { opacity: 0; transform: scaleX(0); }
+    to   { opacity: 1; transform: scaleX(1); }
+}
+
+/* ================================
+   3. SECTION RHYTHM
+
+   Three grounds in sequence — ink, paper, white — instead of five
+   near-identical peach washes. A section declares its ground; it does not
+   carry an inline gradient.
+   ================================ */
+
+.band {
+    padding: clamp(3.5rem, 2rem + 6vw, 7rem) 0;
+    position: relative;
+}
+
+.band--blush { background: var(--wash-blush); }
+.band--cream { background: var(--wash-cream); }
+.band--amber { background: var(--wash-amber); }
+.band--white { background: var(--color-white); }
+
+.band--ink {
+    background: var(--ink);
+    color: var(--on-ink);
+}
+
+.band--ink h2,
+.band--ink h3,
+.band--ink h4 { color: var(--on-ink); }
+
+.band--ink p { color: var(--on-ink-muted); }
+
+/* Hairline between two consecutive light bands, so they read as separate
+   sections without needing a different tint each time. */
+.band--blush + .band--blush,
+.band--cream + .band--cream,
+.band--amber + .band--amber,
+.band--white + .band--white {
+    border-top: 1px solid var(--hairline-paper);
+}
+
+/* ===== Eyebrow ===== */
+.eyebrow {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: var(--step-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+    margin-bottom: 0.9rem;
+}
+
+.band--ink .eyebrow,
+.on-ink .eyebrow { color: var(--gold-leaf); }
+
+/* Centred action row that closes a band */
+.band-actions {
+    text-align: center;
+    margin-top: clamp(2rem, 1rem + 2vw, 3rem);
+}
+
+/* ===== Section header ===== */
+.band .section-header {
+    text-align: center;
+    margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+}
+
+.band .section-title {
+    font-size: var(--step-h2);
+    color: var(--color-primary);
+    margin-bottom: 1.25rem;
+    display: block;
+}
+
+.band--ink .section-title { color: var(--on-ink); }
+
+/* Override the 80px gold bar from main.css with the beat rule. */
+.band h2,
+.split h2,
+.prose h2 { color: var(--color-primary); }
+
+.band .section-title::after {
+    content: '';
+    position: static;
+    display: block;
+    transform: none;
+    width: 154px;
+    height: 4px;
+    margin: 1.1rem auto 0;
+    border-radius: 0;
+    background: none;
+    background-image:
+        linear-gradient(to right, currentColor 0 22px, transparent 22px),
+        repeating-linear-gradient(to right, currentColor 0 14px, transparent 14px 20px);
+    background-size: 22px 4px, 154px 2px;
+    background-position: 0 0, 28px 1px;
+    background-repeat: no-repeat, repeat-x;
+    color: var(--gold-deco);
+    opacity: 1;
+}
+
+.band--ink .section-title::after { color: var(--gold-leaf); opacity: 0.7; }
+
+.band .section-subtitle {
+    font-size: var(--step-lead);
+    color: var(--color-text-secondary);
+    max-width: 58ch;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.band--ink .section-subtitle { color: var(--on-ink-muted); }
+
+/* ================================
+   4. HEADER
+
+   The mark is grey type with peach chevrons on transparency, so it needs a
+   light ground to stay legible. The header therefore stays a solid surface
+   rather than going transparent over the hero.
+   ================================ */
+
+.site-header {
+    background: rgba(251, 247, 242, 0.94);
+    backdrop-filter: saturate(150%) blur(10px);
+    -webkit-backdrop-filter: saturate(150%) blur(10px);
+    border-bottom: 2px solid rgba(196, 30, 58, 0.18);
+    box-shadow: none;
+}
+
+.site-header.scrolled {
+    background: rgba(251, 247, 242, 0.98);
+    box-shadow: 0 1px 24px rgba(26, 11, 16, 0.08);
+    padding: 0;
+}
+
+.navigation { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+/* The bar is 60 + 24 + 1 = 85px, so the body reserves 88. Previously the logo
+   carried an inline height:75px, making the bar 100px against 80px of
+   reserved space — the first 20px of every page sat behind the header. */
+.logo img { height: 60px; margin-right: 0; }
+.site-header.scrolled .logo img { height: 50px; }
+
+body { padding-top: 88px; }
+
+.nav-link {
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.nav-link::after { background: var(--color-primary); height: 2px; }
+
+.nav-dropdown { border-radius: 10px; }
+
+.nav-dropdown-item {
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+}
+
+/* ================================
+   5. HERO
+
+   Left-aligned over full-saturation footage. The old treatment laid a flat
+   crimson film at 0.6 over the whole frame, which muddied the one asset the
+   page cannot replace. This scrim is directional: solid under the words on
+   the left, clear on the right where the dancing is.
+   ================================ */
+
+/* The box is 600px tall, as it was before, because object-fit: cover derives
+   the crop from the box. A taller hero showed ~83% of the 1918x1078 frame
+   instead of the middle ~56%, which changed which part of the wedding you
+   see. Content is sized to fit inside 600px so the crop stays put. */
+.hero-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 600px;
+    padding: 2.5rem 0;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--on-ink);
+    isolation: isolate;
+}
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: opacity 900ms ease-in-out;
+}
+
+/* Directional scrim. Two layers: a horizontal wash that anchors the text
+   column, and a short bottom fade that carries the trust strip. */
+.hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(100deg,
+            rgba(26, 11, 16, 0.84) 0%,
+            rgba(26, 11, 16, 0.72) 42%,
+            rgba(26, 11, 16, 0.38) 70%,
+            rgba(26, 11, 16, 0.06) 100%),
+        linear-gradient(to top,
+            rgba(26, 11, 16, 0.75) 0%,
+            rgba(26, 11, 16, 0) 42%);
+}
+
+/* A single crimson veil at low opacity keeps the brand in the frame without
+   flattening the footage the way the old 0.6 film did. */
+.hero-scrim::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg,
+        rgba(196, 30, 58, 0.55) 0%,
+        rgba(196, 30, 58, 0.30) 55%,
+        rgba(196, 30, 58, 0.14) 100%);
+    mix-blend-mode: multiply;
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 70ch;
+}
+
+.hero-section .eyebrow {
+    color: var(--gold-leaf);
+    margin-bottom: 0;
+}
+
+.hero-section .beat-rule {
+    color: var(--gold-leaf);
+    margin-bottom: 1.1rem;
+}
+
+.hero-title {
+    font-size: clamp(2.1rem, 1.35rem + 2.6vw, 3.5rem);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 24, 'WONK' 1;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    color: var(--on-ink);
+    margin: 0 0 1.1rem;
+    max-width: 22ch;
+}
+
+.hero-lead {
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+    line-height: 1.55;
+    color: var(--on-ink);
+    max-width: 52ch;
+    margin: 0 0 1.6rem;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-bottom: 1.75rem;
+}
+
+/* ===== Trust strip ===== */
+.hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--hairline-ink);
+    list-style: none;
+    margin: 0;
+    font-size: var(--step-sm);
+    letter-spacing: 0.04em;
+    color: var(--on-ink-muted);
+}
+
+.hero-facts li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    white-space: nowrap;
+}
+
+.hero-facts strong {
+    color: var(--gold-leaf);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ================================
+   6. BUTTONS
+   ================================ */
+
+.btn {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    border-radius: 8px;
+    padding: 0.95rem 1.9rem;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: transform 180ms var(--ease-out),
+                box-shadow 180ms var(--ease-out),
+                background-color 180ms var(--ease-out),
+                color 180ms var(--ease-out);
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.30);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(196, 30, 58, 0.36);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+/* Ghost button for the secondary action on ink */
+.btn-ghost {
+    background: transparent;
+    color: var(--on-ink);
+    border: 1px solid rgba(251, 247, 242, 0.5);
+}
+
+.btn-ghost:hover {
+    background: rgba(251, 247, 242, 0.14);
+    border-color: #FFE9A8;
+    color: #FFE9A8;
+}
+
+/* Gold button reads as the primary action on the ink ground */
+/* Text inside the button is 8.4:1. The hairline keeps its edge legible when
+   it sits on the crimson band, where gold-on-crimson is only 2.6:1. */
+.btn-gold {
+    background: var(--gold-leaf);
+    color: var(--ink);
+    border: 1px solid rgba(255, 233, 168, 0.9);
+    box-shadow: 0 6px 22px rgba(26, 11, 16, 0.22);
+}
+
+.btn-gold:hover {
+    background: #E5B849;
+    color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 165, 55, 0.32);
+}
+
+/* ================================
+   7. CARDS
+   ================================ */
+
+.card {
+    border-radius: 14px;
+    border: 1px solid var(--hairline-paper);
+    box-shadow: 0 1px 2px rgba(26, 11, 16, 0.04);
+    transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out),
+                border-color 220ms var(--ease-out);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(196, 30, 58, 0.35);
+    box-shadow: 0 18px 40px rgba(26, 11, 16, 0.12);
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: var(--step-h3);
+    font-variation-settings: 'SOFT' 20, 'WONK' 1;
+    margin-bottom: 0.6rem;
+    color: var(--color-primary);
+}
+
+.card-text {
+    font-size: var(--step-sm);
+    line-height: 1.65;
+    margin-bottom: 1.1rem;
+}
+
+/* ===== Service card ===== */
+/* The three cards used to carry unrelated pink, orange and purple bars. One
+   brand gradient, same on every card. */
+.service-card .card-media {
+    position: relative;
+    border-top: 4px solid transparent;
+    border-image: linear-gradient(90deg, var(--color-primary) 0%, var(--gold-leaf) 100%) 1;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--ink);
+}
+
+.service-card .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms var(--ease-out);
+}
+
+.service-card:hover .card-media img { transform: scale(1.05); }
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.service-card .card-content {
+    padding: 1.6rem 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* The three cards carry different amounts of copy; the link still lines up. */
+.service-card .card-link { margin-top: auto; }
+
+.card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.card-link svg { transition: transform 200ms var(--ease-out); }
+.service-card:hover .card-link svg { transform: translateX(4px); }
+
+/* The whole card is the target; the title link spans it so the hit area is
+   the card, not just the six words of the heading. */
+.service-card { position: relative; }
+
+.service-card .card-title a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.service-card .card-title a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.service-card:hover .card-title a { color: var(--color-primary-dark); }
+
+/* ================================
+   8. FEATURE LIST ("What makes us special")
+   ================================ */
+
+.feature-panel {
+    background: var(--color-white);
+    border: 1px solid var(--hairline-paper);
+    border-radius: 14px;
+    padding: clamp(1.75rem, 1rem + 2.5vw, 2.75rem);
+    box-shadow: 0 2px 4px rgba(26, 11, 16, 0.04);
+}
+
+.feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    font-size: var(--step-sm);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.feature-list li + li {
+    border-top: 1px solid var(--hairline-paper);
+    padding-top: 1.1rem;
+}
+
+.feature-list strong {
+    display: block;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.15rem;
+}
+
+.feature-list .tick {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: var(--gold-ink);
+}
+
+/* ================================
+   9. VALUES (replaces the emoji-in-a-circle row)
+   ================================ */
+
+.value {
+    text-align: center;
+    padding: 2.25rem 1.5rem;
+    border: 1px solid var(--hairline-paper);
+    border-radius: 14px;
+    background: var(--color-white);
+    transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
+
+.value:hover {
+    border-color: rgba(196, 30, 58, 0.35);
+    transform: translateY(-3px);
+}
+
+.value-icon {
+    display: block;
+    color: var(--color-primary);
+    margin: 0 auto 1.25rem;
+}
+
+.value h3 {
+    font-size: var(--step-h3);
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+}
+
+.value h3 + p { margin-bottom: 0; }
+
+.value p {
+    font-size: var(--step-sm);
+    color: var(--color-text-secondary);
+    margin: 0 auto;
+    max-width: 34ch;
+}
+
+/* ================================
+   10. PORTRAIT / MEDIA FRAMES
+   ================================ */
+
+.portrait-frame {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.portrait-frame img { width: 100%; height: auto; display: block; }
+
+/* Offset gold hairline instead of a drop shadow */
+.portrait-offset { position: relative; }
+
+.portrait-offset::before {
+    content: '';
+    position: absolute;
+    inset: 14px -14px -14px 14px;
+    border: 2px solid var(--gold-deco);
+    border-radius: 14px;
+    opacity: 0.8;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.portrait-offset > * { position: relative; z-index: 1; }
+
+.signature {
+    max-width: 190px;
+    height: auto;
+    margin-top: 1.75rem;
+}
+
+/* ===== Team ===== */
+.team-member { text-align: center; }
+
+.team-photo {
+    width: clamp(130px, 14vw, 172px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 1.1rem;
+    box-shadow: 0 0 0 2px var(--gold-leaf), 0 0 0 7px rgba(196, 30, 58, 0.12);
+    transition: box-shadow 260ms var(--ease-out), transform 260ms var(--ease-out);
+}
+
+.team-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.team-member:hover .team-photo {
+    transform: translateY(-4px);
+    box-shadow: 0 0 0 2px var(--gold-ink), 0 0 0 9px rgba(196, 30, 58, 0.2);
+}
+
+.team-member h3 {
+    font-size: 1.15rem;
+    color: var(--color-primary);
+    margin-bottom: 0.2rem;
+}
+
+.team-role {
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ===== Video carousel ===== */
+.video-carousel {
+    position: relative;
+    max-width: 320px;
+    margin: 0 auto;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--ink);
+    box-shadow: 0 24px 60px rgba(26, 11, 16, 0.28);
+    touch-action: pan-y;
+}
+
+.video-carousel video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.unmute-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(251, 247, 242, 0.3);
+    border-radius: 50%;
+    background: rgba(26, 11, 16, 0.6);
+    backdrop-filter: blur(6px);
+    color: var(--on-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 200ms var(--ease-out), border-color 200ms var(--ease-out);
+}
+
+.unmute-btn:hover {
+    background: rgba(26, 11, 16, 0.85);
+    border-color: var(--gold-leaf);
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 0.35rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+/* 10px dots are below the 44px minimum, so the button is padded out and the
+   visible dot sits inside it. */
+.carousel-indicator {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.carousel-indicator::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--on-ink);
+    opacity: 0.45;
+    transition: opacity 200ms var(--ease-out), width 200ms var(--ease-out);
+}
+
+.carousel-indicator.active::before {
+    width: 22px;
+    border-radius: 4px;
+    opacity: 1;
+    background: var(--gold-leaf);
+}
+
+/* ================================
+   11. SPLIT LAYOUT
+   ================================ */
+
+.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 1rem + 5vw, 5rem);
+    align-items: center;
+}
+
+.split--narrow-left { grid-template-columns: 5fr 7fr; }
+.split--narrow-right { grid-template-columns: 7fr 5fr; }
+
+.prose p { color: var(--color-text-secondary); }
+.prose p:last-of-type { margin-bottom: 0; }
+
+/* ================================
+   12. CLOSING CTA
+   ================================ */
+
+.closing {
+    position: relative;
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    text-align: center;
+    padding: clamp(4rem, 2.5rem + 8vw, 8rem) 0;
+    overflow: hidden;
+}
+
+/* Gold edge, echoing the beat rule's weight without repeating the motif */
+.closing::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(to right,
+        transparent, var(--gold-leaf) 20%, var(--gold-leaf) 80%, transparent);
+}
+
+.closing h2 {
+    font-size: var(--step-h2);
+    color: var(--color-white);
+    margin-bottom: 1.25rem;
+}
+
+/* 5.6:1 on the crimson, 9.4:1 by the dark end of the gradient. */
+.closing p {
+    font-size: var(--step-lead);
+    color: var(--color-off-white);
+    max-width: 52ch;
+    margin: 0 auto 2.5rem;
+}
+
+.closing .eyebrow { color: #FFE9A8; }
+
+.closing .hero-actions { justify-content: center; margin-bottom: 0; }
+
+/* ================================
+   13. NOTE / CALLOUT
+   ================================ */
+
+.note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--color-white);
+    border: 1px solid rgba(196, 30, 58, 0.22);
+    border-radius: 999px;
+    font-size: var(--step-sm);
+    color: var(--color-text-primary);
+    text-align: left;
+}
+
+.note svg { color: var(--color-primary); flex: 0 0 auto; }
+.note p { margin: 0; max-width: none; }
+
+/* ================================
+   14. BACK TO TOP
+   ================================ */
+
+.back-to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-leaf);
+    background: var(--gradient-primary);
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out),
+                visibility 220ms;
+    z-index: var(--z-dropdown);
+}
+
+.back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover { background: var(--color-primary-dark); }
+
+/* ================================
+   15. FOOTER
+   ================================ */
+
+/* The auto-fit floor of 250px plus a 4rem gap needs 1192px of the 1136px
+   available, so the fourth column dropped to its own row. */
+.footer-grid {
+    gap: clamp(2rem, 1rem + 3vw, 3.5rem);
+}
+
+@media (min-width: 900px) {
+    .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1.3fr; }
+}
+
+.site-footer {
+    background: var(--color-primary-dark);
+    margin-top: 0;
+    border-top: none;
+}
+
+.site-footer h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-variation-settings: 'SOFT' 20, 'WONK' 1;
+    color: var(--color-secondary);   /* 6.7:1 on the crimson-dark ground */
+    letter-spacing: 0;
+}
+
+.site-footer p, .site-footer .footer-link, .site-footer a {
+    font-size: var(--step-sm);
+}
+
+.site-footer p { color: var(--color-off-white); }
+.footer-link { color: var(--color-off-white); }
+.footer-link:hover { color: var(--color-secondary); }
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    color: var(--color-off-white);
+    transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out),
+                background 200ms var(--ease-out);
+}
+
+.social-link:hover {
+    color: var(--color-primary-dark);
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+/* ================================
+   16. RESPONSIVE
+   ================================ */
+
+@media (max-width: 1024px) {
+    .split,
+    .split--narrow-left,
+    .split--narrow-right {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .portrait-offset::before { inset: 10px -10px -10px 10px; }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 400px;
+        align-items: center;
+        padding: 2rem 0;
+    }
+
+    .hero-scrim {
+        background:
+            linear-gradient(to top,
+                rgba(26, 11, 16, 0.94) 0%,
+                rgba(26, 11, 16, 0.78) 38%,
+                rgba(26, 11, 16, 0.42) 70%,
+                rgba(26, 11, 16, 0.25) 100%);
+    }
+
+    .hero-title { max-width: 100%; }
+    .hero-lead { max-width: 100%; }
+
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { width: 100%; }
+
+    .hero-facts { gap: 0.5rem 1.1rem; font-size: 0.82rem; }
+    .hero-facts li { white-space: normal; }
+
+    .video-carousel { max-width: 300px; }
+
+    .note { flex-direction: column; text-align: center; border-radius: 14px; }
+}
+
+@media (max-width: 480px) {
+    .portrait-offset::before { display: none; }
+
+    /* 12px of gutter is tight for a thumb; 20px is the floor here. */
+    .container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+/* ===== Touch targets =====
+   Text links in the slide-in menu and the footer default to their line box,
+   which lands around 24px. On touch they get the full 44px. */
+@media (max-width: 1024px) {
+    .nav-dropdown-item,
+    .footer-link,
+    .footer-bottom-link,
+    .footer-contact a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    .footer-links { gap: 0; }
+    .footer-contact .contact-item { min-height: 44px; align-items: center; }
+}
+
+/* ================================
+   17. REDUCED MOTION
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .beat-rule--hero .beat {
+        animation: none;
+        opacity: 0.34;
+        transform: none;
+    }
+
+    .beat-rule--hero .beat.is-sam,
+    .beat-rule--hero .beat.is-khali { opacity: 1; }
+
+    .card:hover,
+    .value:hover,
+    .team-member:hover .team-photo,
+    .btn:hover { transform: none; }
+
+    .service-card:hover .card-media img { transform: none; }
+}
