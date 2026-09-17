@@ -3,8 +3,8 @@
 Reference guide: `C:\Users\jayde\Desktop\buildsbyleo\seo-changes.txt` (89 numbered items).
 
 **Read this before re-reading that guide.** It records what was already applied to
-punjabifolkentertainment.com on 17 Sep 2026, so nothing already handled gets suggested
-again. Legend:
+punjabifolkentertainment.com on 17 Sep 2026, plus corrections from the 18 Sep redesign
+pass, so nothing already handled gets suggested again. Legend:
 
 - **DONE** — applied in `Desktop/Reena-seo`, live once deployed
 - **N/A** — the item describes something that does not exist on this site
@@ -87,7 +87,7 @@ again. Legend:
 | 38 | Replace placeholder alt text | **DONE** — all 12 "performance moment N" replaced with real descriptions |
 | 39 | Alt text specific and natural, not keyword stuffed | **DONE** — written after viewing each photo |
 | 40 | Use `git mv` to preserve history | **DONE** — though later recompression means git records some as add+delete |
-| 41 | Verify every image path matches the real filename, case-sensitively | **DONE** — 5 case mismatches found and fixed (`event-3.jpeg` vs `.JPEG` etc). Netlify happened to serve them anyway, but they were wrong |
+| 41 | Verify every image path matches the real filename, case-sensitively | **DONE for images, OPEN for videos** — 5 image mismatches fixed 17 Sep. Videos were never checked: 5 fixed in `index.html` on 18 Sep, and **5 more remain broken** in `contact.html` and `videos.html`. Table in "Things done here" item 10 |
 | 42 | Replace placeholder photography with genuine photos | **N/A** — all photography was already genuine |
 
 ## Performance (43–51)
@@ -96,21 +96,24 @@ again. Legend:
 |---|------|--------|
 | 43 | Compress images, preserve colour profile | **DONE** — 23.4MB → 9.3MB, ICC profiles kept |
 | 44 | Keep colour profile, strip EXIF | **DONE** |
-| 45 | Compress video | **OPEN** — 563MB of video untouched. Biggest remaining performance win |
+| 45 | Compress video | **OPEN** — 563MB of video untouched. Biggest remaining performance win. Also **not fast-start**: `hero-video1.mp4` has its `moov` atom at 148MB, the end of the file, so nothing plays until the whole clip downloads. `ffmpeg -movflags +faststart` fixes it without re-encoding — do this even if compression waits |
 | 46 | Tag video colour space explicitly, check for HDR | **OPEN** — depends on 45 |
 | 47 | Strip audio from muted background video | **OPEN** — depends on 45 |
 | 48 | Keep lazy loading on images and videos | **DONE** — `loading="lazy"` on all new content images |
-| 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster` |
+| 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster`. A poster was briefly added to the hero and removed again: it replaced the opening frame with an unrelated OG photo. A poster should be a still **from that clip**, which needs ffmpeg |
 | 50 | Exclude large source media from repo and deploy | **PARTIAL** — `assets/videos/` is git-ignored, but videos must ship in the deploy (site needs them). No camera originals in the repo |
-| 51 | Bump cache-busting version on CSS/JS | **DONE** — `?v=20260917f` |
+| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918a` on all 20 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
 
 ## Accessibility / UX (52–54)
 
 | # | Item | Status |
 |---|------|--------|
-| 52 | Fix low-contrast nav text on dark hero images | **N/A** — nav sits on a solid white header here |
+| 52 | Fix low-contrast nav text on dark hero images | **N/A** — nav sits on its own solid header, never over the hero. The logo is grey type on transparency, so the header cannot go transparent without a reversed logo asset |
 | 53 | aria-labels on video elements | **PARTIAL** — sound/play controls have `aria-label` and it now updates on toggle; the `<video>` elements themselves do not. **OPEN** |
 | 54 | Card grids centre their last row | **DONE** — `.grid-centred` added |
+| — | *(not in the guide)* Keyboard focus rings | **DONE on `index.html`** — `main.css` fired an outline on every mouse click; `redesign.css` scopes it to `:focus-visible`. **OPEN** on other pages |
+| — | *(not in the guide)* Touch targets ≥44px | **DONE on `index.html`** — carousel dots, nav dropdown items, footer links. **OPEN** on other pages |
+| — | *(not in the guide)* `width`/`height` on images to stop layout shift | **DONE on `index.html`** only |
 
 ## Not done, and why (55–57) — all still apply
 
@@ -206,9 +209,46 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
    `.site-header` (which makes the browser compute `overflow-y` as `auto`). Fixed.
 5. **`llms.txt` and explicit AI-crawler rules** — not in the guide, added for AI search.
 6. **FAQ accordions** via native `<details>`/`<summary>`.
-7. **Emoji replaced with inline SVG icons** sitewide.
+7. **Emoji replaced with inline SVG icons.** Claimed "sitewide" on 17 Sep; it was not.
+   Three ⭐ remained in the "Why Choose Us" blocks on `index.html` (fixed 18 Sep).
+   Audited 18 Sep, still **OPEN** on:
+   | Page | Characters | What they are |
+   |---|---|---|
+   | `contact.html` | `↑` `✓` `✗` | back-to-top glyph, form validation states |
+   | `services.html`, `team.html`, `videos.html` | `↑` | back-to-top glyph |
+   | `admin.html` | `▸` `▾` `✅` `✉` `⬇` `＋` `📞` | dashboard controls (internal, `noindex`) |
+   `index.html` shows the replacement: an inline SVG arrow in `.back-to-top`.
 8. **Internal markdown was publicly served** — `CLAUDE.md` was readable on the live site,
    exposing the Netlify site ID, env var names and the quote-page access-control note.
    Blocked in `netlify.toml`.
 9. **The homepage title did not contain "Reena Kaur"** — her name is the #1 query
    (376 impressions, position 2.95) at only 4.52% CTR. Now leads the title.
+10. **Five video `src` attributes had the wrong filename case** (`video-1.mp4`
+    referenced, `video-1.MP4` on disk, and `hero-video.MP4` vs `hero-video.mp4`).
+    Windows is case-insensitive so it looked fine locally; **Netlify is not**, so those
+    clips were 404ing in production. Item 41 covered images only — videos were never
+    checked. Fixed in `index.html`; a full audit on 18 Sep found **five more still
+    broken**, all **OPEN**:
+    | Page | Referenced | Actually on disk |
+    |---|---|---|
+    | `contact.html` | `testimonial-1.mp4` | `testimonial-1.MP4` |
+    | `contact.html` | `testimonial-3.mp4` | `testimonial-3.MP4` |
+    | `videos.html` | `performance-1.mp4` | `performance-1.MP4` |
+    | `videos.html` | `performance-2.MP4` | `performance-2.mp4` |
+    | `videos.html` | `performance-3.mp4` | `performance-3.MP4` |
+    These are broken on the live site right now. One-word edits each.
+11. **`hero-video1.mp4` is not fast-start.** Its `moov` atom sits at 148MB, the end of
+    the file, so the browser had to download the whole clip just to read its metadata —
+    starving the clip actually on screen and leaving the hero black. Worked around with
+    `preload="none"`; the real fix is `ffmpeg -movflags +faststart`. **OPEN.**
+12. **A dead phone number in the homepage CTA** — "Call Us Now" pointed at
+    `tel:+44XXXXXXXXXX`, an unreplaced placeholder. Now the real number.
+13. **`.hero-section p { display: none !important }`** below 480px was deleting the hero
+    subheading entirely on small phones. Rule removed.
+14. **The header was taller than the space reserved for it** — an inline `height: 75px`
+    on the logo made the bar 100px against `body { padding-top: 80px }`, so the top 20px
+    of every page sat behind it. Fixed on `index.html`; **still present on the other 19
+    pages** (every `.html` except `index.html` and `quote.html`).
+15. **The gold `#FFD700` is 1.4:1 on white**, so it could only ever decorate, never carry
+    text. The redesign adds three contrast-checked golds for different grounds. See the
+    "Design layer" section of `CLAUDE.md`.

@@ -10,6 +10,10 @@ The live site still runs the old version until someone runs the go-live steps be
 
 Work started 17 Sep 2026. Guide followed: `Desktop/buildsbyleo/seo-changes.txt`.
 
+A **visual redesign** was layered on top from 18 Sep 2026 (`css/redesign.css`).
+It covers **`index.html` only** so far; the other pages are visually unchanged.
+Detail and rollout steps: the "Design layer" section of [`CLAUDE.md`](CLAUDE.md).
+
 **Item-by-item status of all 89 guide items: [`SEO-GUIDE-STATUS.md`](SEO-GUIDE-STATUS.md).**
 Read that before re-reading the guide, or you will re-suggest work already done.
 
@@ -25,7 +29,8 @@ cd /c/Users/jayde/Desktop/Reena-seo
 # 1. make sure dependencies + videos are present
 #    (videos are git-ignored and must exist locally or the deploy ships without them)
 npm install
-ls assets/videos/index/hero-video.MP4     # must exist
+ls assets/videos/index/hero-video.mp4     # must exist (lowercase .mp4 — the
+                                          #  repo referenced .MP4 until 18 Sep)
 
 # 2. sanity check before pushing anything public
 python "<scratchpad>/check_links.py"      # or just re-check manually
@@ -49,11 +54,19 @@ Netlify dashboard → Deploys → find the last good deploy → **Publish deploy
 One click, no CLI needed.
 
 ### After go-live: reconcile the two folders
-Both folders are clones of the same git repo, so:
+Both folders are clones of the same git repo. Work so far is already committed on
+branch `seo-rebuild`:
+
+| Commit | What |
+|---|---|
+| `3c899e1` | SEO rebuild — service page split, blog, FAQ, schema, favicons |
+| `5cce877` | Homepage redesign — type, warm band system, hero fixes |
+
+To undo the redesign but keep the SEO work: `git reset --hard 3c899e1`.
+Neither command touches the live site — this repo is not Git-connected to Netlify.
 
 ```bash
 cd /c/Users/jayde/Desktop/Reena-seo
-git add -A && git commit -m "SEO rebuild: service pages, blog, FAQ, schema, favicons"
 git push
 
 cd /c/Users/jayde/Desktop/Reena
@@ -206,6 +219,11 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - SSL certificate on `ladiessangeetbyreenakaur.co.uk`.
 
 **Ready to do on request:**
+- **Roll the redesign out to the remaining pages.** `index.html` is done; the other 10
+  public pages plus `blog/` still show the old look. Steps in `CLAUDE.md`.
+- **`ffmpeg -movflags +faststart` on `hero-video1.mp4`.** Its `moov` atom sits at 148MB,
+  the very end of the file, so nothing can play until the whole clip is fetched. A
+  container rewrite, no re-encode, no quality loss. Worth checking every video for this.
 - Put the 32 Google reviews on the page as plain crawlable HTML. The Elfsight widget
   renders client-side, so **no review text exists in the HTML** — crawlers and AI
   assistants never see it. No schema (see below), just visible text.
@@ -246,4 +264,13 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - Never claim the Ladies Sangeet line-up is entirely female — the **singers** are;
   accompanying musicians including dholki players are not always.
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
-- Bump the `?v=` cache-busting string on CSS/JS whenever either changes.
+- Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
+  page, not just the one being edited, since `main.css` and `responsive.css` are shared.
+  Currently `?v=20260918a`.
+- **Check video `src` casing against disk.** Netlify is case-sensitive; Windows is not,
+  so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Five such
+  mismatches shipped in the SEO rebuild and were caught on 18 Sep.
+- **Do not change the hero's height.** `object-fit: cover` takes the crop from the box,
+  so the height decides which part of the footage is visible. See `CLAUDE.md`.
+- **Do not repoint `--font-heading` / `--font-body`** — the html2canvas quote PNG renders
+  against them. Add new font tokens instead.
