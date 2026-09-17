@@ -14,7 +14,9 @@
     z-index: var(--z-sticky);
     transition: var(--transition-base);
     max-width: 100vw; /* Prevent header from exceeding viewport */
-    overflow-x: hidden; /* Clip any overflow */
+    /* NOTE: no overflow-x here. Setting overflow-x:hidden makes the browser
+       compute overflow-y as auto, which clipped the services dropdown.
+       Horizontal overflow is contained on mobile only, below. */
     box-sizing: border-box;
     height: auto; /* Only cover the height of the header content */
     pointer-events: auto; /* Header itself can receive clicks */
@@ -324,4 +326,201 @@
 
 .skip-to-content:focus {
     top: var(--spacing-sm);
+}
+
+/* ===== SERVICES DROPDOWN (added for service-page split) ===== */
+.nav-item-has-dropdown > .nav-link::before {
+    content: '';
+    position: absolute;
+    right: -0.9rem;
+    top: 50%;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+.nav-item-has-dropdown:hover > .nav-link::before,
+.nav-item-has-dropdown:focus-within > .nav-link::before {
+    transform: translateY(-30%) rotate(-135deg);
+}
+
+.nav-dropdown {
+    list-style: none;
+    margin: 0;
+}
+
+/* keep the menu reachable while the pointer travels into it */
+.nav-item-has-dropdown .nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    width: 100%;
+    height: 0.75rem;
+}
+
+.nav-item:focus-within .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown-item {
+    white-space: nowrap;
+    font-size: var(--font-size-sm);
+}
+
+.nav-dropdown-all {
+    border-top: 1px solid var(--color-gray);
+    margin-top: var(--spacing-xs);
+    padding-top: var(--spacing-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+/* On mobile the nav is a slide-in panel, so the dropdown sits inline instead */
+@media (max-width: 1024px) {
+    .nav-dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        min-width: 0;
+        width: 100%;
+        padding: 0 0 0 1rem;
+        border-left: 2px solid var(--color-gray);
+        margin-top: var(--spacing-xs);
+    }
+
+    .nav-item-has-dropdown > .nav-link::before {
+        display: none;
+    }
+
+    .nav-dropdown-item {
+        font-size: var(--font-size-base);
+        padding: 0.5rem 0;
+    }
+
+    .nav-dropdown-all {
+        border-top: none;
+        padding-top: 0.5rem;
+    }
+}
+
+/* ===== BREADCRUMBS ===== */
+.breadcrumbs {
+    padding: 1rem 0 0;
+    font-size: var(--font-size-sm);
+}
+
+.breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumbs li + li::before {
+    content: '/';
+    margin-right: 0.5rem;
+    color: var(--color-text-muted, #888);
+}
+
+.breadcrumbs a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs [aria-current="page"] {
+    color: var(--color-text-secondary, #666);
+}
+
+/* ===== SERVICES DROPDOWN: desktop corrections ===== */
+@media (min-width: 1025px) {
+    /* the dropdown is a positioned child of the nav item */
+    .nav-item-has-dropdown {
+        position: relative;
+    }
+
+    .nav-menu {
+        overflow: visible;
+    }
+
+    .nav-dropdown {
+        top: calc(100% + 0.75rem);
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px);
+        min-width: 240px;
+        padding: 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        z-index: calc(var(--z-sticky) + 2);
+    }
+
+    .nav-item-has-dropdown:hover > .nav-dropdown,
+    .nav-item-has-dropdown:focus-within > .nav-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* little arrow pointing at the Services link */
+    .nav-dropdown::after {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        margin-left: -6px;
+        width: 12px;
+        height: 12px;
+        background: var(--color-white);
+        border-left: 1px solid rgba(0, 0, 0, 0.06);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        transform: rotate(45deg);
+    }
+
+    /* hover bridge so the menu survives the gap under the link */
+    .nav-item-has-dropdown .nav-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -0.85rem;
+        left: 0;
+        right: 0;
+        height: 0.9rem;
+        background: transparent;
+    }
+}
+
+/* contain horizontal overflow on mobile only (replaces the old header rule) */
+@media (max-width: 1024px) {
+    body {
+        overflow-x: hidden;
+    }
+}
+
+/* ===== FOOTER / INLINE ICONS ===== */
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.social-link .icon {
+    width: 22px;
+    height: 22px;
+}
+
+.contact-item .icon {
+    margin-top: 3px;
+    color: var(--color-secondary);
 }

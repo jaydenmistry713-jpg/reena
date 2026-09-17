@@ -4,6 +4,40 @@
 [functions]
   node_bundler = "esbuild"
 
+# Internal files must not be served publicly. force = true is REQUIRED:
+# without it Netlify serves the file from disk and never reaches the rule. CLAUDE.md was readable on the live
+# site and exposed the Netlify site ID, env var names and the quote-page access
+# model. Redirects are evaluated in order, so these sit above the /quote/* rule.
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/SEO-README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/SEO-GUIDE-STATUS.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # Clean quote URLs: /quote/<name-slug>-<id> serves the quote page.
 # The page reads the id from the path; the random suffix is the access token.
 [[redirects]]

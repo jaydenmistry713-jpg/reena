@@ -45,25 +45,25 @@ function initVideoGallery() {
     
     soundToggles.forEach((toggle, index) => {
         const video = videos[index];
-        const soundIcon = toggle.querySelector('.sound-icon');
+        // icons are swapped by the .is-unmuted class (see main.css)
         
         toggle.addEventListener('click', () => {
             if (video.muted) {
                 // Unmute this video
                 video.muted = false;
-                soundIcon.textContent = '🔊';
+                toggle.classList.add('is-unmuted');
                 
                 // Mute all other videos
                 videos.forEach((otherVideo, otherIndex) => {
                     if (otherIndex !== index) {
                         otherVideo.muted = true;
-                        soundToggles[otherIndex].querySelector('.sound-icon').textContent = '🔇';
+                        soundToggles[otherIndex].classList.remove('is-unmuted');
                     }
                 });
             } else {
                 // Mute this video
                 video.muted = true;
-                soundIcon.textContent = '🔇';
+                toggle.classList.remove('is-unmuted');
             }
         });
     });
