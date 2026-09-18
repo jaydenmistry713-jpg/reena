@@ -304,6 +304,62 @@ Restructured on 18 Sep because it read as location keyword coverage. Rules:
 
 ---
 
+## Article layout (18 Sep 2026) — service pages, wedding hub, blog
+
+The six service pages and the four blog articles previously centred an **820px
+column inside a 1200px container**, leaving ~160px dead either side on desktop and
+far more on a wide monitor. Widening the prose was not the fix — 820px is already
+at the top of a comfortable measure. Instead the side space now carries a **sticky
+rail**, and the prose sits at a 704px measure.
+
+```html
+<section class="article-section" style="padding: 3rem 0 4rem;">
+  <div class="container">                 <!-- full 1200px, no 820px clamp -->
+    <div class="article-layout">          <!-- grid: 1fr + 286px above 1024px -->
+      <div class="article-main"> … </div> <!-- max-width: 44rem -->
+      <aside class="article-rail">        <!-- sticky, top: 105px -->
+        <nav class="rail-card">…on this page…</nav>
+        <div class="rail-card">…related services (blog only)…</div>
+        <div class="rail-card rail-cta">…get a quote…</div>
+      </aside>
+    </div>
+  </div>
+</section>
+```
+
+Classes live in an **ARTICLE LAYOUT** block at the bottom of `css/main.css`.
+Single column below 1024px, where the TOC card is hidden — an index that sits
+*after* the thing it indexes is no use.
+
+> ### ⚠️ `overflow-x` and `position: sticky`
+>
+> `overflow-x: hidden` makes an element a **scroll container**, and a
+> scroll-container ancestor silently disables `position: sticky` for every
+> descendant. No error, no warning — the element just scrolls away.
+>
+> Two ancestors were doing this. Both were fixed, and **both must stay fixed**:
+>
+> - `html, body` in `main.css` now use **`overflow-x: clip`**, not `hidden`. Clip
+>   stops sideways scrolling without creating a scroll container. **Do not change
+>   it back.** Verified across 7 pages × 4 widths (360/390/768/1024) with zero
+>   horizontal overflow.
+> - The global `section { overflow-x: hidden }` still applies, so the article
+>   section opts out via **`class="article-section"`** (`overflow: visible`). A
+>   class rather than `:has()`, so it does not depend on selector support.
+
+### Figures
+
+`.article-figure` wraps in-article images; `.article-figure--portrait` caps a tall
+portrait at `30rem` with `object-fit: cover`, because an unconstrained 1333×1999
+shot ran to **1056px** in a 704px column. `.article-figure-pair` puts two portraits
+side by side. The pre-existing hero figure on each service page was folded into the
+same classes.
+
+Every `<h2>` in `.article-main` carries a slug `id`, which the rail links to and
+which gives the pages jump anchors. If you add an h2, add it to the rail list.
+
+---
+
 ## Design layer (Sept 2026) — in progress, `index.html` only
 
 A visual redesign sits on top of the SEO rebuild in **`css/redesign.css`**. It is

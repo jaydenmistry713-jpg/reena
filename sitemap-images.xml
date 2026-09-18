@@ -2,15 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
+        <loc>https://punjabifolkentertainment.com/blog/dhol-player-wedding-guide.html</loc>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/destination-wedding-baraat-dhol-beach.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/services/dhol-players-stage-performance.jpg</image:loc>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://punjabifolkentertainment.com/blog/punjabi-wedding-entertainment-guide.html</loc>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-singing-dholki-guests-clapping.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/mehndi-celebration-guests.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-guests-decorated-canopy.jpg</image:loc>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://punjabifolkentertainment.com/blog/sangeet-mehndi-jago-explained.html</loc>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/mehndi-singer-dholki-henna-guest.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-with-reena-kaur-signage.jpg</image:loc>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://punjabifolkentertainment.com/blog/what-is-a-ladies-sangeet.html</loc>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-singing-dholki-guests-clapping.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-ladies-sangeet.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-singer-dholki-guests-seated.jpg</image:loc>
+        </image:image>
+    </url>
+    <url>
         <loc>https://punjabifolkentertainment.com/concerts.html</loc>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/services/punjabi-concert-stage-crowd.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-live-wolverhampton-mela.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/services/dhol-players-stage-performance.jpg</image:loc>
         </image:image>
     </url>
     <url>
         <loc>https://punjabifolkentertainment.com/dhol-players.html</loc>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/services/dhol-player-marquee-wedding.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/services/dhol-players-stage-performance.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/destination-wedding-baraat-dhol-beach.jpg</image:loc>
         </image:image>
     </url>
     <url>
@@ -19,19 +73,16 @@
             <image:loc>https://punjabifolkentertainment.com/assets/images/index/reena-kaur-portrait.jpg</image:loc>
         </image:image>
         <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-sangeet-dholki.jpg</image:loc>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/team/reena-kaur-sig.png</image:loc>
         </image:image>
         <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-live-wolverhampton-mela.jpg</image:loc>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-on-stage.jpg</image:loc>
         </image:image>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/services/dhol-player-marquee-wedding.jpg</image:loc>
         </image:image>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/services/punjabi-dj-decks-reception.jpg</image:loc>
-        </image:image>
-        <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/services/punjabi-concert-stage-crowd.jpg</image:loc>
         </image:image>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/team/reena-kaur.png</image:loc>
@@ -51,17 +102,56 @@
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-sangeet-dholki.jpg</image:loc>
         </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/ladies-sangeet-dholki-players.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-and-team-ladies-sangeet.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-singer-dholki-guests-seated.jpg</image:loc>
+        </image:image>
     </url>
     <url>
         <loc>https://punjabifolkentertainment.com/punjabi-dj.html</loc>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/services/punjabi-dj-decks-reception.jpg</image:loc>
         </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-ladies-sangeet.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-guests-decorated-canopy.jpg</image:loc>
+        </image:image>
     </url>
     <url>
         <loc>https://punjabifolkentertainment.com/punjabi-folk-singers.html</loc>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-live-wolverhampton-mela.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-ladies-sangeet.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-studio-recording.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-singer-dholki-guests-seated.jpg</image:loc>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://punjabifolkentertainment.com/punjabi-wedding-entertainment/</loc>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/services/dhol-player-marquee-wedding.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-singing-dholki-guests-clapping.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/mehndi-celebration-guests.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/destination-wedding-baraat-dhol-beach.jpg</image:loc>
         </image:image>
     </url>
     <url>
@@ -111,9 +201,6 @@
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/team/kummy.png</image:loc>
         </image:image>
-        <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/team/rajan.png</image:loc>
-        </image:image>
     </url>
     <url>
         <loc>https://punjabifolkentertainment.com/videos.html</loc>
@@ -146,6 +233,9 @@
         </image:image>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/mehndi-celebration-guests.jpg</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-with-reena-kaur-signage.jpg</image:loc>
         </image:image>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-on-stage.jpg</image:loc>

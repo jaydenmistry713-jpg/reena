@@ -280,7 +280,7 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260918b`.
+  Currently `?v=20260918c`.
 - **Check video `src` casing against disk.** Netlify is case-sensitive; Windows is not,
   so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Ten such mismatches
   existed; all were fixed on 18 Sep. Nothing local will warn you, so re-check whenever a
@@ -296,6 +296,13 @@ Rich results (Search Appearance report): EMPTY — nothing firing
   services.
 - **Do not add a `BreadcrumbList` to the homepage.** It is the root, so the trail is one
   item long; Google will not render it and it asserts nothing.
+- **Leave `html, body { overflow-x: clip }` alone.** It used to be `hidden`, which makes
+  the element a scroll container and silently kills `position: sticky` for everything
+  inside it — that is what stopped the article rail sticking. `clip` prevents the same
+  sideways scrolling with no such side effect. Same reason the article `<section>`
+  carries `class="article-section"`. See `CLAUDE.md` → "Article layout".
+- **Regenerate `sitemap-images.xml` from the markup** after adding or removing page
+  images, rather than editing it by hand. It excludes logos, OG cards and favicons.
 - **Do not change the hero's height.** `object-fit: cover` takes the crop from the box,
   so the height decides which part of the footage is visible. See `CLAUDE.md`.
 - **Do not repoint `--font-heading` / `--font-body`** — the html2canvas quote PNG renders

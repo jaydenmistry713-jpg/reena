@@ -86,7 +86,7 @@ again. Legend:
 
 | # | Item | Status |
 |---|------|--------|
-| 37 | Rename generic image files descriptively | **DONE** — `event-1.jpg` → `sangeet-singing-dholki-guests-clapping.jpg`, 27 files |
+| 37 | Rename generic image files descriptively | **DONE** — `event-1.jpg` → `sangeet-singing-dholki-guests-clapping.jpg`, 27 files. Two stragglers were missed and renamed 18 Sep: `event-2.jpg` → `sangeet-singer-dholki-guests-seated.jpg`, `event-prev.jpg` → `mehndi-singer-dholki-henna-guest.jpg`. Both were unused on any page; they are now in the service and blog pages |
 | 38 | Replace placeholder alt text | **DONE** — all 12 "performance moment N" replaced with real descriptions |
 | 39 | Alt text specific and natural, not keyword stuffed | **DONE** — written after viewing each photo |
 | 40 | Use `git mv` to preserve history | **DONE** — though later recompression means git records some as add+delete |
@@ -102,10 +102,10 @@ again. Legend:
 | 45 | Compress video | **OPEN** — 563MB of video untouched. Biggest remaining performance win. Also **not fast-start**: `hero-video1.mp4` has its `moov` atom at 148MB, the end of the file, so nothing plays until the whole clip downloads. `ffmpeg -movflags +faststart` fixes it without re-encoding — do this even if compression waits |
 | 46 | Tag video colour space explicitly, check for HDR | **OPEN** — depends on 45 |
 | 47 | Strip audio from muted background video | **OPEN** — depends on 45 |
-| 48 | Keep lazy loading on images and videos | **DONE** — `loading="lazy"` on all new content images; `team.html`'s ten member portraits were still eager-loading and were fixed 18 Sep. The only images without the attribute are the header logos, correctly |
+| 48 | Keep lazy loading on images and videos | **DONE** — all in-article figures added 18 Sep are lazy. — `loading="lazy"` on all new content images; `team.html`'s ten member portraits were still eager-loading and were fixed 18 Sep. The only images without the attribute are the header logos, correctly |
 | 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster`. A poster was briefly added to the hero and removed again: it replaced the opening frame with an unrelated OG photo. A poster should be a still **from that clip**, which needs ffmpeg |
 | 50 | Exclude large source media from repo and deploy | **PARTIAL** — `assets/videos/` is git-ignored, but videos must ship in the deploy (site needs them). No camera originals in the repo |
-| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918b` on all 21 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
+| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918c` on all 22 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
 
 ## Accessibility / UX (52–54)
 
@@ -162,7 +162,7 @@ again. Legend:
 
 | # | Item | Status |
 |---|------|--------|
-| 74 | Image sitemap namespace, image entry per page | **DONE** — `sitemap-images.xml`, 9 pages, 41 images |
+| 74 | Image sitemap namespace, image entry per page | **DONE** — regenerated 18 Sep from the markup: **14 pages, 66 images** (was 9/41). Growth is the gallery photography added to the service and blog pages. Regenerate it from the HTML rather than hand-editing |
 | 75 | Emit only the image location tag | **DONE** — no deprecated caption/title/geo tags |
 | 76 | Generate from live markup, not by hand | **DONE** — generated from the HTML; logos, OG images and icons excluded |
 | 77 | Re-verify filenames case-sensitively, re-parse JSON-LD | **DONE** — both automated |
@@ -305,3 +305,33 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     Still unmeasurable locally, and needing the deployed URL: real PageSpeed/Lighthouse
     scores, field CWV, CDN TTFB, HTTPS/HSTS headers, and the www→apex and http→https
     redirects.
+
+21. **Service and blog pages wasted their desktop width.** An 820px column centred in a
+    1200px container left roughly 160px dead either side, and much more on a wide
+    monitor. Fixed 18 Sep by giving the space a job rather than by widening the prose
+    (820px was already at the top of a comfortable measure): a **sticky rail** carrying
+    an on-this-page index, the related-services links on blog pages, and a quote CTA.
+    Prose sits at 704px. Ten pages converted. See `CLAUDE.md` → "Article layout".
+
+    **The trap this exposed, and the one to remember:** `overflow-x: hidden` makes an
+    element a scroll container, and a scroll-container *ancestor* silently disables
+    `position: sticky` for every descendant — no error, the element simply scrolls away.
+    Two ancestors were doing it: the global `section { overflow-x: hidden }` and
+    `html, body { overflow-x: hidden }`. The section opts out with a class; html/body
+    now use **`overflow-x: clip`**, which stops sideways scrolling without creating a
+    scroll container. Verified afterwards across 7 pages × 4 widths, zero horizontal
+    overflow. **Do not revert either.**
+
+22. **Blog articles had no images at all** — only the header logo. Twelve gallery
+    photographs were distributed across the four articles and the six service pages
+    18 Sep, chosen per section rather than decoratively (a Mehndi shot at the Mehndi
+    heading, the Wolverhampton Mela shot at the melas heading, and so on).
+
+    Tall portraits needed a crop window: unconstrained, a 1333×1999 shot rendered
+    **1056px tall** in a 704px column. `.article-figure--portrait` caps them at 30rem,
+    and `.article-figure-pair` sets two portraits side by side.
+
+23. **Rajan was removed from the team** (18 Sep, at Jayden's request). His card, his
+    photo `assets/images/team/rajan.png` and his `sitemap-images.xml` entry all went.
+    Nine members remain. Note there is a separate, still-current member called **Raj** —
+    they are different people, and `Raj` was left alone.

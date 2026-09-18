@@ -27,17 +27,23 @@ body {
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
-    overflow-x: hidden;
+    overflow-x: clip;   /* not `hidden` - see the html, body rule below */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     padding-top: 80px; /* Space for fixed header */
 }
 
-/* Prevent horizontal scrolling */
+/* Prevent horizontal scrolling.
+   `clip` rather than `hidden`: both stop sideways scrolling, but `hidden`
+   makes the element a scroll container, and a scroll-container ancestor
+   silently disables `position: sticky` for every descendant. That is what
+   stopped the article rail sticking. `clip` has no such side effect.
+   Chrome 90+, Firefox 81+, Safari 16+; older browsers simply fall back to
+   visible here, which at worst restores the behaviour this rule guards. */
 html,
 body {
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -531,4 +537,220 @@ textarea:focus {
 
 .play-icon .icon {
     margin-left: 3px; /* optically centre the triangle in its circle */
+}
+
+/* ============================================================================
+   ARTICLE LAYOUT — service pages, the wedding hub and blog articles
+   Added 18 Sep 2026.
+
+   These pages previously centred an 820px column inside a 1200px container, so
+   on desktop roughly 160px sat empty either side of the text and far more on a
+   wide monitor. Widening the prose was not the answer — 820px is already at the
+   top of a comfortable measure. Instead the space now carries a sticky rail
+   (on-this-page links plus a CTA), and the prose keeps its measure.
+
+   Single column below 1024px, where there is no spare width to give away.
+   ========================================================================= */
+
+.article-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .article-layout {
+        grid-template-columns: minmax(0, 1fr) 286px;
+        gap: 4rem;
+    }
+}
+
+/* The prose column keeps a readable measure even though the grid is wider. */
+.article-main {
+    min-width: 0;
+    max-width: 44rem;
+}
+
+/* ===== Sticky rail ===== */
+.article-rail {
+    min-width: 0;
+}
+
+/* Below 1024px the rail drops underneath the article. A table of contents that
+   sits *after* the thing it indexes is no use, so it is dropped there; the
+   related-links and CTA cards still earn their place at the end of a read. */
+@media (max-width: 1023px) {
+    .article-rail nav.rail-card {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .article-rail {
+        position: sticky;
+        /* clears the 85px fixed header plus a little breathing room */
+        top: 105px;
+        max-height: calc(100vh - 130px);
+        overflow-y: auto;
+    }
+}
+
+.rail-card {
+    background: var(--color-off-white);
+    border-radius: 12px;
+    padding: 1.35rem 1.4rem;
+    margin-bottom: 1.25rem;
+}
+
+.rail-card:last-child {
+    margin-bottom: 0;
+}
+
+.rail-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    margin: 0 0 0.85rem;
+}
+
+.rail-toc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rail-toc li {
+    margin: 0;
+}
+
+.rail-toc a {
+    display: block;
+    padding: 0.42rem 0 0.42rem 0.8rem;
+    border-left: 2px solid var(--color-gray);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    transition: var(--transition-base);
+}
+
+.rail-toc a:hover,
+.rail-toc a:focus-visible {
+    border-left-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(196, 30, 58, 0.045);
+}
+
+/* CTA card sits on crimson so it reads as the action, not another nav block. */
+.rail-cta {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--color-white);
+}
+
+.rail-cta .rail-title {
+    color: var(--color-secondary);
+}
+
+.rail-cta p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-off-white);
+    margin: 0 0 1rem;
+}
+
+.rail-cta .btn {
+    width: 100%;
+    text-align: center;
+}
+
+.rail-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rail-links li + li {
+    margin-top: 0.55rem;
+}
+
+.rail-links a {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.rail-links a:hover {
+    text-decoration: underline;
+}
+
+/* ===== In-article figures ===== */
+.article-figure {
+    margin: 2.25rem 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.article-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.article-figure figcaption {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    padding: 0.7rem 0.95rem;
+    background: var(--color-off-white);
+}
+
+/* A tall portrait shot would otherwise run to well over a screen in a 44rem
+   column, so portrait figures are cropped to a landscape-ish window. */
+.article-figure--portrait img {
+    max-height: 30rem;
+    object-fit: cover;
+    object-position: center 28%;
+}
+
+/* Two portraits side by side use the measure better than one above the other. */
+.article-figure-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2.25rem 0;
+}
+
+.article-figure-pair .article-figure {
+    margin: 0;
+}
+
+@media (max-width: 560px) {
+    .article-figure-pair {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Headings are jump targets for the rail, so keep them clear of the header. */
+.article-main h2[id] {
+    scroll-margin-top: 105px;
+}
+
+/* The sticky rail only works if no ancestor is a scroll container, and the
+   global `section { overflow-x: hidden }` above makes every section one.
+   Opting this section out is what lets position: sticky take effect at all.
+   A class is used rather than :has() so it does not depend on selector support. */
+.article-section {
+    overflow: visible;
+}
+
+/* The hero figure that already sat at the top of these pages predates the
+   article layout and carried only .hover-zoom, so a tall portrait ran to over
+   1000px in the 704px column. It now shares the figure treatment. */
+.article-figure.hover-zoom {
+    margin-top: 0;
 }
