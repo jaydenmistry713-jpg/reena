@@ -68,7 +68,7 @@ branch `seo-rebuild`:
 | `3c899e1` | SEO rebuild — service page split, blog, FAQ, schema, favicons |
 | `5cce877` | Homepage redesign — type, warm band system, hero fixes |
 | `2128f00` | Docs brought up to date |
-| `980b242` | Wedding pillar architecture, concerts retarget, areas restructure, titles, schema + technical audit fixes |
+| `f2269f4` | Wedding pillar architecture, concerts retarget, areas restructure, titles, schema + technical audit fixes |
 
 To undo the redesign but keep the SEO work: `git reset --hard 3c899e1`.
 Neither command touches the live site — this repo is not Git-connected to Netlify.
