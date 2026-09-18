@@ -105,7 +105,7 @@ again. Legend:
 | 48 | Keep lazy loading on images and videos | **DONE** — all in-article figures added 18 Sep are lazy. — `loading="lazy"` on all new content images; `team.html`'s ten member portraits were still eager-loading and were fixed 18 Sep. The only images without the attribute are the header logos, correctly |
 | 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster`. A poster was briefly added to the hero and removed again: it replaced the opening frame with an unrelated OG photo. A poster should be a still **from that clip**, which needs ffmpeg |
 | 50 | Exclude large source media from repo and deploy | **PARTIAL** — `assets/videos/` is git-ignored, but videos must ship in the deploy (site needs them). No camera originals in the repo |
-| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918d` on all 22 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
+| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918g` on all 22 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
 
 ## Accessibility / UX (52–54)
 
@@ -382,3 +382,38 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     build step would break the deployment model described in `CLAUDE.md`. Its
     accessibility, design-token and mobile-first guidance was applied to the existing
     vanilla CSS instead; its component and utility layers were not installed.
+
+27. **The mobile layout was wrong, and the check that should have caught it was
+    wrong too.** Reported from a phone on 18 Sep: content on `services.html` pushed
+    off to the right, and the hamburger menu clipping "Punjabi Wedding Entertainment".
+
+    - **Content overflow**: the services rebuild had nested `<section>` inside
+      `.container`, which no other page does. The global `section { width: 100% }`
+      plus the mobile `max-width: 100vw` rules assume sections are top-level, so a
+      nested one took the full viewport width and pushed out of the padded container.
+      They are content groups, not page sections — now `<div class="services-group">`.
+    - **Menu clipping**: the slide-in panel inherited the desktop dropdown's
+      `white-space: nowrap`, correct for a floating panel and wrong for a full-width
+      mobile one. Plus the pillar/child hairline tree was fussy at phone size, and
+      "Services" and "All services" were the same destination twice.
+
+    **The verification failure is the part worth remembering.** Earlier passes claimed
+    "zero horizontal overflow at 360/390/768/1024/1440" measured with
+    `document.documentElement.scrollWidth > innerWidth`. That check cannot work here:
+    `overflow-x: clip`/`hidden` on an ancestor clips `scrollWidth`, so it reports clean
+    while content visibly hangs off the side. **Measure element rects instead.**
+
+28. **`overflow-x` on html/body breaks scrolling, and that is why the back-to-top
+    button has never worked.** Chasing the sticky rail led to `html, body {
+    overflow-x: clip }`, which fixed sticky and then turned out to stop the document
+    scrolling programmatically. The viewport inherits its overflow from `html` (or
+    from `body` when html is `visible`), so anything non-visible there stops the
+    document being a scroll container. Wheel scrolling still works, which hides it.
+
+    The guard now lives on `.site-header`, `main` and `.site-footer` as `clip`:
+    not the root, so nothing propagates, and `clip` never creates a scroll container.
+    Sticky verified working, no horizontal scrollbar at any width.
+
+    Smooth scrolling is still broken independently of all this — see the
+    "Needs checking on a real device" note in `SEO-README.md`. It fails identically
+    on the live production site, so it predates every change in this folder.

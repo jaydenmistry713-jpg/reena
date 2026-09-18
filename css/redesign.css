@@ -1370,3 +1370,59 @@ body { padding-top: 88px; }
         transform: none !important;
     }
 }
+
+/* ================================
+   16. MOBILE NAV  (18 Sep 2026)
+
+   The slide-in panel inherited the desktop dropdown wholesale: a floating
+   menu's `white-space: nowrap` clipped "Punjabi Wedding Entertainment" off the
+   panel edge, and the pillar/child hairline tree read as fussy at phone size
+   where there is no hover to explain it. The panel now shows one level of
+   indent, no connector rules, and no "All services" - tapping Services goes
+   there, so the extra row was saying the same thing twice.
+   ================================ */
+
+@media (max-width: 1024px) {
+    /* Needed for a floating desktop panel; wrong for a full-width mobile one. */
+    .nav-dropdown-item {
+        white-space: normal;
+    }
+
+    .nav-dropdown {
+        /* One quiet rule for the whole group rather than a rule per child */
+        border-left: 1px solid var(--hairline-paper, rgba(26, 11, 16, 0.12));
+        padding-left: 1rem;
+        margin-left: 0.15rem;
+    }
+
+    /* The pillar is the only thing that needs weight at this size. */
+    .nav-dropdown-pillar {
+        font-weight: 600;
+        color: var(--color-primary);
+    }
+
+    /* Drop the per-child connector hairline and the second indent step. */
+    .nav-dropdown-child {
+        padding-left: 0.9rem;
+        font-weight: 400;
+    }
+
+    .nav-dropdown-child::before {
+        display: none;
+    }
+
+    /* "Services" already navigates to services.html on tap. */
+    .nav-dropdown-all {
+        display: none;
+    }
+
+    /* Give the panel a sane measure so long labels wrap rather than clip. */
+    .nav-menu {
+        max-width: min(88vw, 340px);
+    }
+
+    .nav-item,
+    .nav-dropdown li {
+        width: 100%;
+    }
+}

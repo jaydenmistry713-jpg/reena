@@ -27,22 +27,40 @@ body {
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
-    overflow-x: clip;   /* not `hidden` - see the html, body rule below */
+    /* deliberately no overflow-x here - see the html, body rule below */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     padding-top: 80px; /* Space for fixed header */
 }
 
-/* Prevent horizontal scrolling.
-   `clip` rather than `hidden`: both stop sideways scrolling, but `hidden`
-   makes the element a scroll container, and a scroll-container ancestor
-   silently disables `position: sticky` for every descendant. That is what
-   stopped the article rail sticking. `clip` has no such side effect.
-   Chrome 90+, Firefox 81+, Safari 16+; older browsers simply fall back to
-   visible here, which at worst restores the behaviour this rule guards. */
+/* Prevent horizontal scrolling — WITHOUT breaking scrolling itself.
+
+   This rule has bitten three times. The reasoning, so it does not bite again:
+
+   1. `overflow-x: hidden` on BOTH html and body made *body* a scroll container,
+      and a scroll-container ancestor silently disables `position: sticky` for
+      every descendant. That is what stopped the article rail sticking.
+   2. `overflow-x: clip` on html/body fixed sticky but left scrolling broken.
+   3. The root cause of that: in an HTML document the VIEWPORT takes its overflow
+      from `html`, or from `body` when html is `visible`. So any non-visible
+      overflow-x on either one propagates to the viewport and the document stops
+      being a scroll container. Wheel scrolling still works, which is why it is
+      easy to miss, but every programmatic scroll becomes a silent no-op:
+      `window.scrollTo`, `scrollIntoView`, and the back-to-top button.
+      This was true of the ORIGINAL `html, body { overflow-x: hidden }` too —
+      the back-to-top button has never worked on this site.
+
+   So html and body carry no overflow-x at all. The guard sits on the three
+   top-level landmarks instead: they are not the root, so nothing propagates to
+   the viewport, and `clip` never creates a scroll container, so sticky is safe. */
 html,
 body {
     max-width: 100%;
+}
+
+.site-header,
+main,
+.site-footer {
     overflow-x: clip;
 }
 
@@ -114,7 +132,8 @@ section {
     padding: var(--section-padding);
     width: 100%; /* Prevent sections from overflowing */
     box-sizing: border-box;
-    overflow-x: hidden; /* Clip any overflowing content */
+    overflow-x: clip; /* clip, not hidden: hidden would make every section a
+                         scroll container and kill position: sticky inside it */
 }
 
 /* ===== IMAGES ===== */

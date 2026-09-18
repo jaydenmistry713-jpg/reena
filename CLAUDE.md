@@ -332,21 +332,36 @@ Classes live in an **ARTICLE LAYOUT** block at the bottom of `css/main.css`.
 Single column below 1024px, where the TOC card is hidden — an index that sits
 *after* the thing it indexes is no use.
 
-> ### ⚠️ `overflow-x` and `position: sticky`
+> ### ⚠️ `overflow-x`, `position: sticky` and scrolling
 >
-> `overflow-x: hidden` makes an element a **scroll container**, and a
-> scroll-container ancestor silently disables `position: sticky` for every
-> descendant. No error, no warning — the element just scrolls away.
+> This has bitten three times. Read before touching any `overflow-x` rule.
 >
-> Two ancestors were doing this. Both were fixed, and **both must stay fixed**:
+> **1. `hidden` makes an element a scroll container.** A scroll-container
+> ancestor silently disables `position: sticky` for every descendant — no error,
+> the element just scrolls away. This is what stopped the article rail sticking.
 >
-> - `html, body` in `main.css` now use **`overflow-x: clip`**, not `hidden`. Clip
->   stops sideways scrolling without creating a scroll container. **Do not change
->   it back.** Verified across 7 pages × 4 widths (360/390/768/1024) with zero
->   horizontal overflow.
-> - The global `section { overflow-x: hidden }` still applies, so the article
->   section opts out via **`class="article-section"`** (`overflow: visible`). A
->   class rather than `:has()`, so it does not depend on selector support.
+> **2. `clip` does not create a scroll container** — so it fixes sticky. But on
+> `html` or `body` it creates a worse problem.
+>
+> **3. The viewport takes its overflow from `html`, or from `body` when html is
+> `visible`.** So *any* non-visible `overflow-x` on either one propagates to the
+> viewport and the document stops being a scroll container. Wheel scrolling still
+> works, which is why it is easy to miss, but programmatic scrolling becomes a
+> silent no-op.
+>
+> **The arrangement that satisfies all three, and must stay:**
+>
+> | Selector | Rule | Why |
+> |---|---|---|
+> | `html`, `body` | **no `overflow-x` at all** | anything here propagates to the viewport |
+> | `.site-header`, `main`, `.site-footer` | `overflow-x: clip` | not the root, so nothing propagates; `clip` never creates a scroll container, so sticky is safe |
+> | `section` (main.css + responsive.css) | `overflow-x: clip` | was `hidden`, which made every section a scroll container |
+> | the article `<section>` | `class="article-section"` → `overflow: visible` | opts out entirely so the rail can stick. A class rather than `:has()`, so it does not depend on selector support |
+>
+> **Verify overflow with element rects, not `scrollWidth`.** `main` clips, so
+> `document.documentElement.scrollWidth` cannot see overflow inside it and will
+> report clean no matter what. Walk elements and compare `getBoundingClientRect().right`
+> against the viewport width instead.
 
 ### Figures
 
@@ -508,6 +523,12 @@ Now enforced sitewide by `redesign.css`, not per page:
 - **Reduced motion**: a global `prefers-reduced-motion` block pins scroll-reveal
   elements to their final state. Without it they would never appear, since the reveal
   is what sets opacity.
+- **Mobile nav**: the slide-in panel had inherited the desktop dropdown wholesale.
+  A floating menu's `white-space: nowrap` clipped "Punjabi Wedding Entertainment" off
+  the panel edge, and the pillar/child hairline tree read as fussy at phone size where
+  there is no hover to explain it. Section 16 of `redesign.css` gives the panel one
+  indent level, no connector rules, and no "All services" row — tapping **Services**
+  goes there, so it was saying the same thing twice.
 - **No emoji as icons** on any public page.
 
 ### Signature: the beat rule

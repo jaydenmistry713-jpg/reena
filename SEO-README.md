@@ -221,6 +221,16 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 
 ## 5. Still outstanding
 
+**Needs checking on a real device:**
+- **The back-to-top button does nothing.** Smooth scrolling is broken sitewide —
+  `window.scrollTo({behavior: "smooth"})` and CSS `scroll-behavior: smooth` are both
+  no-ops, while `behavior: "instant"` works. This is **not** a regression: the live
+  site behaves identically with its original CSS, and it is not caused by the overflow
+  rules (it still fails with `html`/`body` overflow removed entirely) or by
+  `prefers-reduced-motion` (checked, off). The cause was not identified, so no
+  workaround was applied. Tap it on a phone on the preview and confirm before
+  spending time on it — it may behave differently outside an automated browser.
+
 **Needs Reena / Jayden:**
 - Booking facts: set lengths, space & power requirements, setup time, deposit and
   cancellation terms, named venues, signature songs. Service pages are honest without
@@ -284,7 +294,7 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260918d`.
+  Currently `?v=20260918g`.
 - **Check video `src` casing against disk.** Netlify is case-sensitive; Windows is not,
   so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Ten such mismatches
   existed; all were fixed on 18 Sep. Nothing local will warn you, so re-check whenever a
@@ -300,11 +310,13 @@ Rich results (Search Appearance report): EMPTY — nothing firing
   services.
 - **Do not add a `BreadcrumbList` to the homepage.** It is the root, so the trail is one
   item long; Google will not render it and it asserts nothing.
-- **Leave `html, body { overflow-x: clip }` alone.** It used to be `hidden`, which makes
-  the element a scroll container and silently kills `position: sticky` for everything
-  inside it — that is what stopped the article rail sticking. `clip` prevents the same
-  sideways scrolling with no such side effect. Same reason the article `<section>`
-  carries `class="article-section"`. See `CLAUDE.md` → "Article layout".
+- **Never put `overflow-x` on `html` or `body`.** It propagates to the viewport and
+  stops the document scrolling programmatically. The horizontal guard belongs on
+  `.site-header`, `main` and `.site-footer` as `clip`. Full reasoning, including why
+  `hidden` also breaks `position: sticky`, in `CLAUDE.md` → "Article layout".
+- **Do not measure horizontal overflow with `scrollWidth`.** `main` clips, so it will
+  report clean regardless. Compare element `getBoundingClientRect().right` against the
+  viewport width.
 - **Regenerate `sitemap-images.xml` from the markup** after adding or removing page
   images, rather than editing it by hand. It excludes logos, OG cards and favicons.
 - **Do not change the hero's height.** `object-fit: cover` takes the crop from the box,
