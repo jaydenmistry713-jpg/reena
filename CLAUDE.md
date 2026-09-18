@@ -10,8 +10,9 @@
 >   — it maps all 89 guide items to done / skipped / open so nothing already handled gets re-suggested.
 > - Preview: https://seo-preview--beamish-baklava-7f1b21.netlify.app
 > - Untouched original: `Desktop/Reena`
-> - **A visual redesign is part-way through** — `index.html` only so far.
->   See "Design layer" below before touching CSS or any other page.
+> - **The visual redesign is now sitewide** (18 Sep). Every public page uses
+>   `css/redesign.css`; only `admin.html` and `quote.html` are deliberately excluded.
+>   See "Design layer" below before touching CSS.
 >
 > **Do not run `netlify deploy --prod` unless the user explicitly asks to go live.**
 > Use `netlify deploy --alias seo-preview` for previews — it never touches the live site.
@@ -39,9 +40,9 @@ There is **no build step** and **no framework**. Pages are hand-written HTML
 that share the stylesheets in `css/` and load Google Fonts. The brand palette
 (crimson `#C41E3A` + gold) lives in `css/variables-crimson.css`.
 
-Fonts differ by page while the redesign rolls out: redesigned pages load
-**Fraunces + Karla**, the rest still load **Playfair Display + Poppins**. See
-"Design layer".
+Every public page loads **Fraunces + Karla**. `admin.html` and `quote.html` stay on
+**Playfair Display + Poppins** on purpose — the html2canvas quote PNG renders against
+them. See "Design layer".
 
 ## Repository layout
 
@@ -360,11 +361,41 @@ which gives the pages jump anchors. If you add an h2, add it to the rail list.
 
 ---
 
-## Design layer (Sept 2026) — in progress, `index.html` only
+## Design layer (Sept 2026) — sitewide
 
-A visual redesign sits on top of the SEO rebuild in **`css/redesign.css`**. It is
-rolling out page by page; **only `index.html` uses it so far.** Every other page still
-renders the pre-redesign look and is unchanged apart from a `?v=` bump.
+A visual redesign sits on top of the SEO rebuild in **`css/redesign.css`**. As of
+18 Sep it covers **every public page**. The only exclusions are `admin.html` and
+`quote.html`, which must keep Playfair/Poppins because the Save-image quote PNG is
+rendered by html2canvas against `--font-heading` / `--font-body`.
+
+### Inner pages: `.page-head`
+
+The homepage opens on video over ink. Inner pages cannot, and faking it with a stock
+photo would be worse than not trying, so they open on the **same ink ground** carrying
+the beat rule — the signature is what ties the site together rather than the footage.
+Before this, every inner page opened on a crimson gradient that competed with the
+crimson closing CTA at the foot of the same page. The arc is now ink → warm bands →
+crimson close on every page, matching the homepage.
+
+`.page-head h1` is deliberately **a step below `--step-h1`** (~50px against the hero's
+88px at 1440px). The hero is the thesis; an inner header is a signpost and must not
+out-shout it. Measured page-head heights are 311–433px, all under the 600px hero.
+
+### What the rollout changed on each page
+
+| | |
+|---|---|
+| Google Fonts link | Playfair/Poppins → Fraunces + Karla |
+| `redesign.css` | added **last**, after `responsive.css` |
+| Logo | inline `height: 75px` removed — this is what fixed the 20px header overlap on all 20 pages |
+| Nav CTA | "Book Now" → "Check your date" |
+| Hero | crimson-gradient `<section style=...>` → `.page-head` with eyebrow + beat rule |
+| Closing CTA | crimson-gradient section → `.closing` |
+| Section grounds | inline backgrounds → `.band band--cream` / `--blush` / `--white` |
+| Headings | 107 inline `font-size: 2rem; color: …` → `.h-section` / `.h-panel` |
+| Standfirst | inline bordered callout → `.standfirst-note` |
+| Tick glyphs | `--color-secondary` (1.4:1) → `.tick` (`--gold-deco`), `aria-hidden` |
+| Back-to-top | `↑` glyph → inline SVG, 48px target |
 
 ### How it is wired
 
@@ -440,7 +471,9 @@ script when clip 1 ends. See `SEO-README.md` §5 for the `+faststart` fix.
 
 The bar is `60 + 24 + 1 = 85px` and `body` reserves `88px`. It previously carried an
 inline `height: 75px` on the logo, making the bar 100px against 80px of reserved space,
-so the top 20px of every page sat behind it. **Unconverted pages still have this bug.**
+so the top 20px of every page sat behind it. **Fixed sitewide on 18 Sep** — measured
+86px against 88px reserved on all 20 converted pages. `admin.html` and `quote.html`
+never had the inline height.
 
 ### Homepage SEO copy classes (18 Sep)
 
@@ -457,6 +490,25 @@ The H1 change made the hero 15px taller than its 600px pin, which re-crops the v
 `.hero-title` was given `max-width: 30ch` and the supporting line was kept small to pull
 it back. **Measured: hero exactly 600px with 49px of slack at 1876px wide.** If you edit
 hero copy again, re-measure rather than assuming.
+
+### Accessibility floor (18 Sep)
+
+Now enforced sitewide by `redesign.css`, not per page:
+
+- **Contrast**: measured across all 20 converted pages with a gradient-aware checker —
+  **zero failures** against WCAG AA. The legacy `--color-secondary` `#FFD700` was
+  carrying text in three places it should never have: `team.html` role labels at
+  **1.40:1 on white** (now `.team-role`, `--gold-ink`), and two eyebrows at 4.17:1 on
+  crimson (now `#FFE9A8`, 7.1:1). **Never let `#FFD700` carry text.**
+- **Focus**: `:focus-visible` only, so a mouse click no longer fires a ring. Gold ring
+  on light grounds, `#FFE9A8` on ink/crimson/footer.
+- **Touch targets**: footer links, breadcrumbs, dropdown items and social icons get
+  padding to ≥44px under `@media (pointer: coarse)` only — desktop rhythm untouched,
+  and inline prose links are excluded because padding them wrecks line spacing.
+- **Reduced motion**: a global `prefers-reduced-motion` block pins scroll-reveal
+  elements to their final state. Without it they would never appear, since the reveal
+  is what sets opacity.
+- **No emoji as icons** on any public page.
 
 ### Signature: the beat rule
 

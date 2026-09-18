@@ -35,14 +35,15 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918c">
-    <link rel="stylesheet" href="css/main.css?v=20260918c">
-    <link rel="stylesheet" href="css/animations.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/header.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/footer.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/gallery.css?v=20260918c">
-    <link rel="stylesheet" href="css/responsive.css?v=20260918c">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918d">
+    <link rel="stylesheet" href="css/main.css?v=20260918d">
+    <link rel="stylesheet" href="css/animations.css?v=20260918d">
+    <link rel="stylesheet" href="css/components/header.css?v=20260918d">
+    <link rel="stylesheet" href="css/components/footer.css?v=20260918d">
+    <link rel="stylesheet" href="css/components/gallery.css?v=20260918d">
+    <link rel="stylesheet" href="css/responsive.css?v=20260918d">
+    <link rel="stylesheet" href="css/redesign.css?v=20260918d">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Karla:wght@300..800&display=swap" rel="stylesheet">
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -69,7 +70,7 @@
     <header class="site-header">
         <nav class="navigation" aria-label="Main navigation">
             <a href="index.html" class="logo">
-                <img src="assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment" style="height: 75px; width: auto">
+                <img src="assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment">
             </a>
 
             <ul class="nav-menu">
@@ -92,7 +93,7 @@
                 <li class="nav-item"><a href="blog/" class="nav-link">Blog</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact Us</a></li>
                 <li class="nav-cta">
-                    <a href="contact.html" class="btn btn-primary">Book Now</a>
+                    <a href="contact.html" class="btn btn-primary">Check your date</a>
                 </li>
             </ul>
 
@@ -104,10 +105,13 @@
     <div class="mobile-menu-overlay"></div>
     
     <main>
-        <section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color: white; padding: 6rem 0 4rem; text-align: center;">
+                <section class="page-head">
             <div class="container scroll-animate">
-                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Our Performances</h1>
-                <p style="font-size: 1.25rem; color: var(--color-off-white); max-width: 700px; margin: 0 auto;">Experience the energy and authenticity of Punjabi folk entertainment</p>
+                    <div class="beat-rule" aria-hidden="true">
+                        <i class="beat is-sam"></i><i class="beat"></i><i class="beat"></i><i class="beat"></i><i class="beat is-khali"></i><i class="beat"></i><i class="beat"></i><i class="beat"></i>
+                    </div>
+                <h1>Our Performances</h1>
+                <p class="lead">Experience the energy and authenticity of Punjabi folk entertainment</p>
             </div>
         </section>
         
@@ -210,7 +214,7 @@
         </section>
         
         <!-- CTA SECTION -->
-        <section style="padding: 4rem 0; background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color: white; text-align: center;">
+        <section class="closing">
             <div class="container">
                 <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Ready to Book Your Event?</h2>
                 <p style="font-size: 1.125rem; margin-bottom: 2rem; color: var(--color-off-white); max-width: 600px; margin-left: auto; margin-right: auto;">Let us bring authentic Punjabi entertainment to your special occasion</p>
@@ -291,9 +295,9 @@
         </div>
     </footer>
     
-    <button class="back-to-top" aria-label="Back to top">↑</button>
-    <script src="js/main.js?v=20260918c"></script>
-    <script src="js/navigation.js?v=20260918c"></script>
-    <script src="js/gallery.js?v=20260918c"></script>
+    <button class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+    <script src="js/main.js?v=20260918d"></script>
+    <script src="js/navigation.js?v=20260918d"></script>
+    <script src="js/gallery.js?v=20260918d"></script>
 </body>
 </html>

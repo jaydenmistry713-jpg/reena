@@ -35,13 +35,14 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918c">
-    <link rel="stylesheet" href="css/main.css?v=20260918c">
-    <link rel="stylesheet" href="css/animations.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/header.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/footer.css?v=20260918c">
-    <link rel="stylesheet" href="css/responsive.css?v=20260918c">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918d">
+    <link rel="stylesheet" href="css/main.css?v=20260918d">
+    <link rel="stylesheet" href="css/animations.css?v=20260918d">
+    <link rel="stylesheet" href="css/components/header.css?v=20260918d">
+    <link rel="stylesheet" href="css/components/footer.css?v=20260918d">
+    <link rel="stylesheet" href="css/responsive.css?v=20260918d">
+    <link rel="stylesheet" href="css/redesign.css?v=20260918d">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Karla:wght@300..800&display=swap" rel="stylesheet">
     <style>
         .form-group {margin-bottom: 1.5rem;}
         .form-label {display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--color-text-primary);}
@@ -212,7 +213,7 @@
     <header class="site-header">
         <nav class="navigation" aria-label="Main navigation">
             <a href="index.html" class="logo">
-                <img src="assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment" style="height: 75px; width: auto">
+                <img src="assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment">
             </a>
 
             <ul class="nav-menu">
@@ -235,7 +236,7 @@
                 <li class="nav-item"><a href="blog/" class="nav-link">Blog</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link active">Contact Us</a></li>
                 <li class="nav-cta">
-                    <a href="contact.html" class="btn btn-primary">Book Now</a>
+                    <a href="contact.html" class="btn btn-primary">Check your date</a>
                 </li>
             </ul>
 
@@ -247,17 +248,20 @@
     <div class="mobile-menu-overlay"></div>
     
     <main>
-        <section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color: white; padding: 6rem 0 4rem; text-align: center;">
+                <section class="page-head">
             <div class="container scroll-animate">
-                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: white;">Get in Touch</h1>
-                <p style="font-size: 1.25rem; color: var(--color-off-white); max-width: 700px; margin: 0 auto;">Let's discuss how we can make your event unforgettable with authentic Punjabi entertainment</p>
+                    <div class="beat-rule" aria-hidden="true">
+                        <i class="beat is-sam"></i><i class="beat"></i><i class="beat"></i><i class="beat"></i><i class="beat is-khali"></i><i class="beat"></i><i class="beat"></i><i class="beat"></i>
+                    </div>
+                <h1>Get in Touch</h1>
+                <p class="lead">Let's discuss how we can make your event unforgettable with authentic Punjabi entertainment</p>
             </div>
         </section>
         <!-- FORM SECTION -->
         <section data-form-section style="padding: 6rem 0 3rem;">
             <div class="container">
                 <div class="scroll-slide-right">
-                    <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--color-primary);">Send Us a Message</h2>
+                    <h2 class="h-section">Send Us a Message</h2>
                     <form class="contact-form" id="contact-form">
                         <div id="form-status" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center;"></div>
                         <div class="form-group">
@@ -327,7 +331,7 @@
             <section data-contact-info-section style="padding: 3rem 0 6rem;">
                 <div class="container">
                     <div class="scroll-slide-left">
-                        <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--color-primary);">Contact Information</h2>
+                        <h2 class="h-section">Contact Information</h2>
                         
                         <div class="contact-info-card">
                             <div class="contact-info-item">
@@ -358,12 +362,12 @@
                         </div>
                         
                         <div style="background: var(--color-bg-secondary); padding: 2rem; border-radius: var(--border-radius-lg); margin-top: 2rem;">
-                            <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--color-primary);">Why Choose Us?</h2>
+                            <h2 class="h-panel">Why Choose Us?</h2>
                             <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>25+ years of experience</span></li>
-                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>Authentic Punjabi entertainment</span></li>
-                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>Professional team</span></li>
-                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span style="color: var(--color-secondary); font-size: 1.25rem;">✓</span><span>Customised services</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span class="tick" aria-hidden="true">&#10003;</span><span>25+ years of experience</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span class="tick" aria-hidden="true">&#10003;</span><span>Authentic Punjabi entertainment</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span class="tick" aria-hidden="true">&#10003;</span><span>Professional team</span></li>
+                                <li style="display: flex; align-items: start; gap: 0.75rem;"><span class="tick" aria-hidden="true">&#10003;</span><span>Customised services</span></li>
                             </ul>
                         </div>
                     </div>
@@ -573,9 +577,9 @@
         </div>
     </footer>
     
-    <button class="back-to-top" aria-label="Back to top">↑</button>
-    <script src="js/main.js?v=20260918c"></script>
-    <script src="js/navigation.js?v=20260918c"></script>
+    <button class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+    <script src="js/main.js?v=20260918d"></script>
+    <script src="js/navigation.js?v=20260918d"></script>
     <script>
         
         // Testimonial Video Interactions
@@ -699,7 +703,7 @@
                     formStatus.style.backgroundColor = '#d4edda';
                     formStatus.style.color = '#155724';
                     formStatus.style.border = '1px solid #c3e6cb';
-                    formStatus.textContent = '✓ Thank you! Your enquiry has been submitted successfully. We will contact you soon.';
+                    formStatus.textContent = 'Thank you! Your enquiry has been submitted successfully. We will contact you soon.';
                     
                     // Reset form
                     this.reset();
@@ -717,7 +721,7 @@
                 formStatus.style.backgroundColor = '#f8d7da';
                 formStatus.style.color = '#721c24';
                 formStatus.style.border = '1px solid #f5c6cb';
-                formStatus.textContent = '✗ Sorry, there was an error submitting your form. Please try again or contact us directly.';
+                formStatus.textContent = 'Sorry, there was an error submitting your form. Please try again or contact us directly.';
             } finally {
                 // Re-enable submit button
                 submitButton.disabled = false;

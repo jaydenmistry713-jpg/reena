@@ -16,9 +16,10 @@ organisers, restructured `areas-we-cover.html`, changed five meta titles and cle
 schema/technical audit. Structure and the rules that come with it: the "Information
 architecture" section of [`CLAUDE.md`](CLAUDE.md).
 
-A **visual redesign** was layered on top from 18 Sep 2026 (`css/redesign.css`).
-It covers **`index.html` only** so far; the other pages are visually unchanged.
-Detail and rollout steps: the "Design layer" section of [`CLAUDE.md`](CLAUDE.md).
+A **visual redesign** was layered on top from 18 Sep 2026 (`css/redesign.css`) and is
+now **sitewide** — every public page, with `admin.html` and `quote.html` deliberately
+excluded so the quote PNG keeps rendering against Playfair/Poppins.
+Detail: the "Design layer" section of [`CLAUDE.md`](CLAUDE.md).
 
 **Item-by-item status of all 89 guide items: [`SEO-GUIDE-STATUS.md`](SEO-GUIDE-STATUS.md).**
 Read that before re-reading the guide, or you will re-suggest work already done.
@@ -228,8 +229,8 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - SSL certificate on `ladiessangeetbyreenakaur.co.uk`.
 
 **Ready to do on request:**
-- **Roll the redesign out to the remaining pages.** `index.html` is done; the other 10
-  public pages plus `blog/` still show the old look. Steps in `CLAUDE.md`.
+- ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining
+  public pages converted. See `CLAUDE.md` → "Design layer".
 - **`ffmpeg -movflags +faststart` on `hero-video1.mp4`.** Its `moov` atom sits at 148MB,
   the very end of the file, so nothing can play until the whole clip is fetched. A
   container rewrite, no re-encode, no quality loss. Worth checking every video for this.
@@ -275,12 +276,15 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - OG images live in `assets/images/og/` at 1200×630. Generate new ones from real
   photography rather than reusing the logo.
 - Never state a price. Pricing is bespoke, quoted per event.
+- **Never let `--color-secondary` (`#FFD700`) carry text on white or crimson.** It is
+  1.4:1 on white and 4.17:1 on crimson. Use `--gold-ink` on light grounds, `--gold-leaf`
+  on ink, `#FFE9A8` on crimson. Three violations were found and fixed on 18 Sep.
 - Never claim the Ladies Sangeet line-up is entirely female — the **singers** are;
   accompanying musicians including dholki players are not always.
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260918c`.
+  Currently `?v=20260918d`.
 - **Check video `src` casing against disk.** Netlify is case-sensitive; Windows is not,
   so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Ten such mismatches
   existed; all were fixed on 18 Sep. Nothing local will warn you, so re-check whenever a

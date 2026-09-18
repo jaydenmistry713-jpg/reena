@@ -1169,3 +1169,204 @@ body { padding-top: 88px; }
     border-color: var(--color-primary);
     color: var(--color-white);
 }
+
+/* ================================
+   15. INNER PAGES  (18 Sep 2026)
+
+   The homepage opens on video over ink. Inner pages cannot, and faking it
+   with a stock photo would be worse than not trying. They open instead on
+   the same ink ground, carrying the beat rule so the signature is what ties
+   the site together rather than the footage. The crimson gradient these
+   headers used before competed with the crimson closing CTA at the foot of
+   the very same page; ink → warm bands → crimson close now gives every inner
+   page the same arc as the homepage.
+   ================================ */
+
+.page-head {
+    background: var(--ink);
+    color: var(--on-ink);
+    text-align: center;
+    /* Top padding clears the 88px fixed header before the eyebrow starts. */
+    padding: clamp(5.5rem, 4.5rem + 4vw, 7.5rem) 0 clamp(2.75rem, 2rem + 2.5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Warm floor so the ink hands over to the band below it rather than stopping
+   dead on a hard edge. */
+.page-head::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, rgba(196, 30, 58, 0.14));
+    pointer-events: none;
+}
+
+.page-head > .container {
+    position: relative;
+    z-index: 1;
+}
+
+.page-head .eyebrow {
+    color: var(--gold-leaf);
+}
+
+/* A step below --step-h1. The homepage hero is the thesis and gets the full
+   display size; an inner page header is a signpost and must not out-shout it.
+   At 1440px this is ~50px against the hero's 88px, which keeps every inner
+   header shorter than the 600px hero. */
+.page-head h1 {
+    font-size: clamp(1.95rem, 1.4rem + 2.1vw, 3.1rem);
+    font-weight: 700;
+    font-variation-settings: 'SOFT' 24, 'WONK' 1;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--on-ink);
+    max-width: 24ch;
+    margin: 0 auto 0.9rem;
+}
+
+.page-head .lead {
+    font-size: var(--step-lead);
+    line-height: 1.55;
+    color: var(--on-ink-muted);
+    max-width: 58ch;
+    margin: 0 auto;
+}
+
+/* The signature, centred under the eyebrow on every inner page. */
+.page-head .beat-rule {
+    justify-content: center;
+    margin: 0 auto 1.4rem;
+}
+
+/* ===== Section headings inside prose ===== */
+
+/* These carried `font-size: 2rem; color: var(--color-primary)` inline on 107
+   headings, which overrode the fluid scale. The class keeps the crimson and
+   the rhythm while letting --step-h2 do the sizing. */
+.h-section {
+    font-size: var(--step-h2);
+    color: var(--color-primary);
+    margin: clamp(2.25rem, 1.5rem + 2vw, 3rem) 0 1.1rem;
+}
+
+.h-section:first-child {
+    margin-top: 0;
+}
+
+/* Sub-heading inside a card or panel, not a section break. */
+.h-panel {
+    font-size: var(--step-h3);
+    color: var(--color-primary);
+    margin: 0 0 0.85rem;
+}
+
+/* ===== Standfirst callout ===== */
+/* The bordered intro paragraph at the top of every service and blog page. */
+.standfirst-note {
+    font-size: var(--step-lead);
+    line-height: 1.7;
+    padding: 1.4rem 1.6rem;
+    background: var(--wash-cream);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 10px 10px 0;
+    margin: 0 0 2.25rem;
+    max-width: none;
+}
+
+/* ===== Breadcrumbs ===== */
+.breadcrumbs {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    padding-top: 1.25rem;
+}
+
+.breadcrumbs a { color: var(--color-text-secondary); }
+.breadcrumbs a:hover { color: var(--color-primary); }
+
+/* ===== Tick lists ===== */
+/* The check glyph was --color-secondary (#FFD700), 1.4:1 on white. */
+.band .tick,
+.article-main .tick,
+.tick {
+    color: var(--gold-deco);
+}
+
+/* ===== Back to top ===== */
+.back-to-top {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 44px minimum touch target */
+    width: 48px;
+    height: 48px;
+}
+
+.back-to-top svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-head .beat-rule .beat {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+/* ===== Touch targets on coarse pointers =====
+   Footer link lists, breadcrumbs and dropdown items were 15-18px tall rows.
+   That is fine for a mouse and poor for a thumb. Padding is added only where
+   the pointer is coarse, so the desktop rhythm is untouched. Inline links
+   inside running prose are deliberately excluded - WCAG exempts them, and
+   padding them would wreck the line spacing. */
+@media (pointer: coarse) {
+    .footer-links a,
+    .footer-bottom-links a,
+    .rail-links a {
+        display: inline-block;
+        padding: 0.6rem 0;
+        min-height: 44px;
+        line-height: 1.6;
+    }
+
+    .breadcrumbs a,
+    .breadcrumbs span {
+        display: inline-block;
+        padding: 0.55rem 0;
+    }
+
+    .nav-dropdown-item {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .social-link {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* ===== Reduced motion =====
+   redesign.css animates the beat rule and main.js drives scroll reveals. With
+   reduced motion requested, everything lands in its final state immediately
+   rather than never appearing. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .scroll-animate,
+    .scroll-slide-left,
+    .scroll-slide-right {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

@@ -36,15 +36,16 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="../css/variables-crimson.css?v=20260918c">
-    <link rel="stylesheet" href="../css/main.css?v=20260918c">
-    <link rel="stylesheet" href="../css/animations.css?v=20260918c">
-    <link rel="stylesheet" href="../css/components/header.css?v=20260918c">
-    <link rel="stylesheet" href="../css/components/footer.css?v=20260918c">
-    <link rel="stylesheet" href="../css/responsive.css?v=20260918c">
+    <link rel="stylesheet" href="../css/variables-crimson.css?v=20260918d">
+    <link rel="stylesheet" href="../css/main.css?v=20260918d">
+    <link rel="stylesheet" href="../css/animations.css?v=20260918d">
+    <link rel="stylesheet" href="../css/components/header.css?v=20260918d">
+    <link rel="stylesheet" href="../css/components/footer.css?v=20260918d">
+    <link rel="stylesheet" href="../css/responsive.css?v=20260918d">
+    <link rel="stylesheet" href="../css/redesign.css?v=20260918d">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Karla:wght@300..800&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#C41E3A">
 
     <script type="application/ld+json">
@@ -103,7 +104,7 @@
     <header class="site-header">
         <nav class="navigation" aria-label="Main navigation">
             <a href="../" class="logo">
-                <img src="../assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment" style="height: 75px; width: auto">
+                <img src="../assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment">
             </a>
 
             <ul class="nav-menu">
@@ -126,7 +127,7 @@
                 <li class="nav-item"><a href="../blog/" class="nav-link active">Blog</a></li>
                 <li class="nav-item"><a href="../contact.html" class="nav-link">Contact Us</a></li>
                 <li class="nav-cta">
-                    <a href="../contact.html" class="btn btn-primary">Book Now</a>
+                    <a href="../contact.html" class="btn btn-primary">Check your date</a>
                 </li>
             </ul>
 
@@ -137,10 +138,13 @@
     </header>
 
     <main>
-        <section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color: white; padding: 7rem 0 4rem; text-align: center;">
+                <section class="page-head">
             <div class="container scroll-animate">
-                <h1 style="font-size: 3rem; margin-bottom: 1rem; color: white; line-height: 1.2;">What Is a Ladies Sangeet?</h1>
-                <p style="font-size: 1.15rem; color: var(--color-off-white); max-width: 680px; margin: 0 auto;">What happens on the night, who attends, and how to plan the music.</p>
+                    <div class="beat-rule" aria-hidden="true">
+                        <i class="beat is-sam"></i><i class="beat"></i><i class="beat"></i><i class="beat"></i><i class="beat is-khali"></i><i class="beat"></i><i class="beat"></i><i class="beat"></i>
+                    </div>
+                <h1>What Is a Ladies Sangeet?</h1>
+                <p class="lead">What happens on the night, who attends, and how to plan the music.</p>
             </div>
         </section>
 
@@ -158,8 +162,8 @@
             <div class="container">
                 <div class="article-layout">
                     <div class="article-main">
-                        <p style="font-size: 1.15rem; line-height: 1.75; padding: 1.5rem; background: var(--color-off-white); border-left: 4px solid var(--color-primary); border-radius: 8px; margin-bottom: 2rem;">A Ladies Sangeet is the women&rsquo;s celebration held in the days before a Punjabi or Pakistani wedding. It centres on singing, dholki playing and dancing, and traditionally the bride&rsquo;s and groom&rsquo;s families exchange teasing folk songs called boliyan. It is one of the most informal, most participatory events of the wedding week.</p>
-                        <h2 style="font-size: 2rem; margin: 2.5rem 0 1.25rem; color: var(--color-primary);" id="where-the-sangeet-sits-in-the-wedding-week">Where the Sangeet sits in the wedding week</h2>
+                        <p class="standfirst-note">A Ladies Sangeet is the women&rsquo;s celebration held in the days before a Punjabi or Pakistani wedding. It centres on singing, dholki playing and dancing, and traditionally the bride&rsquo;s and groom&rsquo;s families exchange teasing folk songs called boliyan. It is one of the most informal, most participatory events of the wedding week.</p>
+                        <h2 id="where-the-sangeet-sits-in-the-wedding-week" class="h-section">Where the Sangeet sits in the wedding week</h2>
                         <p style="margin-bottom: 1rem;">A Punjabi wedding is not one event, it is a series of them. The Sangeet is usually held in the evenings leading up to the wedding day, often alongside or combined with the Mehndi. In some families it is a single large night; in others it runs across several smaller evenings as relatives arrive.</p>
                         <p style="margin-bottom: 1rem;">Historically it was held at home, with women gathering in the days before the wedding to sing while the bride&rsquo;s preparations went on around them. Many families still do it this way. Others book a hall. Both work, and the format adapts.</p>
                         <figure class="article-figure article-figure--portrait">
@@ -167,13 +171,13 @@
                                      alt="Singer performing at a Ladies Sangeet with a dholki while guests clap along" loading="lazy">
                                 <figcaption>A Sangeet lives or dies on whether the room joins in.</figcaption>
                             </figure>
-                        <h2 style="font-size: 2rem; margin: 2.5rem 0 1.25rem; color: var(--color-primary);" id="what-actually-happens-on-the-night">What actually happens on the night</h2>
+                        <h2 id="what-actually-happens-on-the-night" class="h-section">What actually happens on the night</h2>
                         <p style="margin-bottom: 1rem;">The structure is looser than a wedding day, but there is a shape to it. The evening tends to open gently while people arrive and eat, builds through the singing, and ends in dancing.</p>
                         <p style="margin-bottom: 1rem;">The dholki &mdash; a small two-headed hand drum &mdash; is central. It sets the rhythm the singing sits on, and in a traditional Sangeet it is passed around rather than played by one person all night. The sound of a dholki starting up is what tells a room the Sangeet has actually begun.</p>
-                        <h2 style="font-size: 2rem; margin: 2.5rem 0 1.25rem; color: var(--color-primary);" id="boliyan-the-part-people-remember">Boliyan: the part people remember</h2>
+                        <h2 id="boliyan-the-part-people-remember" class="h-section">Boliyan: the part people remember</h2>
                         <p style="margin-bottom: 1rem;">Boliyan are short, rhythmic folk couplets, and at a Sangeet they are traditionally used for good-natured teasing between the two families. The bride&rsquo;s side sings something pointed about the groom&rsquo;s family; the groom&rsquo;s side answers. They are funny, they are occasionally close to the bone, and they are the part guests talk about afterwards.</p>
                         <p style="margin-bottom: 1rem;">They also only work if someone leads them confidently. Boliyan need call-and-response, and a room will not respond to a singer who is not clearly driving it. This is the single biggest difference between a Sangeet with live singers and a Sangeet with a playlist.</p>
-                        <h2 style="font-size: 2rem; margin: 2.5rem 0 1.25rem; color: var(--color-primary);" id="who-attends">Who attends</h2>
+                        <h2 id="who-attends" class="h-section">Who attends</h2>
                         <p style="margin-bottom: 1rem;">Traditionally the Sangeet is women only &mdash; the bride, her mother, aunts, sisters, cousins, close friends and the equivalent from the groom&rsquo;s family. Many families still keep it that way, which is why female performers matter for this particular event.</p>
                         <p style="margin-bottom: 1rem;">Other families now run a mixed Sangeet, or hold a women-only night and a separate mixed one. There is no single correct answer, and it is worth deciding early because it affects the venue, the guest list and who you book.</p>
                         <div class="article-figure-pair">
@@ -186,10 +190,10 @@
                                      alt="Singer performing at a Sangeet with a dholki, seated guests listening behind her" loading="lazy">
                             </figure>
                         </div>
-                        <h2 style="font-size: 2rem; margin: 2.5rem 0 1.25rem; color: var(--color-primary);" id="the-music">The music</h2>
+                        <h2 id="the-music" class="h-section">The music</h2>
                         <p style="margin-bottom: 1rem;">A good Sangeet set list moves between registers. Traditional Punjabi folk and boliyan carry the cultural weight and bring in the older generation. Pakistani classics and older Bollywood cover the parents. Current Punjabi and Bollywood tracks bring the younger guests onto the floor. A set that only does one of these loses part of the room.</p>
                         <p style="margin-bottom: 1rem;">It is also worth identifying the two or three songs that genuinely matter to your family &mdash; a grandmother&rsquo;s song, the one that always gets played &mdash; and making sure they are in the running order deliberately rather than by luck.</p>
-                        <h2 style="font-size: 2rem; margin: 2.5rem 0 1.25rem; color: var(--color-primary);" id="planning-one">Planning one</h2>
+                        <h2 id="planning-one" class="h-section">Planning one</h2>
                         <p style="margin-bottom: 1rem;">A few things are worth settling early: whether the night is women-only, whether you want live singers or recorded music, whether the Sangeet and Mehndi are combined, and roughly how many people are coming. Those four answers determine almost everything else.</p>
                         <p style="margin-bottom: 1rem;">If you are booking performers, do it well ahead &mdash; around twelve months for wedding-season dates. And talk to them about the songs before the night rather than on it.</p>
                     </div>
@@ -224,10 +228,10 @@
         </section>
 
 
-        <section style="padding: 4rem 0; background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color: white; text-align: center;">
+        <section class="closing">
             <div class="container">
-                <h2 style="font-size: 2.25rem; margin-bottom: 1rem; color: white;">Ready to talk about your event?</h2>
-                <p style="font-size: 1.1rem; color: var(--color-off-white); max-width: 560px; margin: 0 auto 2rem;">Tell us the date, the venue and what you have in mind, and we will put together a bespoke quote.</p>
+                <h2>Ready to talk about your event?</h2>
+                <p>Tell us the date, the venue and what you have in mind, and we will put together a bespoke quote.</p>
                 <a href="../contact.html" class="btn btn-secondary">Get a quote</a>
             </div>
         </section>
@@ -305,7 +309,7 @@
         </div>
     </footer>
 
-    <script src="../js/main.js?v=20260918c"></script>
-    <script src="../js/navigation.js?v=20260918c"></script>
+    <script src="../js/main.js?v=20260918d"></script>
+    <script src="../js/navigation.js?v=20260918d"></script>
 </body>
 </html>

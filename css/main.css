@@ -650,8 +650,10 @@ textarea:focus {
     color: var(--color-white);
 }
 
+/* #FFD700 on the crimson gradient is 4.17:1 - just under AA for this size.
+   #FFE9A8 is the same gold family at 7.1:1, and is what .closing already uses. */
 .rail-cta .rail-title {
-    color: var(--color-secondary);
+    color: #FFE9A8;
 }
 
 .rail-cta p {

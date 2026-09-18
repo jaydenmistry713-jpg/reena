@@ -105,17 +105,20 @@ again. Legend:
 | 48 | Keep lazy loading on images and videos | **DONE** — all in-article figures added 18 Sep are lazy. — `loading="lazy"` on all new content images; `team.html`'s ten member portraits were still eager-loading and were fixed 18 Sep. The only images without the attribute are the header logos, correctly |
 | 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster`. A poster was briefly added to the hero and removed again: it replaced the opening frame with an unrelated OG photo. A poster should be a still **from that clip**, which needs ffmpeg |
 | 50 | Exclude large source media from repo and deploy | **PARTIAL** — `assets/videos/` is git-ignored, but videos must ship in the deploy (site needs them). No camera originals in the repo |
-| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918c` on all 22 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
+| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918d` on all 22 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
 
 ## Accessibility / UX (52–54)
 
 | # | Item | Status |
 |---|------|--------|
+| — | *(not in the guide)* Roll the design layer onto every page | **DONE 18 Sep** — all 20 remaining public pages. `admin.html`/`quote.html` excluded on purpose (quote PNG fonts). See `CLAUDE.md` → "Design layer" |
 | 52 | Fix low-contrast nav text on dark hero images | **N/A** — nav sits on its own solid header, never over the hero. The logo is grey type on transparency, so the header cannot go transparent without a reversed logo asset |
 | 53 | aria-labels on video elements | **PARTIAL** — sound/play controls have `aria-label` and it now updates on toggle; the `<video>` elements themselves do not. **OPEN** |
 | 54 | Card grids centre their last row | **DONE** — `.grid-centred` added |
-| — | *(not in the guide)* Keyboard focus rings | **DONE on `index.html`** — `main.css` fired an outline on every mouse click; `redesign.css` scopes it to `:focus-visible`. **OPEN** on other pages |
-| — | *(not in the guide)* Touch targets ≥44px | **DONE on `index.html`** — carousel dots, nav dropdown items, footer links. **OPEN** on other pages |
+| — | *(not in the guide)* Keyboard focus rings | **DONE SITEWIDE 18 Sep** — `main.css` fired an outline on every mouse click; `redesign.css` scopes it to `:focus-visible`, and every public page now loads it |
+| — | *(not in the guide)* Touch targets ≥44px | **DONE SITEWIDE 18 Sep** — footer links, breadcrumbs, dropdown items and social icons padded to ≥44px under `@media (pointer: coarse)` only, so the desktop rhythm is unchanged. Inline prose links excluded (WCAG exempts them; padding wrecks line spacing) |
+| — | *(not in the guide)* `prefers-reduced-motion` | **DONE SITEWIDE 18 Sep** — global block pinning scroll-reveal elements to their final state. Without it they would never appear at all, since the reveal is what sets opacity |
+| — | *(not in the guide)* Contrast audit | **DONE 18 Sep** — gradient-aware checker across all 20 converted pages, **zero WCAG AA failures**. Three real violations fixed: `team.html` role labels at **1.40:1** and two eyebrows at 4.17:1 |
 | — | *(not in the guide)* `width`/`height` on images to stop layout shift | **DONE SITEWIDE 18 Sep** — 61 images were missing them; real intrinsic dimensions were read from the files and written in. Measured CLS afterwards: **0.0005** homepage, **0.015** services (target < 0.1) |
 | — | *(not in the guide)* Heading hierarchy without skipped levels | **DONE 18 Sep** — `contact.html` skipped h2→h4 and had a stray h3; `team.html` had ten h3 member names directly under the h1 with no h2. All headings carry inline styles, so the tag changes are visually identical. `404.html` still skips h1→h3 into the footer's h3s — cosmetic, and the page is `noindex` |
 
@@ -213,7 +216,16 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
    `.site-header` (which makes the browser compute `overflow-y` as `auto`). Fixed.
 5. **`llms.txt` and explicit AI-crawler rules** — not in the guide, added for AI search.
 6. **FAQ accordions** via native `<details>`/`<summary>`.
-7. **Emoji replaced with inline SVG icons.** Claimed "sitewide" on 17 Sep; it was not.
+7. **Emoji replaced with inline SVG icons.** **Now genuinely sitewide on public pages
+   as of 18 Sep** — the `↑` back-to-top became an inline SVG on the five remaining
+   pages, and `contact.html`'s `✓`/`✗` went too (the tick list became `.tick`; the form
+   status messages now say success or failure in words rather than by glyph, which was
+   conveying state by symbol alone). **`admin.html` still carries `▸ ▾ ✅ ✉ ⬇ ＋ 📞`** —
+   left alone deliberately: it is a password-protected `noindex` dashboard and those
+   glyphs sit in JS-driven toggle controls tied to the quote flow, so the risk
+   outweighs the benefit. Original note follows.
+
+   Claimed "sitewide" on 17 Sep; it was not.
    Three ⭐ remained in the "Why Choose Us" blocks on `index.html` (fixed 18 Sep).
    Audited 18 Sep, still **OPEN** on:
    | Page | Characters | What they are |
@@ -335,3 +347,38 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     photo `assets/images/team/rajan.png` and his `sitemap-images.xml` entry all went.
     Nine members remain. Note there is a separate, still-current member called **Raj** —
     they are different people, and `Raj` was left alone.
+
+24. **The design layer was rolled onto all 20 remaining public pages** (18 Sep). Until
+    then only `index.html` had it, so the site read as two different websites depending
+    on which page you landed on.
+
+    The single highest-value line of the whole rollout was deleting
+    `style="height: 75px; width: auto"` from the logo: that inline height made the
+    header 100px against 80px of reserved space, so **the top 20px of all 20 pages sat
+    behind the header**. Measured afterwards: 86px bar against 88px reserved, everywhere.
+
+    Inner pages got `.page-head` — the ink ground plus the beat rule — rather than the
+    crimson gradient they had, which was competing with the crimson closing CTA at the
+    foot of the same page. `.page-head h1` is set a step below `--step-h1` on purpose:
+    the homepage hero is the thesis and an inner header is a signpost. Left at full
+    display size the concerts header ran to 639px, taller than the 600px homepage hero,
+    which inverts the hierarchy. It is now 433px.
+
+25. **`#FFD700` was carrying body text in three places.** CLAUDE.md has warned since the
+    redesign that `--color-secondary` is 1.4:1 on white and can only ever decorate. The
+    contrast sweep found it doing real work anyway: all nine `team.html` role labels
+    ("Founder & Director", "Lead Singer") at **1.40:1 on white**, and two uppercase
+    eyebrows at 4.17:1 on crimson — under AA at that size.
+
+    Fixed to `--gold-ink` and `#FFE9A8`. Full sweep afterwards: **zero AA failures
+    across all 20 pages.** Worth noting the checker had to be made gradient-aware first
+    — `getComputedStyle().backgroundColor` returns transparent for a gradient-only
+    background, so the first pass walked past every crimson CTA to the white behind it
+    and reported a pile of false failures.
+
+26. **The three design skills were applied with one deliberate exception.** `/ui-styling`
+    is built around shadcn/ui and Tailwind, which require React and a build step. This
+    site is vanilla HTML deployed as a raw folder via the Netlify CLI, and adding a
+    build step would break the deployment model described in `CLAUDE.md`. Its
+    accessibility, design-token and mobile-first guidance was applied to the existing
+    vanilla CSS instead; its component and utility layers were not installed.
