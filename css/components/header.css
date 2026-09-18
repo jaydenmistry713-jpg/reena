@@ -524,3 +524,36 @@
     margin-top: 3px;
     color: var(--color-secondary);
 }
+
+/* ===== Services dropdown: wedding pillar + its four children =====
+   The Services menu mirrors the site's topical structure rather than being a
+   flat list: Punjabi Wedding Entertainment is a pillar with the four performer
+   pages nested under it, then Concerts & Melas and Areas We Cover sit
+   alongside it as their own pillars.
+
+   The classes sit on the <a>, not the <li>, so this uses no sibling or
+   :last-of-type selectors -- the final child carries its own modifier. */
+.nav-dropdown-pillar {
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.nav-dropdown-child {
+    padding-left: calc(var(--spacing-sm) + 0.9rem);
+    position: relative;
+}
+
+/* Hairline linking the children back to the pillar above them. */
+.nav-dropdown-child::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--spacing-sm) + 0.25rem);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-gray);
+}
+
+/* The hairline stops halfway down the last child rather than running past it. */
+.nav-dropdown-child--last::before {
+    bottom: 50%;
+}

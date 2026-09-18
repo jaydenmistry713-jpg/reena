@@ -10,6 +10,12 @@ The live site still runs the old version until someone runs the go-live steps be
 
 Work started 17 Sep 2026. Guide followed: `Desktop/buildsbyleo/seo-changes.txt`.
 
+A second content pass on **18 Sep 2026** made weddings the primary topical pillar,
+added `punjabi-wedding-entertainment/`, retargeted `concerts.html` at cultural-event
+organisers, restructured `areas-we-cover.html`, changed five meta titles and cleared a
+schema/technical audit. Structure and the rules that come with it: the "Information
+architecture" section of [`CLAUDE.md`](CLAUDE.md).
+
 A **visual redesign** was layered on top from 18 Sep 2026 (`css/redesign.css`).
 It covers **`index.html` only** so far; the other pages are visually unchanged.
 Detail and rollout steps: the "Design layer" section of [`CLAUDE.md`](CLAUDE.md).
@@ -61,6 +67,8 @@ branch `seo-rebuild`:
 |---|---|
 | `3c899e1` | SEO rebuild — service page split, blog, FAQ, schema, favicons |
 | `5cce877` | Homepage redesign — type, warm band system, hero fixes |
+| `2128f00` | Docs brought up to date |
+| `980b242` | Wedding pillar architecture, concerts retarget, areas restructure, titles, schema + technical audit fixes |
 
 To undo the redesign but keep the SEO work: `git reset --hard 3c899e1`.
 Neither command touches the live site — this repo is not Git-connected to Netlify.
@@ -108,26 +116,27 @@ split across two days. Order is by expected value, highest first.
 | # | URL | Why this order |
 |---|-----|----------------|
 | 1 | `/` | New title leads with "Reena Kaur". `reena kaur` = 376 imp at pos 2.95 with only 4.52% CTR. Fastest, highest-confidence win. |
-| 2 | `/ladies-sangeet.html` | Biggest cluster: `ladies sangeet` 108 imp, `ladies sangeet singers near me` 82 imp, plus the dholki queries. |
-| 3 | `/punjabi-folk-singers.html` | `punjabi folk singers` 105 imp at pos 10.02, 0.95% CTR. |
-| 4 | `/dhol-players.html` | `dholki hire birmingham` and `dholki hire near me` both rank **2.4** with zero clicks. |
-| 5 | `/services.html` | Changed from a 775-word page to a 253-word hub. Needs a re-crawl so it stops competing with the five pages above. |
-| 6 | `/punjabi-dj.html` | New page. |
-| 7 | `/concerts.html` | New page. |
-| 8 | `/faq.html` | New page, 19 Q&As. |
-| 9 | `/areas-we-cover.html` | New page, carries the London/Wembley/Southall/Ilford/Birmingham terms. |
-| 10 | `/blog/` | Blog index — gives Google a route to the four articles. |
+| 2 | `/punjabi-wedding-entertainment/` | **New 18 Sep.** The wedding pillar, and the parent of the four performer pages. Submit it before its children so the hierarchy is discovered in order. |
+| 3 | `/ladies-sangeet.html` | Biggest cluster: `ladies sangeet` 108 imp, `ladies sangeet singers near me` 82 imp, plus the dholki queries. |
+| 4 | `/punjabi-folk-singers.html` | `punjabi folk singers` 105 imp at pos 10.02, 0.95% CTR. **Title changed 18 Sep.** |
+| 5 | `/dhol-players.html` | `dholki hire birmingham` and `dholki hire near me` both rank **2.4** with zero clicks. **Title and H1 changed 18 Sep.** |
+| 6 | `/services.html` | Now a 407-word pillar hub. Needs a re-crawl so it stops competing with the pages above, and so the new three-pillar structure is picked up. **Title changed 18 Sep.** |
+| 7 | `/punjabi-dj.html` | New page. |
+| 8 | `/concerts.html` | New page, **rewritten 18 Sep** for melas, South Asian festivals and cultural/community events. Different audience from everything above it. |
+| 9 | `/areas-we-cover.html` | **Restructured 18 Sep** into eight regional sections. |
+| 10 | `/faq.html` | New page, 19 Q&As. |
 
 **Day 2**
 | # | URL |
 |---|-----|
-| 11 | `/blog/what-is-a-ladies-sangeet.html` |
-| 12 | `/blog/dhol-player-wedding-guide.html` |
-| 13 | `/blog/punjabi-wedding-entertainment-guide.html` |
-| 14 | `/blog/sangeet-mehndi-jago-explained.html` |
-| 15 | `/contact.html` — new title; currently **zero impressions**, worth checking index status |
-| 16 | `/team.html` — new title + Person schema; also currently **zero impressions** |
-| 17 | `/videos.html` — new title |
+| 11 | `/blog/` — blog index, gives Google a route to the four articles |
+| 12 | `/blog/what-is-a-ladies-sangeet.html` |
+| 13 | `/blog/dhol-player-wedding-guide.html` |
+| 14 | `/blog/punjabi-wedding-entertainment-guide.html` |
+| 15 | `/blog/sangeet-mehndi-jago-explained.html` |
+| 16 | `/contact.html` — new title; currently **zero impressions**, worth checking index status |
+| 17 | `/team.html` — new title + Person schema; also currently **zero impressions** |
+| 18 | `/videos.html` — new title |
 
 **Do NOT request indexing for:** `/admin.html`, `/quote.html`, `/privacy-policy.html`,
 `/terms.html`. All four are `noindex` and deliberately out of the sitemap.
@@ -138,7 +147,7 @@ The site is already verified there (`BingSiteAuth.xml` is in the repo).
 
 1. Submit `sitemap.xml` and `sitemap-images.xml`.
 2. Use **URL submission** — Bing's quota is far higher than Google's (thousands/day),
-   so all 17 URLs can go in at once.
+   so all 18 URLs can go in at once.
 3. Bing will not show the favicon until it re-crawls the root. Expect weeks.
 
 ### Step 5 — follow up
@@ -237,9 +246,14 @@ Rich results (Search Appearance report): EMPTY — nothing firing
   via the Google Business Profile instead, which is the correct channel.
 - FAQ rich results. Google restricted these to government and health sites. The FAQPage
   schema is kept because it still helps parsing, including by AI assistants.
-- `VideoObject` on decorative background video.
+- `VideoObject` on decorative background video. Also **not** added to `videos.html`:
+  it needs a real `thumbnailUrl`, `uploadDate` and `duration` per clip, and inventing
+  those would be worse than omitting the markup. Supply the metadata and it can go in.
+- A homepage `BreadcrumbList` — single-item, unrenderable, asserts nothing.
 - A `/services/` subfolder — no ranking benefit, costs redirects.
-- City landing pages — a single `areas-we-cover.html` was chosen instead.
+- City landing pages — a single `areas-we-cover.html` was chosen instead. Reconfirmed
+  18 Sep: dedicated London/Birmingham pages are worth making **only** where there is
+  substantial unique information for them. Thin city pages are worse than none.
 - Artist management / record label content — confirmed Reena does not offer this,
   despite ~88 impressions of such queries.
 
@@ -266,10 +280,22 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260918a`.
+  Currently `?v=20260918b`.
 - **Check video `src` casing against disk.** Netlify is case-sensitive; Windows is not,
-  so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Five such
-  mismatches shipped in the SEO rebuild and were caught on 18 Sep.
+  so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Ten such mismatches
+  existed; all were fixed on 18 Sep. Nothing local will warn you, so re-check whenever a
+  video `src` is added or renamed.
+- **`FAQPage` schema must repeat the visible Q&A verbatim.** `contact.html` shipped with
+  schema questions that were keyword-padded variants of the on-page text
+  ("How far in advance should I book **Punjabi entertainment**?" vs the visible
+  "How far in advance should I book?"), plus US/UK spelling drift in two answers. That
+  breaches Google's guidelines. Generate the JSON-LD from the accordion, never by hand.
+- **Every `<img>` needs `width` and `height`.** Without them the browser cannot reserve
+  space and CLS suffers. All 61 that were missing them were fixed on 18 Sep using the
+  files' real intrinsic dimensions. Measured CLS afterwards: 0.0005 homepage, 0.015
+  services.
+- **Do not add a `BreadcrumbList` to the homepage.** It is the root, so the trail is one
+  item long; Google will not render it and it asserts nothing.
 - **Do not change the hero's height.** `object-fit: cover` takes the crop from the box,
   so the height decides which part of the footage is visible. See `CLAUDE.md`.
 - **Do not repoint `--font-heading` / `--font-body`** — the html2canvas quote PNG renders

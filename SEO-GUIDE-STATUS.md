@@ -4,7 +4,8 @@ Reference guide: `C:\Users\jayde\Desktop\buildsbyleo\seo-changes.txt` (89 number
 
 **Read this before re-reading that guide.** It records what was already applied to
 punjabifolkentertainment.com on 17 Sep 2026, plus corrections from the 18 Sep redesign
-pass, so nothing already handled gets suggested again. Legend:
+pass and the 18 Sep architecture/audit pass, so nothing already handled gets suggested
+again. Legend:
 
 - **DONE** — applied in `Desktop/Reena-seo`, live once deployed
 - **N/A** — the item describes something that does not exist on this site
@@ -18,16 +19,18 @@ pass, so nothing already handled gets suggested again. Legend:
 | # | Item | Status |
 |---|------|--------|
 | 1 | Split one page covering several services into dedicated pages | **DONE** — `services.html` split into `ladies-sangeet`, `punjabi-folk-singers`, `dhol-players`, `punjabi-dj`, `concerts` |
-| 2 | Keep the original page as a routing hub, cut its detail back | **DONE** — 775 words → 253-word hub |
+| 2 | Keep the original page as a routing hub, cut its detail back | **DONE** — 775 words → 253-word hub, rebuilt 18 Sep as a 407-word **three-pillar** hub (wedding / concerts+melas / locations) |
 | 3 | Remove duplicated service summaries from other pages | **DONE** — homepage cards trimmed to 3, linking out instead of restating |
 | 4 | Keep shared content in one place with short highlights + link | **DONE** — travel/pricing/line-up text is one shared block reused per page |
 | 5 | Considered a `/services/` subfolder, decided against | **SKIPPED** — same conclusion; no ranking benefit, hierarchy already in nav, breadcrumbs and schema |
+| — | *(not in the guide)* Make weddings a topical pillar rather than a flat service list | **DONE 18 Sep** — `punjabi-wedding-entertainment/` added as a hub above Ladies Sangeet / Punjabi Singers / Dhol Players / Punjabi DJ, with Concerts & Melas and Areas We Cover as sibling pillars. Expressed in the nav dropdown, footer, 4-level breadcrumbs and `ItemList`+`hasOfferCatalog`. Tree in `CLAUDE.md` → "Information architecture" |
+| — | *(not in the guide)* Keep `concerts.html` semantically separate from weddings | **DONE 18 Sep** — rewritten 849 → 1,429 words around Punjabi cultural events, melas, South Asian festivals, community events and festival singers. `Service` `audienceType` was wrongly "Weddings and private events"; now organiser-facing. Body now contains **one** wedding mention, a deliberate contrast line. **Do not drift this page toward weddings.** |
 
 ## Content (6–11)
 
 | # | Item | Status |
 |---|------|--------|
-| 6 | Expand thin pages to 750–950 words | **DONE** — service pages are 791–928 words |
+| 6 | Expand thin pages to 750–950 words | **DONE** — service pages were 791–928 words; after the 18 Sep pass they are 962–1,477, plus the 1,225-word wedding hub and a 928-word `areas-we-cover.html` |
 | 7 | Write around pre-booking buyer questions | **PARTIAL / OPEN** — covered what's included, line-up, travel, booking, music. **Still missing: set lengths, space & power requirements, setup time, deposit/cancellation.** Awaiting facts from Reena. |
 | 8 | FAQ section on every service page | **DONE** — 6–7 per service page, plus a 19-question `faq.html` |
 | 9 | Add a regional/alternative name to capture a higher-volume synonym | **DONE** — "dholki" / "dholki night" added to the Ladies Sangeet page (was ranking 2.4 for `dholki hire` with zero clicks) |
@@ -38,9 +41,9 @@ pass, so nothing already handled gets suggested again. Legend:
 
 | # | Item | Status |
 |---|------|--------|
-| 12 | Unique title, under 60 chars | **DONE** — all 17 indexable pages, 42–56 chars |
-| 13 | Unique description, under ~165 chars | **DONE** — 117–164 chars |
-| 14 | Geographic keyword in service page titles, homepage broad | **DEVIATED ON PURPOSE** — geo was added, then removed at Jayden's request because Reena performs internationally and "UK" in titles worked against that. Geography still signalled via `areaServed: [UK, Worldwide]`, `areas-we-cover.html` and the Google Business Profile. **Do not re-add "UK" to titles.** |
+| 12 | Unique title, under 60 chars | **DONE** — all 18 indexable pages, 35–59 chars. Five rewritten 18 Sep at Jayden's direction: `services` → "Punjabi Entertainment Services \| Reena Kaur", `ladies-sangeet` → "Ladies Sangeet Singers \| Reena Kaur", `punjabi-folk-singers` → "Punjabi Folk Singers \| Weddings & Events", `dhol-players` → "Dhol Players \| Punjabi Wedding Dhol", `concerts` → "Punjabi Singers & Entertainment for Melas". `<title>`, `og:title` and `twitter:title` were changed together — they must always match |
+| 13 | Unique description, under ~165 chars | **DONE** — 117–168 chars, no duplicates across the site (verified programmatically 18 Sep) |
+| 14 | Geographic keyword in service page titles, homepage broad | **DEVIATED ON PURPOSE** — geo was added, then removed at Jayden's request because Reena performs internationally and "UK" in titles worked against that. Geography still signalled via `areaServed: [UK, Worldwide]`, `areas-we-cover.html` and the Google Business Profile. **Do not re-add "UK" to titles.** Reconfirmed 18 Sep: a suggested "Dhol Players UK \| …" title had the "UK" struck out before it was applied. |
 | 15 | Canonical on every page | **DONE** |
 | 16 | OG and Twitter tags in sync with title/description | **DONE** — verified programmatically across all 21 pages |
 | 17 | `og:site_name` sitewide | **DONE** |
@@ -50,19 +53,19 @@ pass, so nothing already handled gets suggested again. Legend:
 | # | Item | Status |
 |---|------|--------|
 | 18 | `Service` schema on each service page | **DONE** |
-| 19 | `BreadcrumbList` on each service page | **DONE** — on every subpage, with visible breadcrumbs too |
-| 20 | `FAQPage` on service pages and contact page | **DONE** — service pages, `faq.html`, `areas-we-cover.html`, `contact.html` |
+| 19 | `BreadcrumbList` on each service page | **DONE** — on every subpage, with visible breadcrumbs too. The four wedding-pillar pages went to **four levels** on 18 Sep (Home / Services / Punjabi Wedding Entertainment / page). **No `BreadcrumbList` on the homepage** — it is the root, so the trail is one item and Google will not render it |
+| 20 | `FAQPage` on service pages and contact page | **DONE** — service pages, `faq.html`, `areas-we-cover.html`, `contact.html`. **Bug found and fixed 18 Sep:** `contact.html`'s schema questions were keyword-padded variants of the visible ones ("How far in advance should I book **Punjabi entertainment**?" vs the on-page "How far in advance should I book?"), with US/UK spelling drift in two answers — a direct breach of the "must match visible content" rule. Rebuilt from the accordion. All 8 `FAQPage` blocks now match question-and-answer exactly; **generate them from the markup, never by hand** |
 | 21 | `WebSite` schema on homepage linked by `@id` | **DONE** — `@graph` of LocalBusiness+PerformingGroup → WebSite → Person, all `@id`-linked |
 | 22 | Explicit `logo` property on the business schema | **DONE** |
-| 23 | Offer catalogue on the homepage | **DONE** — `hasOfferCatalog` listing all five services |
-| 24 | Did NOT add `VideoObject` to decorative background clips | **SKIPPED** — same reasoning, they are not the page's main content |
+| 23 | Offer catalogue on the homepage | **DONE** — `hasOfferCatalog` listing all five services. `services.html` gained its own `ItemList` on 18 Sep with the wedding hub first and the four performer services nested in its `hasOfferCatalog` |
+| 24 | Did NOT add `VideoObject` to decorative background clips | **SKIPPED** — same reasoning, they are not the page's main content. Also **not** added to `videos.html`, where the clips *are* the content: it needs a real `thumbnailUrl`, `uploadDate` and `duration` per video and those are not available. Supply them and it can be added |
 
 ## Internal linking (25–31)
 
 | # | Item | Status |
 |---|------|--------|
-| 25 | Nav dropdown listing every service page, on every page | **DONE** |
-| 26 | All service pages in the footer sitewide | **DONE** |
+| 25 | Nav dropdown listing every service page, on every page | **DONE** — restructured 18 Sep so it nests: the wedding hub is a `.nav-dropdown-pillar` with four `.nav-dropdown-child` entries beneath it, then Concerts & Melas and Areas We Cover as sibling pillars. Classes are on the `<a>`, so the CSS uses no sibling/`:last-of-type` selectors and the last child carries `.nav-dropdown-child--last` — **move that modifier if you reorder** |
+| 26 | All service pages in the footer sitewide | **DONE** — footer service column mirrors the nav nesting via `.footer-link--child` (18 Sep) |
 | 27 | Homepage links directly to each service page | **DONE** — 3 cards deep-link; Ladies Sangeet and Concerts reachable via nav + footer (Jayden chose to keep only 3 cards) |
 | 28 | Replace vague anchor text ("Learn more") | **DONE** — now "Dhol players for hire", "Punjabi DJ services" etc. |
 | 29 | Use the higher-volume phrase as the link label | **DONE** — "Punjabi folk singers" rather than "Singers" |
@@ -87,7 +90,7 @@ pass, so nothing already handled gets suggested again. Legend:
 | 38 | Replace placeholder alt text | **DONE** — all 12 "performance moment N" replaced with real descriptions |
 | 39 | Alt text specific and natural, not keyword stuffed | **DONE** — written after viewing each photo |
 | 40 | Use `git mv` to preserve history | **DONE** — though later recompression means git records some as add+delete |
-| 41 | Verify every image path matches the real filename, case-sensitively | **DONE for images, OPEN for videos** — 5 image mismatches fixed 17 Sep. Videos were never checked: 5 fixed in `index.html` on 18 Sep, and **5 more remain broken** in `contact.html` and `videos.html`. Table in "Things done here" item 10 |
+| 41 | Verify every image path matches the real filename, case-sensitively | **DONE** — 5 image mismatches fixed 17 Sep; videos were never checked until 18 Sep, when 5 were fixed in `index.html` and the last 5 in `contact.html` and `videos.html`. Nothing remains. See "Things done here" item 10 |
 | 42 | Replace placeholder photography with genuine photos | **N/A** — all photography was already genuine |
 
 ## Performance (43–51)
@@ -99,10 +102,10 @@ pass, so nothing already handled gets suggested again. Legend:
 | 45 | Compress video | **OPEN** — 563MB of video untouched. Biggest remaining performance win. Also **not fast-start**: `hero-video1.mp4` has its `moov` atom at 148MB, the end of the file, so nothing plays until the whole clip downloads. `ffmpeg -movflags +faststart` fixes it without re-encoding — do this even if compression waits |
 | 46 | Tag video colour space explicitly, check for HDR | **OPEN** — depends on 45 |
 | 47 | Strip audio from muted background video | **OPEN** — depends on 45 |
-| 48 | Keep lazy loading on images and videos | **DONE** — `loading="lazy"` on all new content images |
+| 48 | Keep lazy loading on images and videos | **DONE** — `loading="lazy"` on all new content images; `team.html`'s ten member portraits were still eager-loading and were fixed 18 Sep. The only images without the attribute are the header logos, correctly |
 | 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster`. A poster was briefly added to the hero and removed again: it replaced the opening frame with an unrelated OG photo. A poster should be a still **from that clip**, which needs ffmpeg |
 | 50 | Exclude large source media from repo and deploy | **PARTIAL** — `assets/videos/` is git-ignored, but videos must ship in the deploy (site needs them). No camera originals in the repo |
-| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918a` on all 20 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
+| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918b` on all 21 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
 
 ## Accessibility / UX (52–54)
 
@@ -113,7 +116,8 @@ pass, so nothing already handled gets suggested again. Legend:
 | 54 | Card grids centre their last row | **DONE** — `.grid-centred` added |
 | — | *(not in the guide)* Keyboard focus rings | **DONE on `index.html`** — `main.css` fired an outline on every mouse click; `redesign.css` scopes it to `:focus-visible`. **OPEN** on other pages |
 | — | *(not in the guide)* Touch targets ≥44px | **DONE on `index.html`** — carousel dots, nav dropdown items, footer links. **OPEN** on other pages |
-| — | *(not in the guide)* `width`/`height` on images to stop layout shift | **DONE on `index.html`** only |
+| — | *(not in the guide)* `width`/`height` on images to stop layout shift | **DONE SITEWIDE 18 Sep** — 61 images were missing them; real intrinsic dimensions were read from the files and written in. Measured CLS afterwards: **0.0005** homepage, **0.015** services (target < 0.1) |
+| — | *(not in the guide)* Heading hierarchy without skipped levels | **DONE 18 Sep** — `contact.html` skipped h2→h4 and had a stray h3; `team.html` had ten h3 member names directly under the h1 with no h2. All headings carry inline styles, so the tag changes are visually identical. `404.html` still skips h1→h3 into the footer's h3s — cosmetic, and the page is `noindex` |
 
 ## Not done, and why (55–57) — all still apply
 
@@ -223,7 +227,7 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
    Blocked in `netlify.toml`.
 9. **The homepage title did not contain "Reena Kaur"** — her name is the #1 query
    (376 impressions, position 2.95) at only 4.52% CTR. Now leads the title.
-10. **Five video `src` attributes had the wrong filename case** (`video-1.mp4`
+10. **Ten video `src` attributes had the wrong filename case** (`video-1.mp4`
     referenced, `video-1.MP4` on disk, and `hero-video.MP4` vs `hero-video.mp4`).
     Windows is case-insensitive so it looked fine locally; **Netlify is not**, so those
     clips were 404ing in production. Item 41 covered images only — videos were never
@@ -236,7 +240,10 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     | `videos.html` | `performance-1.mp4` | `performance-1.MP4` |
     | `videos.html` | `performance-2.MP4` | `performance-2.mp4` |
     | `videos.html` | `performance-3.mp4` | `performance-3.MP4` |
-    These are broken on the live site right now. One-word edits each.
+    **All five were fixed on 18 Sep** — `contact.html` now points at `testimonial-1.MP4`
+    and `testimonial-3.MP4`; `videos.html` at `performance-1.MP4`, `performance-2.mp4`
+    and `performance-3.MP4`. Verified against `os.listdir`, not against Windows path
+    resolution, which is what hid them in the first place.
 11. **`hero-video1.mp4` is not fast-start.** Its `moov` atom sits at 148MB, the end of
     the file, so the browser had to download the whole clip just to read its metadata —
     starving the clip actually on screen and leaving the hero black. Worked around with
@@ -247,8 +254,54 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     subheading entirely on small phones. Rule removed.
 14. **The header was taller than the space reserved for it** — an inline `height: 75px`
     on the logo made the bar 100px against `body { padding-top: 80px }`, so the top 20px
-    of every page sat behind it. Fixed on `index.html`; **still present on the other 19
-    pages** (every `.html` except `index.html` and `quote.html`).
+    of every page sat behind it. Fixed on `index.html`; **still present on 20 pages** —
+    every `.html` except `index.html`, `admin.html` and `quote.html`, including the new
+    `punjabi-wedding-entertainment/index.html`, which inherited the header from
+    `ladies-sangeet.html`.
 15. **The gold `#FFD700` is 1.4:1 on white**, so it could only ever decorate, never carry
     text. The redesign adds three contrast-checked golds for different grounds. See the
     "Design layer" section of `CLAUDE.md`.
+16. **The Services menu was a flat list of five.** It gave no signal that this is
+    primarily a wedding business. Restructured 18 Sep into a pillar tree — see
+    `CLAUDE.md` → "Information architecture". The four performer pages are now
+    structurally children of `punjabi-wedding-entertainment/` in the nav, the footer,
+    the visible breadcrumbs and the JSON-LD.
+
+    Note the tension this creates and do not resolve it the wrong way: three of the four
+    also serve non-wedding work. The breadcrumb states where a page **sits**, not that
+    it is wedding-only, and their non-wedding coverage was deliberately left intact.
+
+17. **`areas-we-cover.html` read as location keyword coverage.** Nine boroughs in one
+    sentence, then a second list of the same boroughs in the FAQ below. Restructured
+    18 Sep: eight regional sections (Scotland, Wales and Northern Ireland split out of
+    what was one shared paragraph), **no place names in the prose at all**, and one
+    set-apart `Regular areas include:` line per region. The duplicate borough list was
+    cut from the London FAQ.
+
+    Dedicated city pages are the right next step **only** where there is substantial
+    unique information for them. Thin city pages are worse than none.
+
+18. **`contact.html`'s FAQ schema did not match its visible FAQ.** Keyword-padded
+    question names and US/UK spelling drift in the answers — see item 20 above. This is
+    the kind of thing that only shows up if you diff the JSON-LD against the rendered
+    accordion, so it went unnoticed through the whole 17 Sep pass.
+
+19. **The homepage H1 did not describe the service.** It was the brand line
+    "Bringing Punjab's Soul to Your Celebration". Changed 18 Sep to
+    "Punjabi Singers & Entertainment for Weddings and Events", with the old line kept
+    underneath as a supporting headline (`.hero-support`). A third-person entity
+    paragraph defining Reena Kaur now opens the "Meet Reena Kaur" band.
+
+    **This is hero-geometry-sensitive.** The longer H1 pushed the hero to 615px against
+    its 600px pin, which silently re-crops the video. Corrected by widening the H1
+    measure to `30ch`; measured back at exactly 600px with 49px of slack at 1876px wide.
+    Re-measure if hero copy changes again.
+
+20. **Core Web Vitals were measured, not assumed.** An automated audit flagged ten pages
+    for "lazy-loading the LCP image" — measurement showed that was a **false positive**:
+    the LCP element is text (`H1.hero-title` on the homepage, a `<p>` on services), not
+    an image. Worth remembering before acting on a static-analysis CWV warning.
+
+    Still unmeasurable locally, and needing the deployed URL: real PageSpeed/Lighthouse
+    scores, field CWV, CDN TTFB, HTTPS/HSTS headers, and the www→apex and http→https
+    redirects.

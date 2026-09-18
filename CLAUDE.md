@@ -49,6 +49,8 @@ Fonts differ by page while the redesign rolls out: redesigned pages load
 index.html, services.html, team.html, videos.html, contact.html   Public pages
 admin.html            Password-protected admin dashboard (inquiries + quotes)
 quote.html            Customer-facing branded quote page
+punjabi-wedding-entertainment/index.html
+                      Wedding pillar hub, served at /punjabi-wedding-entertainment/
 css/                  Shared stylesheets (variables-crimson.css = design tokens)
     redesign.css      Design layer, Sept 2026. Public pages only, loaded LAST
 js/                   Page scripts + html2canvas.min.js (bundled locally)
@@ -202,15 +204,17 @@ functions need `nodemailer` and `@netlify/blobs`).
 
 Full detail in **`SEO-README.md`**. Summary of what changed versus the live site:
 
-- **11 new pages.** Five service pages split out of `services.html`
+- **12 new pages.** Five service pages split out of `services.html`
   (`ladies-sangeet`, `punjabi-folk-singers`, `dhol-players`, `punjabi-dj`, `concerts`),
   plus `faq`, `areas-we-cover`, `privacy-policy`, `terms`, and `blog/` with four articles.
-- `services.html` cut from 775 words to a 253-word routing hub so it stops competing
-  with the pages it links to.
+- `services.html` cut from 775 words to a routing hub so it stops competing with the
+  pages it links to (253 words on 17 Sep; 407 after the 18 Sep pillar restructure).
 - Sitewide: full robots directive incl. `max-image-preview:large`, complete OG/Twitter
   blocks, linked JSON-LD `@graph` (LocalBusiness+PerformingGroup → WebSite → Person),
   `Service`/`FAQPage`/`BreadcrumbList`/`BlogPosting` schema, services nav dropdown,
   service links in every footer, `llms.txt`, AI crawlers explicitly allowed.
+- **Wedding pillar architecture** (18 Sep) — `punjabi-wedding-entertainment/` added as a
+  topical hub above the four performer pages. See "Information architecture" below.
 - **Favicon fixed** — `/favicon.ico` used to 404 at the root and the icon was 16×16
   (Google needs a multiple of 48px). This is why the icon never showed in Bing.
   `manifest.json` also pointed at two PNGs that never existed.
@@ -235,9 +239,70 @@ the rules in `SEO-README.md` section 6.
 - Do not repoint `--font-heading` / `--font-body` — `admin.html` and `quote.html` render
   the quote PNG against them. See "Design layer".
 - Video `src` attributes are **case-sensitive on Netlify**. The files on disk mix
-  `.mp4` and `.MP4`; Windows hides a mismatch that 404s in production. Five such
-  references are **still broken** in `contact.html` and `videos.html` — table in
-  `SEO-GUIDE-STATUS.md`.
+  `.mp4` and `.MP4`; Windows hides a mismatch that 404s in production. All references
+  were audited and corrected on 18 Sep (5 in `index.html`, then the last 5 in
+  `contact.html` and `videos.html`) — **re-check casing against disk whenever a video
+  `src` is added or renamed**, because nothing local will warn you.
+
+## Information architecture (18 Sep 2026)
+
+The site is organised around **weddings as the primary topical pillar**, not around a
+flat list of services. The Services dropdown, the footer service column, the visible
+breadcrumbs and the JSON-LD all express the same tree:
+
+```
+services.html  (Punjabi Entertainment Services — routing hub, 407 words)
+│
+├── punjabi-wedding-entertainment/        PILLAR — the whole wedding week
+│   ├── ladies-sangeet.html
+│   ├── punjabi-folk-singers.html         (nav label: "Punjabi Singers")
+│   ├── dhol-players.html
+│   └── punjabi-dj.html                   (nav label: "Punjabi DJ")
+│
+├── concerts.html                         PILLAR — deliberately NOT wedding-targeted
+│
+└── areas-we-cover.html                   PILLAR — UK/worldwide overview
+```
+
+**What this means in practice:**
+
+- The four performer pages carry a **four-level breadcrumb** — Home / Services /
+  Punjabi Wedding Entertainment / *page* — both visibly and in `BreadcrumbList`.
+- The Services dropdown nests them under the hub using `.nav-dropdown-pillar` and
+  `.nav-dropdown-child` (styles at the bottom of `css/components/header.css`). The
+  classes sit on the `<a>`, not the `<li>`, so the CSS uses **no sibling or
+  `:last-of-type` selectors** — the final child carries `.nav-dropdown-child--last`
+  explicitly. If you add or reorder items, move that modifier.
+- The footer service column mirrors it with `.footer-link--child`.
+- `services.html` declares an `ItemList` whose first item is the hub, with the four
+  performer services inside its `hasOfferCatalog`.
+
+### `concerts.html` is a separate audience — keep it that way
+
+Concerts and melas target **event organisers**, not couples. The page is written around
+Punjabi cultural events, melas, South Asian festivals, community events and festival
+singers, and its `Service` schema declares an organiser audience rather than a wedding
+one. It contains exactly **one** mention of weddings, a deliberate contrast line.
+
+> ⚠️ **Do not let the service pages drift into variations of "Punjabi wedding
+> entertainment".** The four performer pages sit under the wedding pillar structurally,
+> but three of them also serve non-wedding work, and `concerts.html` must not be
+> rewritten toward weddings at all. Structure says where a page sits; it is not a claim
+> that the page is wedding-only.
+
+### `areas-we-cover.html` is an overview, not a location-keyword page
+
+Restructured on 18 Sep because it read as location keyword coverage. Rules:
+
+- Region sections are **UK-wide → London & South East → Midlands → North of England →
+  Scotland → Wales → Northern Ireland → International Bookings**.
+- Each region gets a short paragraph about **how booking there actually works** —
+  venue constraints, travel, lead time — and **no place names in the prose**.
+- Place names live in a single set-apart `Regular areas include:` line per region.
+- Dedicated city pages (London, Birmingham, …) are only worth creating where there is
+  **substantial unique information** to put on them. Do not spin up thin city pages.
+
+---
 
 ## Design layer (Sept 2026) — in progress, `index.html` only
 
@@ -320,6 +385,22 @@ script when clip 1 ends. See `SEO-README.md` §5 for the `+faststart` fix.
 The bar is `60 + 24 + 1 = 85px` and `body` reserves `88px`. It previously carried an
 inline `height: 75px` on the logo, making the bar 100px against 80px of reserved space,
 so the top 20px of every page sat behind it. **Unconverted pages still have this bug.**
+
+### Homepage SEO copy classes (18 Sep)
+
+Section 14 of `redesign.css` adds four classes used by the homepage rewrite:
+
+| Class | Use |
+|---|---|
+| `.hero-support` | The old H1 ("Bringing Punjab's Soul to Your Celebration") kept as a gold italic supporting line under the new descriptive H1 |
+| `.standfirst` | The third-person Reena Kaur entity paragraph opening the "Meet Reena Kaur" band |
+| `.prose--centred` | Centred prose block used by the "Punjabi Entertainment for Weddings, Events & Celebrations" band |
+| `.btn-ghost-ink` | Ghost button for **light** grounds — `.btn-ghost` is built for the ink ground and its translucent white hairline vanishes on blush/white/amber |
+
+The H1 change made the hero 15px taller than its 600px pin, which re-crops the video.
+`.hero-title` was given `max-width: 30ch` and the supporting line was kept small to pull
+it back. **Measured: hero exactly 600px with 49px of slack at 1876px wide.** If you edit
+hero copy again, re-measure rather than assuming.
 
 ### Signature: the beat rule
 

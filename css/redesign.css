@@ -1099,3 +1099,73 @@ body { padding-top: 88px; }
 
     .service-card:hover .card-media img { transform: none; }
 }
+
+/* ================================
+   14. HOMEPAGE H1 / ENTITY COPY  (Sept 2026 SEO pass)
+   ================================ */
+
+/* The H1 now carries the descriptive "Punjabi Singers & Entertainment for
+   Weddings and Events". The old H1 line survives underneath as a supporting
+   headline. The hero has to stay inside min-height: 600px or object-fit
+   re-crops the video (see CLAUDE.md), so the H1 is allowed to run wider than
+   the old 22ch and the supporting line is deliberately small. */
+.hero-title {
+    max-width: 30ch;
+    margin-bottom: 0.45rem;
+}
+
+.hero-support {
+    font-family: var(--font-display);
+    font-size: clamp(1.02rem, 0.92rem + 0.42vw, 1.3rem);
+    font-weight: 400;
+    font-style: italic;
+    font-variation-settings: 'SOFT' 40, 'WONK' 1;
+    line-height: 1.25;
+    color: var(--gold-leaf);
+    margin: 0 0 0.7rem;
+    max-width: 34ch;
+}
+
+.hero-lead { margin-bottom: 1.25rem; }
+
+/* Entity paragraph: the third-person definition of Reena Kaur that opens the
+   "Meet Reena Kaur" band. Set a step up from body copy so it reads as a
+   standfirst rather than as the first of the first-person paragraphs. */
+.standfirst {
+    font-size: clamp(1.02rem, 0.96rem + 0.3vw, 1.15rem);
+    line-height: 1.65;
+    color: var(--color-text-primary);
+}
+
+.prose--centred {
+    max-width: 62ch;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.prose--centred .beat-rule {
+    justify-content: center;
+    margin: 1.1rem 0 1.4rem;
+}
+
+.prose--centred .band-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+/* Ghost button for the light bands. .btn-ghost is built for the ink ground
+   and its translucent white hairline disappears on blush/white/amber. */
+.btn-ghost-ink {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--gold-deco);
+}
+
+.btn-ghost-ink:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}

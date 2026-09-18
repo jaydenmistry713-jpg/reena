@@ -36,12 +36,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918a">
-    <link rel="stylesheet" href="css/main.css?v=20260918a">
-    <link rel="stylesheet" href="css/animations.css?v=20260918a">
-    <link rel="stylesheet" href="css/components/header.css?v=20260918a">
-    <link rel="stylesheet" href="css/components/footer.css?v=20260918a">
-    <link rel="stylesheet" href="css/responsive.css?v=20260918a">
+    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918b">
+    <link rel="stylesheet" href="css/main.css?v=20260918b">
+    <link rel="stylesheet" href="css/animations.css?v=20260918b">
+    <link rel="stylesheet" href="css/components/header.css?v=20260918b">
+    <link rel="stylesheet" href="css/components/footer.css?v=20260918b">
+    <link rel="stylesheet" href="css/responsive.css?v=20260918b">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -161,6 +161,12 @@
         {
             "@type": "ListItem",
             "position": 3,
+            "name": "Punjabi Wedding Entertainment",
+            "item": "https://punjabifolkentertainment.com/punjabi-wedding-entertainment/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 4,
             "name": "Punjabi DJ Services",
             "item": "https://punjabifolkentertainment.com/punjabi-dj.html"
         }
@@ -172,7 +178,7 @@
     <header class="site-header">
         <nav class="navigation" aria-label="Main navigation">
             <a href="index.html" class="logo">
-                <img src="assets/images/logo/logo.png" alt="Punjabi Folk Entertainment" style="height: 75px; width: auto">
+                <img src="assets/images/logo/logo.png" width="749" height="290" alt="Punjabi Folk Entertainment" style="height: 75px; width: auto">
             </a>
 
             <ul class="nav-menu">
@@ -180,11 +186,13 @@
                 <li class="nav-item nav-item-has-dropdown">
                     <a href="services.html" class="nav-link" aria-haspopup="true" aria-expanded="false">Services</a>
                     <ul class="nav-dropdown">
-                            <li><a href="ladies-sangeet.html" class="nav-dropdown-item">Ladies Sangeet</a></li>
-                            <li><a href="punjabi-folk-singers.html" class="nav-dropdown-item">Punjabi Folk Singers</a></li>
-                            <li><a href="dhol-players.html" class="nav-dropdown-item">Dhol Players</a></li>
-                            <li><a href="punjabi-dj.html" class="nav-dropdown-item">Punjabi DJ Services</a></li>
-                            <li><a href="concerts.html" class="nav-dropdown-item">Concerts & Melas</a></li>
+                        <li><a href="punjabi-wedding-entertainment/" class="nav-dropdown-item nav-dropdown-pillar">Punjabi Wedding Entertainment</a></li>
+                        <li><a href="ladies-sangeet.html" class="nav-dropdown-item nav-dropdown-child">Ladies Sangeet</a></li>
+                        <li><a href="punjabi-folk-singers.html" class="nav-dropdown-item nav-dropdown-child">Punjabi Singers</a></li>
+                        <li><a href="dhol-players.html" class="nav-dropdown-item nav-dropdown-child">Dhol Players</a></li>
+                        <li><a href="punjabi-dj.html" class="nav-dropdown-item nav-dropdown-child nav-dropdown-child--last">Punjabi DJ</a></li>
+                        <li><a href="concerts.html" class="nav-dropdown-item nav-dropdown-pillar">Concerts &amp; Melas</a></li>
+                        <li><a href="areas-we-cover.html" class="nav-dropdown-item nav-dropdown-pillar">Areas We Cover</a></li>
                         <li><a href="services.html" class="nav-dropdown-item nav-dropdown-all">All services</a></li>
                     </ul>
                 </li>
@@ -217,6 +225,7 @@
                 <ol>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="services.html">Services</a></li>
+                    <li><a href="punjabi-wedding-entertainment/">Punjabi Wedding Entertainment</a></li>
                     <li><span aria-current="page">Punjabi DJ Services</span></li>
                 </ol>
             </nav>
@@ -227,7 +236,7 @@
                 <p style="font-size: 1.15rem; line-height: 1.75; padding: 1.5rem; background: var(--color-off-white); border-left: 4px solid var(--color-primary); border-radius: 8px; margin-bottom: 2.5rem;">We provide DJs for Punjabi and Asian weddings and events, mixing Punjabi, Bollywood and international music with professional sound and lighting included. MC services are available, and DJ sets can be booked alongside live singers and dhol players so the whole evening is handled by one team.</p>
 
                 <figure class="hover-zoom" style="margin: 0 0 2.5rem; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-xl);">
-                    <img src="assets/images/services/punjabi-dj-decks-reception.jpg" alt="DJ mixing on professional decks beside a neon sign at an evening reception" loading="lazy" style="width: 100%; height: auto; display: block;">
+                    <img src="assets/images/services/punjabi-dj-decks-reception.jpg" width="736" height="920" alt="DJ mixing on professional decks beside a neon sign at an evening reception" loading="lazy" style="width: 100%; height: auto; display: block;">
                 </figure>
 
                 <h2 style="font-size: 2rem; margin: 3rem 0 1.25rem; color: var(--color-primary);">A DJ who knows the room</h2>
@@ -244,6 +253,8 @@
                 <h2 style="font-size: 2rem; margin: 3rem 0 1.25rem; color: var(--color-primary);">Booking the DJ with live performance</h2>
                 <p style="margin-bottom: 1rem;">The strongest evenings usually are not purely one or the other. A live folk set or a dhol entry gives the night its moments; the DJ gives it its length.</p>
                 <p style="margin-bottom: 1rem;">Because we supply both, the transitions can be planned — dhol running into a first dance, a live set handing over to a DJ without a dead gap while equipment is swapped. That gap is the most common failure point when a family books performers from separate suppliers.</p>
+                <h2 style="font-size: 2rem; margin: 3rem 0 1.25rem; color: var(--color-primary);">The DJ at a Punjabi wedding</h2>
+                <p style="margin-bottom: 1rem;">At a wedding the DJ usually takes the room after the live performance rather than instead of it &mdash; dhol for the entrance, a folk set through the seated portion, then the decks for the rest of the night. Booked as one job, that handover is planned; booked separately, it is the point at which a full floor empties. Our <a href="punjabi-wedding-entertainment/" class="hover-underline" style="color: var(--color-primary); font-weight: 600;">Punjabi wedding entertainment</a> page sets out how the whole week fits together.</p>
                 <h2 style="font-size: 2rem; margin: 3rem 0 1.25rem; color: var(--color-primary);">Events we DJ</h2>
                 <p style="margin-bottom: 1rem;">Weddings and receptions, Sangeet and Mehndi nights, engagement and birthday parties, corporate functions and community events. Sound and lighting scale with the venue, so the same service works in a function room or a large hall.</p>
                 <h2 style="font-size: 2rem; margin: 3rem 0 1.25rem; color: var(--color-primary);">What to tell us when you enquire</h2>
@@ -332,11 +343,13 @@
                 <div class="footer-section">
                     <h3>Our Services</h3>
                     <ul class="footer-links">
-                        <li><a href="ladies-sangeet.html" class="footer-link">Ladies Sangeet</a></li>
-                        <li><a href="punjabi-folk-singers.html" class="footer-link">Punjabi Folk Singers</a></li>
-                        <li><a href="dhol-players.html" class="footer-link">Dhol Players</a></li>
-                        <li><a href="punjabi-dj.html" class="footer-link">Punjabi DJ Services</a></li>
-                        <li><a href="concerts.html" class="footer-link">Concerts & Melas</a></li>
+                        <li><a href="punjabi-wedding-entertainment/" class="footer-link">Punjabi Wedding Entertainment</a></li>
+                        <li><a href="ladies-sangeet.html" class="footer-link footer-link--child">Ladies Sangeet</a></li>
+                        <li><a href="punjabi-folk-singers.html" class="footer-link footer-link--child">Punjabi Singers</a></li>
+                        <li><a href="dhol-players.html" class="footer-link footer-link--child">Dhol Players</a></li>
+                        <li><a href="punjabi-dj.html" class="footer-link footer-link--child">Punjabi DJ</a></li>
+                        <li><a href="concerts.html" class="footer-link">Concerts &amp; Melas</a></li>
+                        <li><a href="areas-we-cover.html" class="footer-link">Areas We Cover</a></li>
                     </ul>
                 </div>
 
@@ -373,7 +386,7 @@
         </div>
     </footer>
 
-    <script src="js/main.js?v=20260918a"></script>
-    <script src="js/navigation.js?v=20260918a"></script>
+    <script src="js/main.js?v=20260918b"></script>
+    <script src="js/navigation.js?v=20260918b"></script>
 </body>
 </html>
