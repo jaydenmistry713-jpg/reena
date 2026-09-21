@@ -3,9 +3,56 @@
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    initLoadMore();
     initVideoGallery();
     initPhotoGallery();
 });
+
+// ========================================
+// LOAD MORE
+// ========================================
+
+// Tiles carry data-batch="2" / "3" in gallery.html. Hidden tiles are
+// display: none, so their lazy images and preload="none" videos fetch nothing
+// until revealed. Without JS every tile shows and the button stays hidden.
+function initLoadMore() {
+    const button = document.querySelector('.mosaic-more-btn');
+    const deferred = document.querySelectorAll('.mosaic-grid [data-batch]');
+    if (!button || !deferred.length) return;
+
+    const batches = [...new Set([...deferred].map(el => Number(el.dataset.batch)))].sort((a, b) => a - b);
+    deferred.forEach(el => el.classList.add('is-deferred'));
+    button.hidden = false;
+
+    const updateLabel = () => {
+        const remaining = document.querySelectorAll('.mosaic-grid .is-deferred').length;
+        button.textContent = 'Load more (' + remaining + ' more)';
+    };
+    updateLabel();
+
+    button.addEventListener('click', () => {
+        const batch = batches.shift();
+        const tiles = document.querySelectorAll('.mosaic-grid [data-batch="' + batch + '"]');
+        tiles.forEach(el => {
+            el.classList.remove('is-deferred');
+            el.classList.add('is-revealed');
+        });
+
+        // Move focus to the first new tile so keyboard and screen reader
+        // users land on what just appeared rather than on a vanished button.
+        const first = tiles[0];
+        if (first) {
+            const target = first.matches('.photo-item') ? first : first.querySelector('video');
+            if (target) target.focus({ preventScroll: true });
+        }
+
+        if (!batches.length) {
+            button.closest('.mosaic-more').hidden = true;
+        } else {
+            updateLabel();
+        }
+    });
+}
 
 // ========================================
 // VIDEO AUTOPLAY & CONTROLS

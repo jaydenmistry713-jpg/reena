@@ -47,7 +47,8 @@ them. See "Design layer".
 ## Repository layout
 
 ```
-index.html, services.html, team.html, videos.html, contact.html   Public pages
+index.html, services.html, team.html, gallery.html, contact.html   Public pages
+                      (gallery.html was videos.html until 21 Sep; netlify.toml 301s the old URL)
 admin.html            Password-protected admin dashboard (inquiries + quotes)
 quote.html            Customer-facing branded quote page
 punjabi-wedding-entertainment/index.html
@@ -537,7 +538,11 @@ Now enforced sitewide by `redesign.css`, not per page:
 (*sam*) and fifth (*khali*) weighted. It replaces the 80px gold bar that used to sit
 under every section title, and animates once on hero load. Reduced motion pins it open.
 
-### Gallery mosaic (`videos.html`, 21 Sep)
+### Gallery mosaic (`gallery.html`, 21 Sep)
+
+The page was **renamed from Videos to Gallery** on 21 Sep: file, nav and footer labels,
+title, H1, canonical, breadcrumb, both sitemaps and `llms.txt`. `/videos.html` and `/videos`
+301 to `/gallery.html` in `netlify.toml` because the old URL was indexed. Keep those redirects.
 
 Photos and videos share **one grid** (`.mosaic-grid` in `css/components/gallery.css`)
 instead of a video row above a photo grid. Tiles are `.g-tall` (1 col), `.g-wide`
@@ -548,7 +553,9 @@ re-checking the rows (walk tile rects, as for overflow). `grid-auto-flow: dense`
 handles the 2-column reflow under 640px. Videos are `preload="none"` with a
 `-poster.jpg` and are played by the IntersectionObserver in `js/gallery.js`
 (threshold 0.3, because a feature tile can be taller than the viewport); no
-autoplay under reduced motion. The Gurinder Chadha graphic uses `.g-contain` so
+autoplay under reduced motion. **Load more:** tiles with `data-batch="2"`/`"3"` are
+hidden until the button is pressed; each batch must end on a complete 4-column row
+(currently tiles 1-10, 11-20, 21-26). Without JS all tiles show. The Gurinder Chadha graphic uses `.g-contain` so
 its text is letterboxed rather than cropped.
 
 ### Removed on purpose — do not reinstate

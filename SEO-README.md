@@ -137,7 +137,7 @@ split across two days. Order is by expected value, highest first.
 | 15 | `/blog/sangeet-mehndi-jago-explained.html` |
 | 16 | `/contact.html` — new title; currently **zero impressions**, worth checking index status |
 | 17 | `/team.html` — new title + Person schema; also currently **zero impressions** |
-| 18 | `/videos.html` — new title |
+| 18 | `/gallery.html` — renamed from `/videos.html` on 21 Sep (301 in `netlify.toml`); request indexing on the new URL |
 
 **Do NOT request indexing for:** `/admin.html`, `/quote.html`, `/privacy-policy.html`,
 `/terms.html`. All four are `noindex` and deliberately out of the sitemap.

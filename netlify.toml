@@ -38,6 +38,20 @@
   status = 404
   force = true
 
+# The Videos page was renamed Gallery on 21 Sep 2026. videos.html was indexed on
+# the live site, so the old URL must 301 to keep its ranking and any shared links.
+[[redirects]]
+  from = "/videos.html"
+  to = "/gallery.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/videos"
+  to = "/gallery.html"
+  status = 301
+  force = true
+
 # Clean quote URLs: /quote/<name-slug>-<id> serves the quote page.
 # The page reads the id from the path; the random suffix is the access token.
 [[redirects]]

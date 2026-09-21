@@ -106,6 +106,31 @@
     display: none;
 }
 
+/* Load more: batches 2 and 3 stay out of the grid until revealed */
+.g-item.is-deferred {
+    display: none;
+}
+
+.g-item.is-revealed {
+    animation: mosaicReveal 0.5s ease both;
+}
+
+@keyframes mosaicReveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.mosaic-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.mosaic-more[hidden],
+.mosaic-more-btn[hidden] {
+    display: none;
+}
+
 /* Phones: 2 columns. Tablets keep 4, where tiles are still a usable size */
 @media (max-width: 640px) {
     .mosaic-grid {
@@ -309,6 +334,10 @@
     .g-item:hover img,
     .g-item:hover video {
         transform: none;
+    }
+
+    .g-item.is-revealed {
+        animation: none;
     }
 }
 
