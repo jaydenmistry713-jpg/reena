@@ -537,6 +537,20 @@ Now enforced sitewide by `redesign.css`, not per page:
 (*sam*) and fifth (*khali*) weighted. It replaces the 80px gold bar that used to sit
 under every section title, and animates once on hero load. Reduced motion pins it open.
 
+### Gallery mosaic (`videos.html`, 21 Sep)
+
+Photos and videos share **one grid** (`.mosaic-grid` in `css/components/gallery.css`)
+instead of a video row above a photo grid. Tiles are `.g-tall` (1 col), `.g-wide`
+(2 cols) or `.g-feature` (2×2); every row is the same height, derived from column
+width with `cqw` units so a tall tile stays 2:3. **The source order is hand-arranged
+to fill 4 columns with no holes** — adding, removing or reshaping a tile means
+re-checking the rows (walk tile rects, as for overflow). `grid-auto-flow: dense`
+handles the 2-column reflow under 640px. Videos are `preload="none"` with a
+`-poster.jpg` and are played by the IntersectionObserver in `js/gallery.js`
+(threshold 0.3, because a feature tile can be taller than the viewport); no
+autoplay under reduced motion. The Gurinder Chadha graphic uses `.g-contain` so
+its text is letterboxed rather than cropped.
+
 ### Removed on purpose — do not reinstate
 
 - The `.hero-overlay` rules and their six `!important` media-query repeats in

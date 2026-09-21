@@ -14,13 +14,40 @@ document.addEventListener('DOMContentLoaded', function() {
 function initVideoGallery() {
     const videos = document.querySelectorAll('.vertical-video');
     const videoWrappers = document.querySelectorAll('.video-wrapper');
-    
+
+    // Videos are preload="none" with a poster, so nothing downloads until a
+    // tile scrolls into view and the observer below calls play().
+    videos.forEach(video => {
+        const wrapper = video.closest('.video-wrapper');
+        video.addEventListener('play', () => wrapper.classList.add('is-playing'));
+        video.addEventListener('pause', () => wrapper.classList.remove('is-playing'));
+
+        // Keyboard users can start/stop a tile with Enter or Space
+        video.tabIndex = 0;
+        video.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                video.paused ? video.play() : video.pause();
+            }
+        });
+    });
+
+    // Reduced motion: no autoplay. Posters stay up until a tile is clicked.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        videos.forEach(video => {
+            video.addEventListener('click', () => {
+                video.paused ? video.play() : video.pause();
+            });
+        });
+        return;
+    }
+
     // Set up Intersection Observer for autoplay
     const observerOptions = {
-        threshold: 0.5,
+        threshold: 0.3, // a 2x2 feature tile can be taller than the viewport, so 0.5 may never fire
         rootMargin: '0px'
     };
-    
+
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const video = entry.target.querySelector('.vertical-video');
@@ -112,6 +139,8 @@ function initPhotoGallery() {
         item.addEventListener('click', () => {
             openLightbox(img.src, index);
         });
+        item.setAttribute('role', 'button');
+        item.setAttribute('aria-label', 'Enlarge photo: ' + img.alt);
         
         // Add keyboard navigation
         item.setAttribute('tabindex', '0');
@@ -138,6 +167,7 @@ function openLightbox(imageSrc, index) {
     
     const lightboxImg = lightbox.querySelector('.lightbox-image');
     lightboxImg.src = imageSrc;
+    lightboxImg.alt = document.querySelectorAll('.photo-item img')[index].alt;
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
     
@@ -310,6 +340,7 @@ function navigateLightbox(direction) {
     const newImg = photoItems[currentIndex];
     const lightboxImg = lightbox.querySelector('.lightbox-image');
     lightboxImg.src = newImg.src;
+    lightboxImg.alt = newImg.alt;
     lightbox.dataset.currentIndex = currentIndex;
 }
 
