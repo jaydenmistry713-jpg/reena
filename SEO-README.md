@@ -264,7 +264,7 @@ round (see the generator's header comment).
 
 | Round | Date | Result |
 |---|---|---|
-| 1 | 22 Sep | 23 of 52 reviewed, 4 with notes. **Applied:** removed "What if our schedule runs late?" (FAQs page) and "Do you offer MC services?" (FAQs page + Punjabi DJ); "What is a Ladies Sangeet?" no longer mentions boliyan or "informal" (both pages); "What areas do you cover?" shortened to "We perform nationwide across the UK, and we also take international bookings." **28 left**, storage key now `v2`. Open question: MC services are still mentioned in 8 other places (DJ page meta description, body and "what's included", `services.html`, `llms.txt`). Only the FAQ was removed; confirm whether MC is still offered. |
+| 1 | 22 Sep | 23 of 52 reviewed, 4 with notes. **Applied:** removed "What if our schedule runs late?" (FAQs page) and "Do you offer MC services?" (FAQs page + Punjabi DJ); "What is a Ladies Sangeet?" no longer mentions boliyan or "informal" (both pages); "What areas do you cover?" shortened to "We perform nationwide across the UK, and we also take international bookings." **28 left**, storage key now `v2`. **Follow-up, 22 Sep: MC removed from the whole site** at Jayden's request. Reena does not offer it. Removed from the DJ page meta/OG/Twitter description, Service schema, standfirst, header lead and "What's included" list, from the DJ card on `services.html`, and from `llms.txt`. Do not reintroduce MC services. |
 
 **Kept out of search:** `noindex` meta, `X-Robots-Tag: noindex` header (netlify.toml),
 `Disallow` in robots.txt, and no links to it from the site. `/tools/*` returns 404.
@@ -396,6 +396,7 @@ a fresh `--alias seo-preview` deploy) before go-live.
   `og:image`, `twitter:image` and both alt tags. The other files in `assets/images/og/`
   are only referenced from schema now.
 - Never state a price. Pricing is bespoke, quoted per event.
+- **Never mention MC services.** Reena does not offer them; removed sitewide 22 Sep.
 - **Don't repeat shared booking information across service pages** (Jayden, 22 Sep).
   Travel, lead times, line-up and how quoting works live in `faq.html`; a service page
   ends with the one-line pricing paragraph and a link there. Add only what is specific
