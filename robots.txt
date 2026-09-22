@@ -9,6 +9,7 @@ Disallow: /admin.html
 Disallow: /quote/
 Disallow: /quote.html
 Disallow: /.netlify/
+Disallow: /faq-review.html
 
 # --- AI assistants: explicitly allowed ---
 # Being cited in AI answers is a booking channel for this business.

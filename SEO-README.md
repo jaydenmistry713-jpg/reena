@@ -42,6 +42,10 @@ ls assets/videos/index/hero-video.mp4     # must exist (lowercase .mp4 — the
 # 2. sanity check before pushing anything public
 python "<scratchpad>/check_links.py"      # or just re-check manually
 
+# 2b. internal pages: faq-review.html is Reena's checklist (noindex, not linked).
+#     If the review is finished, remove it so it is not public on the live domain:
+#     git rm faq-review.html   (tools/ is blocked by netlify.toml, so it can stay)
+
 # 3. THE ACTUAL GO-LIVE
 netlify deploy --prod --dir . --functions netlify/functions
 ```
@@ -218,6 +222,45 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 | `dholki singers near me` | 10 | 6.50 | 0 |
 
 ---
+
+## 4b. FAQ review checklist for Reena (22 Sep)
+
+**URL:** https://seo-preview--beamish-baklava-7f1b21.netlify.app/faq-review.html
+
+One page listing every FAQ on the site, each with a **Checked** box and a **Notes** box.
+The site has 59 FAQ entries across 8 pages but only **52 distinct questions**:
+
+- **7 questions are asked word for word on two pages**, each time with a slightly
+  different answer (e.g. "What is a dhol?" on the FAQs page *and* Dhol Players). The
+  checklist shows each one **once**, with both answers and a red "Asked on 2 pages" flag.
+- **10 groups of differently worded questions ask the same thing** (songs, sound
+  equipment, areas, international, combining services, number of performers, cost,
+  non-wedding events, quotes, coordination). Each member carries an "Overlaps with…"
+  flag linking to the others. The groups are hand-maintained in `OVERLAPS` in the
+  generator.
+
+**How it works**
+- Progress autosaves to the browser's `localStorage` (key `reena-faq-review-v1`) on
+  every tick and keystroke, so closing the page loses nothing. That storage belongs to
+  **one browser on one device**: use the same one to come back, or use *Download backup*
+  and *Restore backup* to move between devices. Private windows cannot save, and the
+  page warns when that happens.
+- **Copy results** puts a plain-text report on the clipboard: changes requested (with
+  notes), not checked yet, and checked with no changes. Each item has a stable id like
+  `[q-what-is-a-dhol]`. **Paste that report to Claude to apply the changes to the site.**
+  *Download results (.txt)* saves the same text as a file.
+- Filters: All / Not checked yet / With notes / Repeated or overlapping.
+
+**Regenerating:** `node tools/build-faq-review.js`. It reads the FAQ accordions straight
+from the pages, so re-run it after any FAQ edit. Ticks and notes are keyed by question
+text, so they survive regeneration for every question whose wording has not changed.
+Notes on a question that was since reworded or removed show in a "no longer on the site"
+box and are still included in the export. The script exits with an error if an answer
+goes missing, a question appears twice, or an `OVERLAPS` entry no longer exists.
+
+**Kept out of search:** `noindex` meta, `X-Robots-Tag: noindex` header (netlify.toml),
+`Disallow` in robots.txt, and no links to it from the site. `/tools/*` returns 404.
+Remove it before go-live if the review is done (§1, step 2b).
 
 ## 5. Still outstanding
 

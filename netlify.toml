@@ -38,6 +38,19 @@
   status = 404
   force = true
 
+[[redirects]]
+  from = "/Reena_Kaur_SEO_Suggested_Edits.txt"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Generator scripts for internal pages (tools/build-faq-review.js).
+[[redirects]]
+  from = "/tools/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # The Videos page was renamed Gallery on 21 Sep 2026. videos.html was indexed on
 # the live site, so the old URL must 301 to keep its ranking and any shared links.
 [[redirects]]
@@ -58,3 +71,11 @@
   from = "/quote/*"
   to = "/quote.html"
   status = 200
+
+# FAQ review checklist for Reena (faq-review.html). Internal: never index it. It is also
+# noindex in its own markup and disallowed in robots.txt. Delete it before go-live if it
+# is no longer needed. See SEO-README.md section 1.
+[[headers]]
+  for = "/faq-review.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

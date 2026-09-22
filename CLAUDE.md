@@ -53,6 +53,9 @@ admin.html            Password-protected admin dashboard (inquiries + quotes)
 quote.html            Customer-facing branded quote page
 punjabi-wedding-entertainment/index.html
                       Wedding pillar hub, served at /punjabi-wedding-entertainment/
+faq-review.html       INTERNAL. Reena's FAQ review checklist (noindex, unlinked). Generated,
+                      never edit by hand: node tools/build-faq-review.js. See SEO-README §4b
+tools/                Generators for internal pages. Blocked from being served (netlify.toml)
 css/                  Shared stylesheets (variables-crimson.css = design tokens)
     redesign.css      Design layer, Sept 2026. Public pages only, loaded LAST
 js/                   Page scripts + html2canvas.min.js (bundled locally)
