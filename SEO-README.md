@@ -357,7 +357,7 @@ a fresh `--alias seo-preview` deploy) before go-live.
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260922a`.
+  Currently `?v=20260922c`.
 - **Any new video: fast-start, a poster from its own frame, and an `aria-label`** (or
   `aria-hidden="true"` if purely decorative). Re-encode with no `-vf` and its own colour
   tags carried through — never let ffmpeg convert colour. Recipe in §5.

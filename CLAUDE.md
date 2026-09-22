@@ -397,6 +397,24 @@ gradient: H1 white 5.8:1, lead `#FDF1E6` 5.3:1, eyebrow `#FFE9A8` 4.9:1. **Do no
 (Previous rationale, kept for context: inner pages opened on ink to match the homepage
 video, because a crimson header competed with the crimson closing CTA.)
 
+**Padding is equal above and below** (`clamp(3rem, 2.2rem + 3vw, 5rem) 0`, 76px each
+at 1358px). It used to be 120px above and 64px below on the theory that it had to clear
+the fixed header, but `body` already reserves those 88px, so the text sat visibly low.
+When measuring, note that `.page-head .container` is `.scroll-animate`: it starts
+`translateY(30px)` and only settles once the animation runs. A background or hidden
+tab pauses that, so a test there reads 106/46 instead of 76/76. Add `.active` to the
+container before measuring.
+
+### Homepage hero is centred (22 Sep)
+
+Changed from left-aligned at Jayden's request. `.hero-inner` is centred, with its
+children given auto side margins through `.hero-section .hero-inner > *`. The prefix
+matters: section 14's `.hero-support`/`.hero-title` rules come later and would otherwise
+pin those lines to the left. The scrim went from left-dark/right-clear to a
+**centre-weighted radial**, so the text column stays darkest. Measured afterwards:
+every line has 0px centre offset, and the hero is still **exactly 600px** at 1358 and
+1876px wide.
+
 `.page-head h1` is deliberately **a step below `--step-h1`** (~50px against the hero's
 88px at 1440px). The hero is the thesis; an inner header is a signpost and must not
 out-shout it. Measured page-head heights are 311–433px, all under the 600px hero.

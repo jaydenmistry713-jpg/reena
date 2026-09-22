@@ -301,7 +301,7 @@ body { padding-top: 88px; }
 /* ================================
    5. HERO
 
-   Left-aligned over full-saturation footage. The old treatment laid a flat
+   Centred over full-saturation footage (was left-aligned until 22 Sep). The old treatment laid a flat
    crimson film at 0.6 over the whole frame, which muddied the one asset the
    page cannot replace. This scrim is directional: solid under the words on
    the left, clear on the right where the dancing is.
@@ -340,12 +340,13 @@ body { padding-top: 88px; }
     inset: 0;
     z-index: 1;
     pointer-events: none;
+    /* Centre-weighted now the text is centred: darkest behind the text column,
+       easing off towards both edges so the footage still reads at the sides. */
     background:
-        linear-gradient(100deg,
-            rgba(26, 11, 16, 0.84) 0%,
-            rgba(26, 11, 16, 0.72) 42%,
-            rgba(26, 11, 16, 0.38) 70%,
-            rgba(26, 11, 16, 0.06) 100%),
+        radial-gradient(ellipse 62% 85% at 50% 50%,
+            rgba(26, 11, 16, 0.80) 0%,
+            rgba(26, 11, 16, 0.66) 55%,
+            rgba(26, 11, 16, 0.34) 100%),
         linear-gradient(to top,
             rgba(26, 11, 16, 0.75) 0%,
             rgba(26, 11, 16, 0) 42%);
@@ -357,17 +358,32 @@ body { padding-top: 88px; }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg,
-        rgba(196, 30, 58, 0.55) 0%,
-        rgba(196, 30, 58, 0.30) 55%,
-        rgba(196, 30, 58, 0.14) 100%);
+    background: radial-gradient(ellipse 70% 90% at 50% 50%,
+        rgba(196, 30, 58, 0.45) 0%,
+        rgba(196, 30, 58, 0.22) 100%);
     mix-blend-mode: multiply;
 }
 
+/* Centred (22 Sep, Jayden). Was left-aligned with a left-weighted scrim. */
 .hero-inner {
     position: relative;
     z-index: 2;
     max-width: 70ch;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* .hero-section prefix so this beats the later section-14 rules (.hero-support
+   and .hero-title set their own margins, which pinned them to the left). */
+.hero-section .hero-inner > * {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-section .beat-rule,
+.hero-actions,
+.hero-facts {
+    justify-content: center;
 }
 
 .hero-section .eyebrow {
@@ -1190,8 +1206,9 @@ body { padding-top: 88px; }
     background: var(--gradient-primary);
     color: var(--color-white);
     text-align: center;
-    /* Top padding clears the 88px fixed header before the eyebrow starts. */
-    padding: clamp(5.5rem, 4.5rem + 4vw, 7.5rem) 0 clamp(2.75rem, 2rem + 2.5vw, 4rem);
+    /* Equal above and below. body already reserves the 88px fixed header, so the
+       old extra top padding (120px vs 64px below at desktop) pushed the text low. */
+    padding: clamp(3rem, 2.2rem + 3vw, 5rem) 0;
     position: relative;
     overflow: hidden;
 }
