@@ -607,6 +607,14 @@ textarea:focus {
     .article-rail .rail-cta {
         display: none;
     }
+
+    /* An article-end quote button on a page with nothing between it and the
+       closing CTA (the wedding hub has no FAQ band), so on mobile the two sat
+       ~390px apart. Desktop keeps it. .btn in the selector is needed:
+       redesign.css loads later and sets .btn to inline-flex. */
+    .btn.cta-hide-mobile {
+        display: none;
+    }
 }
 
 @media (min-width: 1024px) {

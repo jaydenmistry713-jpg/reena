@@ -337,8 +337,16 @@ Single column below 1024px, where the TOC card is hidden — an index that sits
 *after* the thing it indexes is no use. **The `.rail-cta` card is hidden there too**
 (22 Sep, Jayden): stacked under the article, it put a second "Get a quote" button
 ~250px below the article's own on every service page. The closing section still ends
-every page with one. The **wedding hub** still has its article button and the closing
-CTA only ~390px apart on mobile, because it has no FAQ band between them.
+every page with one. The **wedding hub** has no FAQ band, so its article-end button sat
+~390px above the closing CTA; that button carries `.cta-hide-mobile` (main.css) and is
+hidden below 1024px. The selector is `.btn.cta-hide-mobile` because `redesign.css` loads
+later and sets `.btn` to `inline-flex`. A plain class loses and the button stays.
+
+**Service pages open with what we provide, not a definition** (22 Sep, Jayden). Ladies
+Sangeet, Punjabi Folk Singers and Dhol Players used to start with "A Ladies Sangeet is…",
+"A Punjabi folk singer performs…" and "The dhol is…". Those are gone. Definitions live
+in the FAQs and the blog, where informational searches land. Each standfirst is mirrored
+word for word in the page's `Service` schema `description`: change both together.
 
 **Card images:** `services.html` cards are a fixed 200px window with `object-fit:
 cover`, which centres the crop. For a tall portrait that lands on the torso, so the
