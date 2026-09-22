@@ -339,8 +339,11 @@ a fresh `--alias seo-preview` deploy) before go-live.
 - Every new page also needs: unique `<title>` under 60 chars, unique description under
   165, canonical, OG + Twitter tags pointing at a **real photograph** (not the logo),
   `og:image:alt`, and an entry in `sitemap.xml`.
-- OG images live in `assets/images/og/` at 1200×630. Generate new ones from real
-  photography rather than reusing the logo.
+- **Every page's share image is `assets/images/og/og-reena-kaur.jpg`** (Reena's portrait,
+  1200×630), with the alt text "Studio portrait of Reena Kaur, founder of Punjabi Folk
+  Entertainment, with her signature". Jayden's decision, 22 Sep. New pages use the same
+  `og:image`, `twitter:image` and both alt tags. The other files in `assets/images/og/`
+  are only referenced from schema now.
 - Never state a price. Pricing is bespoke, quoted per event.
 - **Never let `--color-secondary` (`#FFD700`) carry text on white or crimson.** It is
   1.4:1 on white and 4.17:1 on crimson. Use `--gold-ink` on light grounds, `--gold-leaf`
