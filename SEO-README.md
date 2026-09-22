@@ -129,7 +129,7 @@ split across two days. Order is by expected value, highest first.
 | 7 | `/punjabi-dj.html` | New page. |
 | 8 | `/concerts.html` | New page, **rewritten 18 Sep** for melas, South Asian festivals and cultural/community events. Different audience from everything above it. |
 | 9 | `/areas-we-cover.html` | **Restructured 18 Sep** into eight regional sections. |
-| 10 | `/faq.html` | New page, 19 Q&As. |
+| 10 | `/faq.html` | New page, 17 Q&As (19 until the 22 Sep FAQ review). |
 
 **Day 2**
 | # | URL |
@@ -228,7 +228,7 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 **URL:** https://seo-preview--beamish-baklava-7f1b21.netlify.app/faq-review.html
 
 One page listing every FAQ on the site, each with a **Checked** box and a **Notes** box.
-The site has 59 FAQ entries across 8 pages but only **52 distinct questions**:
+When built, the site had 59 FAQ entries across 8 pages but only **52 distinct questions** (56 and 50 after round 1 of the review):
 
 - **7 questions are asked word for word on two pages**, each time with a slightly
   different answer (e.g. "What is a dhol?" on the FAQs page *and* Dhol Players). The
@@ -257,6 +257,14 @@ text, so they survive regeneration for every question whose wording has not chan
 Notes on a question that was since reworded or removed show in a "no longer on the site"
 box and are still included in the export. The script exits with an error if an answer
 goes missing, a question appears twice, or an `OVERLAPS` entry no longer exists.
+
+**Review rounds.** Reviewed questions are listed in `REVIEWED` in the generator and drop
+out of the page, so it only ever shows what is still waiting. Bump the storage key each
+round (see the generator's header comment).
+
+| Round | Date | Result |
+|---|---|---|
+| 1 | 22 Sep | 23 of 52 reviewed, 4 with notes. **Applied:** removed "What if our schedule runs late?" (FAQs page) and "Do you offer MC services?" (FAQs page + Punjabi DJ); "What is a Ladies Sangeet?" no longer mentions boliyan or "informal" (both pages); "What areas do you cover?" shortened to "We perform nationwide across the UK, and we also take international bookings." **28 left**, storage key now `v2`. Open question: MC services are still mentioned in 8 other places (DJ page meta description, body and "what's included", `services.html`, `llms.txt`). Only the FAQ was removed; confirm whether MC is still offered. |
 
 **Kept out of search:** `noindex` meta, `X-Robots-Tag: noindex` header (netlify.toml),
 `Disallow` in robots.txt, and no links to it from the site. `/tools/*` returns 404.

@@ -32,7 +32,7 @@ again. Legend:
 |---|------|--------|
 | 6 | Expand thin pages to 750–950 words | **DONE** — service pages were 791–928 words; after the 18 Sep pass they are 962–1,477, plus the 1,225-word wedding hub and a 928-word `areas-we-cover.html`. After the 22 Sep de-duplication: Ladies Sangeet 1,128, Punjabi Folk Singers 915, Dhol 840, DJ 832, Concerts 1,303, wedding hub 959 — still inside the target, with the boilerplate gone |
 | 7 | Write around pre-booking buyer questions | **PARTIAL / OPEN** — covered what's included, line-up, travel, booking, music. **Still missing: set lengths, space & power requirements, setup time, deposit/cancellation.** Awaiting facts from Reena. |
-| 8 | FAQ section on every service page | **DONE** — 6–7 per service page, plus a 19-question `faq.html` |
+| 8 | FAQ section on every service page | **DONE** — 6–7 per service page, plus a 17-question `faq.html` (19 until Reena's FAQ review on 22 Sep removed "What if our schedule runs late?" and "Do you offer MC services?") |
 | 9 | Add a regional/alternative name to capture a higher-volume synonym | **DONE** — "dholki" / "dholki night" added to the Ladies Sangeet page (was ranking 2.4 for `dholki hire` with zero clicks) |
 | 10 | Correct inaccurate product claims; never use a term that isn't strictly true | **DONE** — "female-only performers" was wrong and is corrected: singers are female, accompanying musicians incl. dholki players are not always |
 | 11 | Remove placeholder TODO text from copy and from structured data | **DONE** — no placeholders; alt text like "Punjabi folk performance moment 9" replaced |

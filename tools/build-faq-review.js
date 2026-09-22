@@ -12,6 +12,11 @@
 // been removed or reworded are not lost: the page lists them under "Notes on questions no
 // longer on the site".
 //
+// The storage key went to v2 after round 1, because the round-1 items were dropped from the
+// page and their old notes would otherwise have shown as "no longer on the site". Bump it
+// again (v3, …) whenever REVIEWED grows. Items still pending never have saved state lost that
+// way, as long as every change they carried has been exported and applied first.
+//
 // Not for the live site: faq-review.html is noindex, disallowed in robots.txt and sent with
 // X-Robots-Tag: noindex (netlify.toml). /tools/* is blocked from being served.
 
@@ -46,6 +51,24 @@ const OVERLAPS = [
   ["Do you perform at events other than weddings?", "Do you perform outside weddings?", "Can you provide entertainment for a community or cultural event?"],
   ["How do I get a quote?", "How do we book a performance for our festival?"],
   ["Do you coordinate with our venue and planner?", "Do you work with our sound and production team?"],
+];
+
+// Questions Reena has already reviewed. They are left out of the checklist so it only shows
+// what is still waiting. Round 1: 22 Sep 2026, from faq-review-results-2026-09-22.txt.
+// ("What if our schedule runs late?" and "Do you offer MC services?" were removed from the
+// site in that round, so they drop out on their own.)
+const REVIEWED = [
+  // checked, no changes
+  "How far in advance should I book?", "How do I get a quote?", "What do you need to know to quote accurately?",
+  "Do you charge extra for travel?", "Do you travel internationally?", "How much does a Ladies Sangeet singer cost?",
+  "Can you perform internationally?", "How much does it cost to hire Punjabi folk singers?",
+  "How much does it cost to hire a dhol player?", "How much does a Punjabi DJ cost?", "What size events do you perform at?",
+  "Who performs in a concert line-up?", "Do you take international concert bookings?",
+  "How do we book a performance for our festival?", "Do you perform at melas and South Asian festivals?",
+  "Do you cover the whole of the UK?", "Do you perform outside the UK?", "Do you perform in London?",
+  "Do you perform in Birmingham and the Midlands?", "What areas do you serve?",
+  // checked, with changes applied 22 Sep
+  "What is a Ladies Sangeet?", "What areas do you cover?",
 ];
 
 const ENTITIES = { "&rsquo;": "’", "&lsquo;": "‘", "&ldquo;": "“", "&rdquo;": "”", "&mdash;": "—", "&ndash;": "–", "&amp;": "&", "&nbsp;": " ", "&pound;": "£" };
@@ -98,12 +121,19 @@ const answerCount = items.reduce((n, i) => n + i.answers.length, 0);
 if (answerCount !== found.length) problems.push(`Answers lost: ${found.length} found, ${answerCount} placed`);
 if (problems.length) { console.error(problems.join("\n")); process.exit(1); }
 
-// Number items in page order, and keep a lookup for overlap labels.
-items.forEach((it, n) => { it.num = n + 1; });
+// ---- drop what has already been reviewed ----
+const reviewedKeys = new Set(REVIEWED.map(norm));
+for (const q of REVIEWED) if (!byKey.has(norm(q))) console.warn(`note: REVIEWED question no longer on the site: "${q}"`);
+const pending = items.filter((i) => !reviewedKeys.has(norm(i.q)));
+const reviewedCount = items.length - pending.length;
+
+// Number the remaining items in page order, and keep a lookup for overlap labels.
+pending.forEach((it, n) => { it.num = n + 1; });
 const byId = Object.fromEntries(items.map((i) => [i.id, i]));
+const isPending = (id) => !reviewedKeys.has(norm(byId[id].q));
 
 // ---- render ----
-const groups = PAGES.map((p) => ({ page: p, items: items.filter((i) => i.home === p) })).filter((g) => g.items.length);
+const groups = PAGES.map((p) => ({ page: p, items: pending.filter((i) => i.home === p) })).filter((g) => g.items.length);
 
 const renderItem = (it) => {
   const multi = it.answers.length > 1;
@@ -118,8 +148,12 @@ const renderItem = (it) => {
         ? "The answers are worded differently. Check both say the same thing, or tell us which page should keep it."
         : "The answer is the same on each page. Tell us if it should only be on one."}</p>`
     : "";
+  // Overlapping questions still waiting are links; ones already reviewed are named in plain
+  // text, since they are no longer on this page.
   const overlap = it.overlaps && it.overlaps.length
-    ? `<p class="flag flag-overlap"><strong>Overlaps with:</strong> ${it.overlaps.map((o) => `<a href="#${o}">#${byId[o].num} ${esc(byId[o].q)}</a>`).join(", ")}. Make sure the answers agree.</p>`
+    ? `<p class="flag flag-overlap"><strong>Overlaps with:</strong> ${it.overlaps.map((o) => isPending(o)
+        ? `<a href="#${o}">#${byId[o].num} ${esc(byId[o].q)}</a>`
+        : `&ldquo;${esc(byId[o].q)}&rdquo; (already reviewed)`).join(", ")}. Make sure the answers agree.</p>`
     : "";
   const where = it.section ? `${esc(it.home.label)} · ${esc(it.section)}` : esc(it.home.label);
   return `
@@ -154,8 +188,8 @@ const sections = groups.map((g) => `
       ${g.items.map(renderItem).join("")}
     </section>`).join("");
 
-const data = items.map((i) => ({ id: i.id, num: i.num, q: i.q, pages: i.answers.map((a) => a.label) }));
-const repeats = items.filter((i) => i.answers.length > 1).length;
+const data = pending.map((i) => ({ id: i.id, num: i.num, q: i.q, pages: i.answers.map((a) => a.label) }));
+const repeats = pending.filter((i) => i.answers.length > 1).length;
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -256,7 +290,7 @@ const html = `<!DOCTYPE html>
   <div class="intro">
     <div class="wrap">
       <h1>FAQ review checklist</h1>
-      <p>Every question and answer on the website, in one place: ${items.length} questions from ${groups.length} pages.</p>
+      <p><strong>${pending.length} questions still to review</strong>, from ${groups.length} pages. The ${reviewedCount} you have already reviewed are done and no longer shown.</p>
       <ol>
         <li>Read each answer. If it's right, tick <strong>Checked</strong>.</li>
         <li>If anything needs changing, write it in <strong>Notes</strong>. Tick Checked as well once you've dealt with it.</li>
@@ -269,8 +303,8 @@ const html = `<!DOCTYPE html>
   <div class="bar">
     <div class="wrap">
       <div class="progress-row">
-        <span class="progress-text" id="progress-text">0 of ${items.length} checked</span>
-        <div class="meter" role="progressbar" aria-labelledby="progress-text" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="0"><span id="meter"></span></div>
+        <span class="progress-text" id="progress-text">0 of ${pending.length} checked</span>
+        <div class="meter" role="progressbar" aria-labelledby="progress-text" aria-valuemin="0" aria-valuemax="${pending.length}" aria-valuenow="0"><span id="meter"></span></div>
         <span class="saved" id="saved" aria-live="polite"></span>
       </div>
       <div class="actions">
@@ -295,14 +329,14 @@ const html = `<!DOCTYPE html>
     <div id="orphans"></div>
     ${sections}
     <p class="empty" id="empty" hidden>Nothing to show for this filter.</p>
-    <footer class="foot">${items.length} questions (${repeats} of them asked on more than one page, shown once here with every page's answer). Generated ${new Date().toISOString().slice(0, 10)} from the website's FAQ sections.</footer>
+    <footer class="foot">${pending.length} questions left of ${items.length} on the site (${repeats} of those left are asked on more than one page, shown once here with every page's answer). Generated ${new Date().toISOString().slice(0, 10)} from the website's FAQ sections.</footer>
   </main>
 
 <script>
 (function () {
   "use strict";
   var ITEMS = ${JSON.stringify(data)};
-  var KEY = "reena-faq-review-v1";
+  var KEY = "reena-faq-review-v2";
   var byId = {};
   ITEMS.forEach(function (i) { byId[i.id] = i; });
 
@@ -468,4 +502,4 @@ const html = `<!DOCTYPE html>
 `;
 
 fs.writeFileSync(OUT, html);
-console.log(`faq-review.html: ${items.length} items (${found.length} FAQs on the site, ${repeats} asked on more than one page), ${OVERLAPS.length} overlap groups`);
+console.log(`faq-review.html: ${pending.length} to review, ${reviewedCount} already reviewed, ${items.length} questions on the site (${found.length} FAQs on the site, ${repeats} asked on more than one page), ${OVERLAPS.length} overlap groups`);
