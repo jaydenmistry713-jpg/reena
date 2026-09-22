@@ -127,7 +127,7 @@ again. Legend:
 | # | Item | Status |
 |---|------|--------|
 | 55 | FAQ schema will NOT produce FAQ rich results | **UNDERSTOOD** — kept for parsing and AI assistants. Do not expect listing changes |
-| 56 | No review star ratings without genuine reviews | **CONFIRMED, different reason** — there ARE 32 genuine Google reviews (5.0, Elfsight widget). Still not marked up: Google treats reviews about the entity controlling the page as **self-serving** and made them ineligible for star rich results in Sept 2019. `aggregateRating` would produce no stars and risks a manual action. **Do not add it.** **⚠ Found 22 Sep: the Elfsight widget injects review markup anyway.** Once it loads it adds a JSON-LD `Product` with `aggregateRating` 5.0/32, a `review` array and invented `mpn`/`sku` values. Google renders JavaScript, so this is what populates Search Console → Enhancements → *Review snippets*. It is not in any HTML file here, which is why earlier audits missed it; it only exists after the widget renders. **Fix is in the Elfsight dashboard (turn off its rich-snippet / schema option), not in this repo.** Check the Review snippets report empties after a re-crawl |
+| 56 | No review star ratings without genuine reviews | **CONFIRMED, different reason** — there ARE 32 genuine Google reviews (5.0, Elfsight widget). Still not marked up: Google treats reviews about the entity controlling the page as **self-serving** and made them ineligible for star rich results in Sept 2019. `aggregateRating` would produce no stars and risks a manual action. **Do not add it.** **⚠ Found 22 Sep: the Elfsight widget injects review markup anyway.** Once it loads it adds a JSON-LD `Product` with `aggregateRating` 5.0/32, a `review` array and invented `mpn`/`sku` values. Google renders JavaScript, so this is what populates Search Console → Enhancements → *Review snippets*. It is not in any HTML file here, which is why earlier audits missed it; it only exists after the widget renders. The fix would be in the Elfsight dashboard (its rich-snippet / schema option), not in this repo. **Jayden decided on 22 Sep to leave the widget as it is**, so the Review snippets report will keep showing |
 | 57 | Sitelinks can't be forced | **UNDERSTOOD** — no switch for them. Google shows them for navigational queries (brand/name searches) when it can see a clear structure. What helps is already in place: distinct titles per page, a consistent nav and footer on every page, matching breadcrumbs, a sitemap, and descriptive internal anchors. Nothing further to do except go live and let brand searches accumulate |
 
 ## Key principles (58–62)
@@ -211,7 +211,8 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
    every homepage load. Removed.
 3. **`ladiessangeetbyreenakaur.co.uk` serves a `*.stackcp.com` SSL cert** that doesn't
    cover it, so `https://` shows a browser warning before redirecting. That URL is on
-   event signage. **OPEN** — fix in the 20i/StackCP panel.
+   event signage. **Not being fixed for now** (Jayden, 22 Sep). The fix would be in the
+   20i/StackCP panel.
 4. **The services dropdown was clipped on desktop** by `overflow-x: hidden` on
    `.site-header` (which makes the browser compute `overflow-y` as `auto`). Fixed.
 5. **`llms.txt` and explicit AI-crawler rules** — not in the guide, added for AI search.

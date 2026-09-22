@@ -178,6 +178,8 @@ pos 26.29 / 1.8%. A 20-position gap. Not a content fix — needs diagnosis.
 to the main site (good), but serves a `*.stackcp.com` cert that does not cover the
 domain, so `https://` throws a browser warning first. That URL is printed on event
 signage. Fix in the 20i / StackCP control panel — free cert, few minutes.
+**Decided 22 Sep (Jayden): not being fixed for now.** Leave it; do not re-raise it as a
+to-do.
 
 **The preview URL stays publicly reachable** after go-live. Canonicals point at the live
 domain so it should not get indexed, but there is no reason to share the link once live.
@@ -287,7 +289,6 @@ Remove it before go-live if the review is done (§1, step 2b).
   cancellation terms, named venues, signature songs. Service pages are honest without
   these but describe process where they could state specifics.
 - Privacy policy: data retention period, and whether the business is ICO-registered.
-- SSL certificate on `ladiessangeetbyreenakaur.co.uk`.
 
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining
@@ -344,23 +345,27 @@ videos.
 **ARIA** — every `<video>` now has a descriptive `aria-label`, or `aria-hidden="true"`
 for the two decorative hero clips.
 
-**Not verified in a browser.** The automated Chrome tab would not load *any* video —
-including untouched originals and the existing Netlify preview — so playback could not
-be checked that way. Open the homepage, gallery and contact page by hand (local server or
-a fresh `--alias seo-preview` deploy) before go-live.
+**Verified in a real browser by Jayden, 22 Sep:** every video on the homepage, gallery
+and contact page plays correctly. (The automated Chrome tab could not load *any* video,
+including untouched originals, so that check had to be done by hand.)
+
+**The three new testimonials in `assets/new-media/videos/` are left out for now**
+(Jayden, 22 Sep). They are optimised and have posters but are not used on any page and
+are not in git. Nothing references them, so they only add upload weight to a deploy.
 - Put the 32 Google reviews on the page as plain crawlable HTML. The Elfsight widget
   renders client-side, so **no review text exists in the HTML** — crawlers and AI
   assistants never see it. No schema (see below), just visible text.
 - Deepen the four blog articles (currently 568–676 words).
 - Decide what to do about the 175-impression `punjabi singer provider <city>` cluster.
 
-**Needs doing in the Elfsight dashboard (not this repo):**
+**Elfsight widget: known, left as is (Jayden, 22 Sep).** Not being changed. Recorded so
+it is not rediscovered as a new problem:
 - The Google Reviews widget injects a JSON-LD **`Product`** with `aggregateRating`
   5.0/32 and invented `mpn`/`sku` once it renders. That is what Search Console shows
   under Enhancements → Review snippets. Switch off the widget's rich-snippet / schema
-  option. Verify afterwards by loading the homepage, scrolling to the reviews and
-  checking there is only **one** `application/ld+json` block. See `SEO-GUIDE-STATUS.md`
-  item 56.
+  option. If that is ever revisited, verify by loading the homepage, scrolling to the
+  reviews and checking there is only **one** `application/ld+json` block. See
+  `SEO-GUIDE-STATUS.md` item 56.
 
 **Deliberately not done, do not "fix" these later:**
 - **Review / star schema.** Google classifies reviews about the entity that controls the

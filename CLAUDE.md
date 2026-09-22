@@ -56,6 +56,14 @@ punjabi-wedding-entertainment/index.html
 faq-review.html       INTERNAL. Reena's FAQ review checklist (noindex, unlinked). Generated,
                       never edit by hand: node tools/build-faq-review.js. See SEO-README §4b
 tools/                Generators for internal pages. Blocked from being served (netlify.toml)
+Reena_Kaur_SEO_Suggested_Edits.txt
+                      INTERNAL. An outside SEO plan, kept on disk on purpose (Jayden, 22 Sep)
+                      but not in git. netlify.toml 404s it, so deploys never publish it.
+                      Parts were declined: no location/city pages, case studies, extra blog
+                      posts, cost FAQs, or "UK" in titles
+assets/new-media/videos/
+                      Three optimised testimonial clips + posters, deliberately unused for
+                      now (22 Sep). Not in git, not referenced by any page
 css/                  Shared stylesheets (variables-crimson.css = design tokens)
     redesign.css      Design layer, Sept 2026. Public pages only, loaded LAST
 js/                   Page scripts + html2canvas.min.js (bundled locally)
