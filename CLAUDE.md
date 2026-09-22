@@ -213,7 +213,7 @@ Full detail in **`SEO-README.md`**. Summary of what changed versus the live site
   (`ladies-sangeet`, `punjabi-folk-singers`, `dhol-players`, `punjabi-dj`, `concerts`),
   plus `faq`, `areas-we-cover`, `privacy-policy`, `terms`, and `blog/` with four articles.
 - `services.html` cut from 775 words to a routing hub so it stops competing with the
-  pages it links to (253 words on 17 Sep; 407 after the 18 Sep pillar restructure).
+  pages it links to (253 words on 17 Sep; 407 after the 18 Sep pillar restructure; ~320 after its intro paragraph was removed on 22 Sep).
 - Sitewide: full robots directive incl. `max-image-preview:large`, complete OG/Twitter
   blocks, linked JSON-LD `@graph` (LocalBusiness+PerformingGroup → WebSite → Person),
   `Service`/`FAQPage`/`BreadcrumbList`/`BlogPosting` schema, services nav dropdown,
@@ -256,7 +256,7 @@ flat list of services. The Services dropdown, the footer service column, the vis
 breadcrumbs and the JSON-LD all express the same tree:
 
 ```
-services.html  (Punjabi Entertainment Services — routing hub, 407 words)
+services.html  (Punjabi Entertainment Services — routing hub, ~320 words)
 │
 ├── punjabi-wedding-entertainment/        PILLAR — the whole wedding week
 │   ├── ladies-sangeet.html
@@ -334,7 +334,16 @@ rail**, and the prose sits at a 704px measure.
 
 Classes live in an **ARTICLE LAYOUT** block at the bottom of `css/main.css`.
 Single column below 1024px, where the TOC card is hidden — an index that sits
-*after* the thing it indexes is no use.
+*after* the thing it indexes is no use. **The `.rail-cta` card is hidden there too**
+(22 Sep, Jayden): stacked under the article, it put a second "Get a quote" button
+~250px below the article's own on every service page. The closing section still ends
+every page with one. The **wedding hub** still has its article button and the closing
+CTA only ~390px apart on mobile, because it has no FAQ band between them.
+
+**Card images:** `services.html` cards are a fixed 200px window with `object-fit:
+cover`, which centres the crop. For a tall portrait that lands on the torso, so the
+Ladies Sangeet card sets `object-position: center 15%` inline to keep Reena's face in
+frame. Do the same for any tall shot added to a card.
 
 > ### ⚠️ `overflow-x`, `position: sticky` and scrolling
 >

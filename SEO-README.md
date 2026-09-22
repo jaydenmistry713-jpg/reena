@@ -125,7 +125,7 @@ split across two days. Order is by expected value, highest first.
 | 3 | `/ladies-sangeet.html` | Biggest cluster: `ladies sangeet` 108 imp, `ladies sangeet singers near me` 82 imp, plus the dholki queries. |
 | 4 | `/punjabi-folk-singers.html` | `punjabi folk singers` 105 imp at pos 10.02, 0.95% CTR. **Title changed 18 Sep.** |
 | 5 | `/dhol-players.html` | `dholki hire birmingham` and `dholki hire near me` both rank **2.4** with zero clicks. **Title and H1 changed 18 Sep.** |
-| 6 | `/services.html` | Now a 407-word pillar hub. Needs a re-crawl so it stops competing with the pages above, and so the new three-pillar structure is picked up. **Title changed 18 Sep.** |
+| 6 | `/services.html` | Now a ~320-word pillar hub (intro paragraph removed 22 Sep). Needs a re-crawl so it stops competing with the pages above, and so the new three-pillar structure is picked up. **Title changed 18 Sep.** |
 | 7 | `/punjabi-dj.html` | New page. |
 | 8 | `/concerts.html` | New page, **rewritten 18 Sep** for melas, South Asian festivals and cultural/community events. Different audience from everything above it. |
 | 9 | `/areas-we-cover.html` | **Restructured 18 Sep** into eight regional sections. |
@@ -414,7 +414,7 @@ a fresh `--alias seo-preview` deploy) before go-live.
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260922c`.
+  Currently `?v=20260922d`.
 - **Any new video: fast-start, a poster from its own frame, and an `aria-label`** (or
   `aria-hidden="true"` if purely decorative). Re-encode with no `-vf` and its own colour
   tags carried through — never let ffmpeg convert colour. Recipe in §5.

@@ -597,10 +597,14 @@ textarea:focus {
 }
 
 /* Below 1024px the rail drops underneath the article. A table of contents that
-   sits *after* the thing it indexes is no use, so it is dropped there; the
-   related-links and CTA cards still earn their place at the end of a read. */
+   sits *after* the thing it indexes is no use, so it is dropped there. The CTA
+   card goes too (22 Sep, Jayden): stacked, it landed ~250px under the article's
+   own "Get a quote" button on every service page, and ~360px above the closing
+   CTA on blog articles, so it was always a second contact button in a row. The
+   closing section still ends every page with one. Related-links cards stay. */
 @media (max-width: 1023px) {
-    .article-rail nav.rail-card {
+    .article-rail nav.rail-card,
+    .article-rail .rail-cta {
         display: none;
     }
 }
