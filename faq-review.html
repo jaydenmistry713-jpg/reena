@@ -24,10 +24,7 @@
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
 
   .intro { background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); color: var(--white); padding: 2.5rem 0 2rem; }
-  .intro h1 { color: var(--white); margin: 0 0 .6rem; font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); }
-  .intro p { margin: 0 0 .6rem; color: #FDF1E6; max-width: 62ch; }
-  .intro ol { margin: .4rem 0 0; padding-left: 1.2rem; color: #FDF1E6; }
-  .intro li { margin-bottom: .25rem; }
+  .intro h1 { color: var(--white); margin: 0; font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); }
 
   .bar { position: sticky; top: 0; z-index: 10; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 2px 10px rgba(26,11,16,.06); }
   .bar .wrap { padding-top: .75rem; padding-bottom: .75rem; }
@@ -41,9 +38,6 @@
   button.primary { background: var(--crimson); color: var(--white); }
   button:hover { filter: brightness(.95); }
   button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible + .box { outline: 3px solid var(--gold-ink); outline-offset: 2px; }
-  .filters { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .65rem; }
-  .filters button { border-color: var(--line); color: var(--text); font-weight: 600; padding: .4rem .8rem; }
-  .filters button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--white); }
 
   .jump { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.25rem 0 0; }
   .jump a { text-decoration: none; background: var(--white); border: 1px solid var(--line); border-radius: 99px; padding: .35rem .8rem; font-size: .9rem; color: var(--text); }
@@ -70,7 +64,6 @@
   .answer + .answer { border-top: 1px dashed var(--line); padding-top: .6rem; }
   .flag { margin: .5rem 0 .5rem 2.85rem; padding: .55rem .75rem; border-radius: 8px; font-size: .92rem; }
   .flag-repeat { background: #FDECEF; color: #6E1022; }
-  .flag-overlap { background: var(--blush); color: var(--text); }
   .controls { margin: .9rem 0 0 2.85rem; display: grid; gap: .6rem; }
   .check { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; cursor: pointer; min-height: 44px; width: fit-content; }
   .check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -83,7 +76,6 @@
   textarea:focus { border-color: var(--crimson); outline: none; }
 
   .orphans { background: var(--white); border: 1px solid #E8C96A; border-radius: 10px; padding: 1rem 1.2rem; }
-  .empty { text-align: center; color: var(--muted); padding: 2rem 0; }
   footer.foot { color: var(--muted); font-size: .85rem; padding: 2rem 0 3rem; }
 
   @media (max-width: 560px) {
@@ -97,13 +89,6 @@
   <div class="intro">
     <div class="wrap">
       <h1>FAQ review checklist</h1>
-      <p><strong>28 questions still to review</strong>, from 7 pages. The 22 you have already reviewed are done and no longer shown.</p>
-      <ol>
-        <li>Read each answer. If it's right, tick <strong>Checked</strong>.</li>
-        <li>If anything needs changing, write it in <strong>Notes</strong>. Tick Checked as well once you've dealt with it.</li>
-        <li>When you're done, press <strong>Copy results</strong> and paste them to Jayden.</li>
-      </ol>
-      <p style="margin-top:.8rem">Your progress saves automatically in this browser, so you can close the page and come back later. Use the same device and browser, or use <strong>Download backup</strong> to move it.</p>
     </div>
   </div>
 
@@ -120,12 +105,6 @@
         <button id="download-json">Download backup</button>
         <button id="restore">Restore backup</button>
         <input type="file" id="restore-file" accept="application/json,.json" hidden>
-      </div>
-      <div class="filters" role="group" aria-label="Show">
-        <button data-filter="all" aria-pressed="true">All</button>
-        <button data-filter="todo" aria-pressed="false">Not checked yet</button>
-        <button data-filter="notes" aria-pressed="false">With notes</button>
-        <button data-filter="flagged" aria-pressed="false">Repeated or overlapping</button>
       </div>
     </div>
   </div>
@@ -151,7 +130,7 @@
             
             <p>Pricing is bespoke and quoted per event. It depends on which services you book, the size of the line-up, the running order and the travel involved, so there is no fixed price list. Send us your event details and we will quote against them.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> &ldquo;How much does a Ladies Sangeet singer cost?&rdquo; (already reviewed), &ldquo;How much does it cost to hire Punjabi folk singers?&rdquo; (already reviewed), &ldquo;How much does it cost to hire a dhol player?&rdquo; (already reviewed), &ldquo;How much does a Punjabi DJ cost?&rdquo; (already reviewed). Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "How much does a Ladies Sangeet singer cost?" [q-how-much-does-a-ladies-sangeet-singer-cost] (already reviewed); "How much does it cost to hire Punjabi folk singers?" [q-how-much-does-it-cost-to-hire-punjabi-folk-singers] (already reviewed); "How much does it cost to hire a dhol player?" [q-how-much-does-it-cost-to-hire-a-dhol-player] (already reviewed); "How much does a Punjabi DJ cost?" [q-how-much-does-a-punjabi-dj-cost] (already reviewed). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -177,7 +156,7 @@
             
             <p>Yes, and most events do. Booking singers, dhol and a DJ together means the handovers between them are planned in advance rather than improvised on the night, which is the most common failure point when performers come from separate suppliers.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-book-dhol-players-alongside-singers-or-a-dj">#20 Can we book dhol players alongside singers or a DJ?</a>, <a href="#q-can-we-book-a-dj-and-live-performers-together">#24 Can we book a DJ and live performers together?</a>, <a href="#q-can-you-perform-alongside-a-dj">#16 Can you perform alongside a DJ?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we book dhol players alongside singers or a DJ?" [q-can-we-book-dhol-players-alongside-singers-or-a-dj] (#20 here); "Can we book a DJ and live performers together?" [q-can-we-book-a-dj-and-live-performers-together] (#24 here); "Can you perform alongside a DJ?" [q-can-you-perform-alongside-a-dj] (#16 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -203,7 +182,7 @@
             
             <p>Yes. Professional sound equipment is included and we set it up ourselves. For DJ bookings, lighting is included too and scaled to the venue.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-provide-the-sound-system">#17 Do you provide the sound system?</a>, <a href="#q-do-you-provide-sound-and-lighting">#22 Do you provide sound and lighting?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you provide the sound system?" [q-do-you-provide-the-sound-system] (#17 here); "Do you provide sound and lighting?" [q-do-you-provide-sound-and-lighting] (#22 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -229,7 +208,7 @@
             
             <p>The line-up is chosen for the booking rather than taken from a fixed package. We bring as many performers as the event calls for, matched to the style and scale of the celebration.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-how-many-singers-will-perform-at-our-event">#15 How many singers will perform at our event?</a>, <a href="#q-how-many-dhol-players-do-we-need">#19 How many dhol players do we need?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "How many singers will perform at our event?" [q-how-many-singers-will-perform-at-our-event] (#15 here); "How many dhol players do we need?" [q-how-many-dhol-players-do-we-need] (#19 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -255,7 +234,7 @@
             
             <p>Yes, and it makes a real difference. Set lists are built with you in advance from traditional Punjabi folk, boliyan, Pakistani classics, Bollywood and modern fusion. Send your must-plays and your do-not-plays — the second list is often the more useful one.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-choose-our-own-songs">#11 Can we choose our own songs?</a>, <a href="#q-can-we-customise-the-music-selection">#28 Can we customise the music selection?</a>, <a href="#q-can-we-give-you-a-playlist">#23 Can we give you a playlist?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we choose our own songs?" [q-can-we-choose-our-own-songs] (#11 here); "Can we customise the music selection?" [q-can-we-customise-the-music-selection] (#28 here); "Can we give you a playlist?" [q-can-we-give-you-a-playlist] (#23 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -281,7 +260,7 @@
             
             <p>Yes. We coordinate with the venue, your planner or coordinator and any other suppliers so entries and performances happen on cue and fit the running order.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-work-with-our-sound-and-production-team">#25 Do you work with our sound and production team?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you work with our sound and production team?" [q-do-you-work-with-our-sound-and-production-team] (#25 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -397,7 +376,7 @@
             
             <p>Yes — melas and cultural festivals, community and charity events, corporate functions, engagement and birthday parties, and concert bills.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-perform-outside-weddings">#18 Do you perform outside weddings?</a>, <a href="#q-can-you-provide-entertainment-for-a-community-or-cultural-event">#27 Can you provide entertainment for a community or cultural event?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you perform outside weddings?" [q-do-you-perform-outside-weddings] (#18 here); "Can you provide entertainment for a community or cultural event?" [q-can-you-provide-entertainment-for-a-community-or-cultural-event] (#27 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -427,7 +406,7 @@
             
             <p>Yes, and we would encourage it. The set list is built with you in advance from traditional Punjabi folk, boliyan, Pakistani classics, Bollywood and modern fusion. Specific family songs can be written into the running order, and songs you would rather avoid can be left out. Custom song selections are standard rather than an upgrade.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-choose-the-songs">#5 Can we choose the songs?</a>, <a href="#q-can-we-customise-the-music-selection">#28 Can we customise the music selection?</a>, <a href="#q-can-we-give-you-a-playlist">#23 Can we give you a playlist?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we choose the songs?" [q-can-we-choose-the-songs] (#5 here); "Can we customise the music selection?" [q-can-we-customise-the-music-selection] (#28 here); "Can we give you a playlist?" [q-can-we-give-you-a-playlist] (#23 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -535,7 +514,7 @@
             
             <p>The line-up is chosen for the booking. We bring as many performers as the event calls for, matched to the style and scale of the celebration, so it is decided when we discuss your requirements.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-how-many-performers-will-come">#4 How many performers will come?</a>, <a href="#q-how-many-dhol-players-do-we-need">#19 How many dhol players do we need?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "How many performers will come?" [q-how-many-performers-will-come] (#4 here); "How many dhol players do we need?" [q-how-many-dhol-players-do-we-need] (#19 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -561,7 +540,7 @@
             
             <p>Yes. A common format is a live folk set earlier in the evening with a DJ taking over afterwards. We provide both, so the handover is planned rather than improvised.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-book-more-than-one-service">#2 Can we book more than one service?</a>, <a href="#q-can-we-book-dhol-players-alongside-singers-or-a-dj">#20 Can we book dhol players alongside singers or a DJ?</a>, <a href="#q-can-we-book-a-dj-and-live-performers-together">#24 Can we book a DJ and live performers together?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we book more than one service?" [q-can-we-book-more-than-one-service] (#2 here); "Can we book dhol players alongside singers or a DJ?" [q-can-we-book-dhol-players-alongside-singers-or-a-dj] (#20 here); "Can we book a DJ and live performers together?" [q-can-we-book-a-dj-and-live-performers-together] (#24 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -587,7 +566,7 @@
             
             <p>Yes, professional sound equipment is included and set up by us.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-bring-your-own-sound-equipment">#3 Do you bring your own sound equipment?</a>, <a href="#q-do-you-provide-sound-and-lighting">#22 Do you provide sound and lighting?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you bring your own sound equipment?" [q-do-you-bring-your-own-sound-equipment] (#3 here); "Do you provide sound and lighting?" [q-do-you-provide-sound-and-lighting] (#22 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -613,7 +592,7 @@
             
             <p>Yes — melas, cultural festivals, community and charity events, corporate functions, private parties and concert bills.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-perform-at-events-other-than-weddings">#10 Do you perform at events other than weddings?</a>, <a href="#q-can-you-provide-entertainment-for-a-community-or-cultural-event">#27 Can you provide entertainment for a community or cultural event?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you perform at events other than weddings?" [q-do-you-perform-at-events-other-than-weddings] (#10 here); "Can you provide entertainment for a community or cultural event?" [q-can-you-provide-entertainment-for-a-community-or-cultural-event] (#27 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -643,7 +622,7 @@
             
             <p>It depends on the space and the moment. A single player suits an intimate indoor entrance; a larger group gives an outdoor baraat much more impact. We bring as many players as the event calls for and agree it with you when discussing the day.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-how-many-performers-will-come">#4 How many performers will come?</a>, <a href="#q-how-many-singers-will-perform-at-our-event">#15 How many singers will perform at our event?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "How many performers will come?" [q-how-many-performers-will-come] (#4 here); "How many singers will perform at our event?" [q-how-many-singers-will-perform-at-our-event] (#15 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -669,7 +648,7 @@
             
             <p>Yes, and it is worth doing. Booking together means the handovers between a dhol entry, a live set and a DJ are planned in advance rather than improvised on the day.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-book-more-than-one-service">#2 Can we book more than one service?</a>, <a href="#q-can-we-book-a-dj-and-live-performers-together">#24 Can we book a DJ and live performers together?</a>, <a href="#q-can-you-perform-alongside-a-dj">#16 Can you perform alongside a DJ?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we book more than one service?" [q-can-we-book-more-than-one-service] (#2 here); "Can we book a DJ and live performers together?" [q-can-we-book-a-dj-and-live-performers-together] (#24 here); "Can you perform alongside a DJ?" [q-can-you-perform-alongside-a-dj] (#16 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -725,7 +704,7 @@
             
             <p>Yes. A professional sound system and lighting are included and set up by us, scaled to the venue.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-bring-your-own-sound-equipment">#3 Do you bring your own sound equipment?</a>, <a href="#q-do-you-provide-the-sound-system">#17 Do you provide the sound system?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you bring your own sound equipment?" [q-do-you-bring-your-own-sound-equipment] (#3 here); "Do you provide the sound system?" [q-do-you-provide-the-sound-system] (#17 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -751,7 +730,7 @@
             
             <p>Yes. Custom playlists are standard. Send your must-plays and, just as usefully, anything you definitely do not want played.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-choose-the-songs">#5 Can we choose the songs?</a>, <a href="#q-can-we-choose-our-own-songs">#11 Can we choose our own songs?</a>, <a href="#q-can-we-customise-the-music-selection">#28 Can we customise the music selection?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we choose the songs?" [q-can-we-choose-the-songs] (#5 here); "Can we choose our own songs?" [q-can-we-choose-our-own-songs] (#11 here); "Can we customise the music selection?" [q-can-we-customise-the-music-selection] (#28 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -777,7 +756,7 @@
             
             <p>Yes, and we would recommend it. Booking the DJ, singers and dhol together means the handovers between live sets and the DJ are planned rather than left to chance on the night.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-book-more-than-one-service">#2 Can we book more than one service?</a>, <a href="#q-can-we-book-dhol-players-alongside-singers-or-a-dj">#20 Can we book dhol players alongside singers or a DJ?</a>, <a href="#q-can-you-perform-alongside-a-dj">#16 Can you perform alongside a DJ?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we book more than one service?" [q-can-we-book-more-than-one-service] (#2 here); "Can we book dhol players alongside singers or a DJ?" [q-can-we-book-dhol-players-alongside-singers-or-a-dj] (#20 here); "Can you perform alongside a DJ?" [q-can-you-perform-alongside-a-dj] (#16 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -807,7 +786,7 @@
             
             <p>Yes. We coordinate stage requirements and running order with your production and sound provider ahead of the event.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-coordinate-with-our-venue-and-planner">#6 Do you coordinate with our venue and planner?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you coordinate with our venue and planner?" [q-do-you-coordinate-with-our-venue-and-planner] (#6 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -859,7 +838,7 @@
             
             <p>Yes. We regularly perform at Punjabi cultural events and community events run by councils, charities, gurdwaras and community associations — Vaisakhi celebrations, heritage programmes, fundraisers and civic events. The line-up scales down to a hall as readily as it scales up to a festival stage, and we will tell you what fits your budget.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-do-you-perform-at-events-other-than-weddings">#10 Do you perform at events other than weddings?</a>, <a href="#q-do-you-perform-outside-weddings">#18 Do you perform outside weddings?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Do you perform at events other than weddings?" [q-do-you-perform-at-events-other-than-weddings] (#10 here); "Do you perform outside weddings?" [q-do-you-perform-outside-weddings] (#18 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -889,7 +868,7 @@
             
             <p>Absolutely! We work closely with you to understand your preferences and create a customised playlist that perfectly matches your event’s atmosphere.</p>
           </div>
-        <p class="flag flag-overlap"><strong>Overlaps with:</strong> <a href="#q-can-we-choose-the-songs">#5 Can we choose the songs?</a>, <a href="#q-can-we-choose-our-own-songs">#11 Can we choose our own songs?</a>, <a href="#q-can-we-give-you-a-playlist">#23 Can we give you a playlist?</a>. Make sure the answers agree.</p>
+        <!-- OVERLAPS WITH: "Can we choose the songs?" [q-can-we-choose-the-songs] (#5 here); "Can we choose our own songs?" [q-can-we-choose-our-own-songs] (#11 here); "Can we give you a playlist?" [q-can-we-give-you-a-playlist] (#23 here). Keep the answers consistent. -->
         <div class="controls">
           <label class="check">
             <input type="checkbox" data-field="checked">
@@ -903,7 +882,6 @@
         </div>
       </article>
     </section>
-    <p class="empty" id="empty" hidden>Nothing to show for this filter.</p>
     <footer class="foot">28 questions left of 50 on the site (3 of those left are asked on more than one page, shown once here with every page's answer). Generated 2026-09-22 from the website's FAQ sections.</footer>
   </main>
 
@@ -968,33 +946,16 @@
     el.classList.toggle("has-notes", !!ta.value.trim());
   }
 
-  var filter = "all";
   function refresh() {
     var done = 0;
     articles.forEach(function (el) {
       decorate(el);
-      var cb = el.querySelector('[data-field="checked"]'), ta = el.querySelector('[data-field="notes"]');
-      if (cb.checked) done++;
-      var show = filter === "all" ||
-        (filter === "todo" && !cb.checked) ||
-        (filter === "notes" && ta.value.trim()) ||
-        (filter === "flagged" && el.querySelector(".flag"));
-      el.hidden = !show;
+      if (el.querySelector('[data-field="checked"]').checked) done++;
     });
-    document.querySelectorAll(".page-group").forEach(function (g) { g.hidden = !g.querySelector(".item:not([hidden])"); });
-    document.getElementById("empty").hidden = !!document.querySelector(".item:not([hidden])");
     document.getElementById("progress-text").textContent = done + " of " + ITEMS.length + " checked";
     document.getElementById("meter").style.width = (100 * done / ITEMS.length) + "%";
     document.querySelector('[role="progressbar"]').setAttribute("aria-valuenow", done);
   }
-
-  document.querySelectorAll("[data-filter]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      filter = b.dataset.filter;
-      document.querySelectorAll("[data-filter]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-      refresh();
-    });
-  });
 
   // ---- notes on questions that are no longer on the site ----
   function orphans() {

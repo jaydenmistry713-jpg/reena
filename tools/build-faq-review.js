@@ -5,7 +5,8 @@
 // Reads the visible <details class="faq-item"> accordions straight from the pages, so re-run
 // it whenever an FAQ is added, removed or reworded. Questions asked word-for-word on more than
 // one page become ONE item showing every page's answer. Differently worded questions that ask
-// the same thing are flagged with an "Overlaps with" note (OVERLAPS below — edit by hand).
+// the same thing are recorded in OVERLAPS below (edit by hand) and written into each item as
+// an HTML comment: not shown to Reena, but visible in the source when applying her answers.
 //
 // Progress is keyed by a slug of the question text, so regenerating keeps Reena's ticks and
 // notes for any question whose wording has not changed. Notes on a question that has since
@@ -148,12 +149,12 @@ const renderItem = (it) => {
         ? "The answers are worded differently. Check both say the same thing, or tell us which page should keep it."
         : "The answer is the same on each page. Tell us if it should only be on one."}</p>`
     : "";
-  // Overlapping questions still waiting are links; ones already reviewed are named in plain
-  // text, since they are no longer on this page.
+  // Overlaps are NOT shown to Reena (Jayden, 22 Sep). They are written as an HTML comment in
+  // each item so they can be read in the source when her answers are applied: an answer she
+  // changes here may need the same change on the questions it overlaps with.
+  const cmt = (s) => s.replace(/--/g, "–");
   const overlap = it.overlaps && it.overlaps.length
-    ? `<p class="flag flag-overlap"><strong>Overlaps with:</strong> ${it.overlaps.map((o) => isPending(o)
-        ? `<a href="#${o}">#${byId[o].num} ${esc(byId[o].q)}</a>`
-        : `&ldquo;${esc(byId[o].q)}&rdquo; (already reviewed)`).join(", ")}. Make sure the answers agree.</p>`
+    ? `<!-- OVERLAPS WITH: ${cmt(it.overlaps.map((o) => `"${byId[o].q}" [${o}]${isPending(o) ? ` (#${byId[o].num} here)` : " (already reviewed)"}`).join("; "))}. Keep the answers consistent. -->`
     : "";
   const where = it.section ? `${esc(it.home.label)} · ${esc(it.section)}` : esc(it.home.label);
   return `
@@ -217,10 +218,7 @@ const html = `<!DOCTYPE html>
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
 
   .intro { background: linear-gradient(135deg, var(--crimson), var(--crimson-dark)); color: var(--white); padding: 2.5rem 0 2rem; }
-  .intro h1 { color: var(--white); margin: 0 0 .6rem; font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); }
-  .intro p { margin: 0 0 .6rem; color: #FDF1E6; max-width: 62ch; }
-  .intro ol { margin: .4rem 0 0; padding-left: 1.2rem; color: #FDF1E6; }
-  .intro li { margin-bottom: .25rem; }
+  .intro h1 { color: var(--white); margin: 0; font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); }
 
   .bar { position: sticky; top: 0; z-index: 10; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 2px 10px rgba(26,11,16,.06); }
   .bar .wrap { padding-top: .75rem; padding-bottom: .75rem; }
@@ -234,9 +232,6 @@ const html = `<!DOCTYPE html>
   button.primary { background: var(--crimson); color: var(--white); }
   button:hover { filter: brightness(.95); }
   button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible + .box { outline: 3px solid var(--gold-ink); outline-offset: 2px; }
-  .filters { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .65rem; }
-  .filters button { border-color: var(--line); color: var(--text); font-weight: 600; padding: .4rem .8rem; }
-  .filters button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--white); }
 
   .jump { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.25rem 0 0; }
   .jump a { text-decoration: none; background: var(--white); border: 1px solid var(--line); border-radius: 99px; padding: .35rem .8rem; font-size: .9rem; color: var(--text); }
@@ -263,7 +258,6 @@ const html = `<!DOCTYPE html>
   .answer + .answer { border-top: 1px dashed var(--line); padding-top: .6rem; }
   .flag { margin: .5rem 0 .5rem 2.85rem; padding: .55rem .75rem; border-radius: 8px; font-size: .92rem; }
   .flag-repeat { background: #FDECEF; color: #6E1022; }
-  .flag-overlap { background: var(--blush); color: var(--text); }
   .controls { margin: .9rem 0 0 2.85rem; display: grid; gap: .6rem; }
   .check { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; cursor: pointer; min-height: 44px; width: fit-content; }
   .check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -276,7 +270,6 @@ const html = `<!DOCTYPE html>
   textarea:focus { border-color: var(--crimson); outline: none; }
 
   .orphans { background: var(--white); border: 1px solid #E8C96A; border-radius: 10px; padding: 1rem 1.2rem; }
-  .empty { text-align: center; color: var(--muted); padding: 2rem 0; }
   footer.foot { color: var(--muted); font-size: .85rem; padding: 2rem 0 3rem; }
 
   @media (max-width: 560px) {
@@ -290,13 +283,6 @@ const html = `<!DOCTYPE html>
   <div class="intro">
     <div class="wrap">
       <h1>FAQ review checklist</h1>
-      <p><strong>${pending.length} questions still to review</strong>, from ${groups.length} pages. The ${reviewedCount} you have already reviewed are done and no longer shown.</p>
-      <ol>
-        <li>Read each answer. If it's right, tick <strong>Checked</strong>.</li>
-        <li>If anything needs changing, write it in <strong>Notes</strong>. Tick Checked as well once you've dealt with it.</li>
-        <li>When you're done, press <strong>Copy results</strong> and paste them to Jayden.</li>
-      </ol>
-      <p style="margin-top:.8rem">Your progress saves automatically in this browser, so you can close the page and come back later. Use the same device and browser, or use <strong>Download backup</strong> to move it.</p>
     </div>
   </div>
 
@@ -314,12 +300,6 @@ const html = `<!DOCTYPE html>
         <button id="restore">Restore backup</button>
         <input type="file" id="restore-file" accept="application/json,.json" hidden>
       </div>
-      <div class="filters" role="group" aria-label="Show">
-        <button data-filter="all" aria-pressed="true">All</button>
-        <button data-filter="todo" aria-pressed="false">Not checked yet</button>
-        <button data-filter="notes" aria-pressed="false">With notes</button>
-        <button data-filter="flagged" aria-pressed="false">Repeated or overlapping</button>
-      </div>
     </div>
   </div>
 
@@ -328,7 +308,6 @@ const html = `<!DOCTYPE html>
     <nav class="jump" aria-label="Jump to page">${nav}</nav>
     <div id="orphans"></div>
     ${sections}
-    <p class="empty" id="empty" hidden>Nothing to show for this filter.</p>
     <footer class="foot">${pending.length} questions left of ${items.length} on the site (${repeats} of those left are asked on more than one page, shown once here with every page's answer). Generated ${new Date().toISOString().slice(0, 10)} from the website's FAQ sections.</footer>
   </main>
 
@@ -393,33 +372,16 @@ const html = `<!DOCTYPE html>
     el.classList.toggle("has-notes", !!ta.value.trim());
   }
 
-  var filter = "all";
   function refresh() {
     var done = 0;
     articles.forEach(function (el) {
       decorate(el);
-      var cb = el.querySelector('[data-field="checked"]'), ta = el.querySelector('[data-field="notes"]');
-      if (cb.checked) done++;
-      var show = filter === "all" ||
-        (filter === "todo" && !cb.checked) ||
-        (filter === "notes" && ta.value.trim()) ||
-        (filter === "flagged" && el.querySelector(".flag"));
-      el.hidden = !show;
+      if (el.querySelector('[data-field="checked"]').checked) done++;
     });
-    document.querySelectorAll(".page-group").forEach(function (g) { g.hidden = !g.querySelector(".item:not([hidden])"); });
-    document.getElementById("empty").hidden = !!document.querySelector(".item:not([hidden])");
     document.getElementById("progress-text").textContent = done + " of " + ITEMS.length + " checked";
     document.getElementById("meter").style.width = (100 * done / ITEMS.length) + "%";
     document.querySelector('[role="progressbar"]').setAttribute("aria-valuenow", done);
   }
-
-  document.querySelectorAll("[data-filter]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      filter = b.dataset.filter;
-      document.querySelectorAll("[data-filter]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
-      refresh();
-    });
-  });
 
   // ---- notes on questions that are no longer on the site ----
   function orphans() {

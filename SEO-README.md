@@ -235,9 +235,11 @@ When built, the site had 59 FAQ entries across 8 pages but only **52 distinct qu
   checklist shows each one **once**, with both answers and a red "Asked on 2 pages" flag.
 - **10 groups of differently worded questions ask the same thing** (songs, sound
   equipment, areas, international, combining services, number of performers, cost,
-  non-wedding events, quotes, coordination). Each member carries an "Overlaps with…"
-  flag linking to the others. The groups are hand-maintained in `OVERLAPS` in the
-  generator.
+  non-wedding events, quotes, coordination). The groups are hand-maintained in
+  `OVERLAPS` in the generator. **Since 22 Sep they are not shown to Reena**: each item
+  carries them as an `<!-- OVERLAPS WITH: … -->` comment in the page source instead.
+  **Read those comments when applying her answers.** A change to one answer may need
+  the same change on the questions it overlaps with.
 
 **How it works**
 - Progress autosaves to the browser's `localStorage` (key `reena-faq-review-v1`) on
@@ -249,7 +251,10 @@ When built, the site had 59 FAQ entries across 8 pages but only **52 distinct qu
   notes), not checked yet, and checked with no changes. Each item has a stable id like
   `[q-what-is-a-dhol]`. **Paste that report to Claude to apply the changes to the site.**
   *Download results (.txt)* saves the same text as a file.
-- Filters: All / Not checked yet / With notes / Repeated or overlapping.
+- Layout (simplified 22 Sep at Jayden's request): the header is the title only (no
+  instructions), and there are no filters. The progress bar and the export/backup buttons
+  stay, and so does the red "Asked on 2 pages" note, which explains why an item shows
+  two answers.
 
 **Regenerating:** `node tools/build-faq-review.js`. It reads the FAQ accordions straight
 from the pages, so re-run it after any FAQ edit. Ticks and notes are keyed by question
