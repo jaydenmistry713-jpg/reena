@@ -57,7 +57,7 @@ again. Legend:
 | 20 | `FAQPage` on service pages and contact page | **DONE** — service pages, `faq.html`, `areas-we-cover.html`, `contact.html`. **Bug found and fixed 18 Sep:** `contact.html`'s schema questions were keyword-padded variants of the visible ones ("How far in advance should I book **Punjabi entertainment**?" vs the on-page "How far in advance should I book?"), with US/UK spelling drift in two answers — a direct breach of the "must match visible content" rule. Rebuilt from the accordion. All 8 `FAQPage` blocks now match question-and-answer exactly; **generate them from the markup, never by hand** |
 | 21 | `WebSite` schema on homepage linked by `@id` | **DONE** — `@graph` of LocalBusiness+PerformingGroup → WebSite → Person, all `@id`-linked |
 | 22 | Explicit `logo` property on the business schema | **DONE** |
-| 23 | Offer catalogue on the homepage | **DONE** — `hasOfferCatalog` listing all five services. `services.html` gained its own `ItemList` on 18 Sep with the wedding hub first and the four performer services nested in its `hasOfferCatalog` |
+| 23 | Offer catalogue on the homepage | **DONE** — `hasOfferCatalog` listing all five services. **Corrected 22 Sep:** until then every offer pointed at `services.html` and three names had drifted from the service pages ("Sangeet Singers", "DJ Services", "Concert Performances"). Each offer now carries the service page's own `@id` (`…/ladies-sangeet.html#service` etc.), its URL and its exact name. The organisation's own `areaServed` was also still UK-only, contradicting item 14 — now `[United Kingdom, Worldwide]`, matching every service page. `services.html` gained its own `ItemList` on 18 Sep with the wedding hub first and the four performer services nested in its `hasOfferCatalog` |
 | 24 | Did NOT add `VideoObject` to decorative background clips | **SKIPPED** — same reasoning, they are not the page's main content. Also **not** added to `videos.html`, where the clips *are* the content: it needs a real `thumbnailUrl`, `uploadDate` and `duration` per video and those are not available. Supply them and it can be added |
 
 ## Internal linking (25–31)
@@ -99,13 +99,13 @@ again. Legend:
 |---|------|--------|
 | 43 | Compress images, preserve colour profile | **DONE** — 23.4MB → 9.3MB, ICC profiles kept |
 | 44 | Keep colour profile, strip EXIF | **DONE** |
-| 45 | Compress video | **OPEN** — 563MB of video untouched. Biggest remaining performance win. Also **not fast-start**: `hero-video1.mp4` has its `moov` atom at 148MB, the end of the file, so nothing plays until the whole clip downloads. `ffmpeg -movflags +faststart` fixes it without re-encoding — do this even if compression waits |
-| 46 | Tag video colour space explicitly, check for HDR | **OPEN** — depends on 45 |
-| 47 | Strip audio from muted background video | **OPEN** — depends on 45 |
+| 45 | Compress video | **DONE 22 Sep** — site videos **638MB → 370MB**. Every clip was re-encoded (H.264, CRF 22 / 21 for the two hero clips, `-preset slow`, original resolution, frame rate and audio) and a re-encode was **kept only if it saved ≥20%**: 15 swapped, 9 left as they were (the new file came out the same size or larger). `hero-video1.mp4` went 142MB → 29MB and is now **fast-start** — every video on the site now has its `moov` atom first. Originals backed up outside the repo at `Downloads/Reena-seo-video-originals/`. Method and the colour check in `SEO-README.md` §5 |
+| 46 | Tag video colour space explicitly, check for HDR | **DONE 22 Sep** — no colour conversion at all: no scale/colour filters, and each file's own `colorspace`/`color_trc`/`color_primaries`/`color_range` tags written back explicitly. Every swapped file probes with identical tags to its original, and the mean Y/U/V over 30 frames from the middle of the clip differs by **≤0.17 on a 0–255 scale** (invisible; ~1 would start to show). HDR check: all files are 8-bit 4:2:0. `testimonial-5.mp4` is **tagged HLG / BT.2020** (phone footage) and kept those tags. `hero-video1.mp4` has **no colour tags** and was deliberately left untagged — tagging it would change how browsers interpret it |
+| 47 | Strip audio from muted background video | **DONE 22 Sep** — `hero-video1.mp4` only. It is the one clip that is always muted *and* had an audio track (`hero-video.mp4` never had one). Carousel, gallery and testimonial videos all have unmute buttons, so their audio stays |
 | 48 | Keep lazy loading on images and videos | **DONE** — all in-article figures added 18 Sep are lazy. — `loading="lazy"` on all new content images; `team.html`'s ten member portraits were still eager-loading and were fixed 18 Sep. The only images without the attribute are the header logos, correctly |
-| 49 | Poster frames on lazy-loaded videos | **OPEN** — gallery/testimonial videos have no `poster`. A poster was briefly added to the hero and removed again: it replaced the opening frame with an unrelated OG photo. A poster should be a still **from that clip**, which needs ffmpeg |
+| 49 | Poster frames on lazy-loaded videos | **DONE 22 Sep** — gallery videos got posters on 21 Sep; the 12 remaining (hero clip 1, the five homepage carousel clips, the six `contact.html` testimonials) got them on 22 Sep as `<name>-poster.jpg` beside each clip. Each is **frame 0 of its own clip**, so there is no jump when playback starts, converted with the clip's own matrix (BT.709, or BT.2020 for `testimonial-5`) rather than ffmpeg's BT.601 default. `hero-video1.mp4` has none — it is never the first thing on screen. Posters live under `assets/videos/`, which is **git-ignored**, so like the videos they only ship via the CLI deploy. History: a poster was once added to the hero and removed because it was an unrelated OG photo that replaced the opening frame. A poster must be a still **from that clip** |
 | 50 | Exclude large source media from repo and deploy | **PARTIAL** — `assets/videos/` is git-ignored, but videos must ship in the deploy (site needs them). No camera originals in the repo |
-| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918g` on all 22 pages. Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
+| 51 | Bump cache-busting version on CSS/JS | **DONE** — now `?v=20260918g` on all 22 pages (`index.html` had been left on `20260918c` and was brought into line on 22 Sep). Bump **every** page when `main.css`/`responsive.css` change, not just the edited one |
 
 ## Accessibility / UX (52–54)
 
@@ -113,7 +113,7 @@ again. Legend:
 |---|------|--------|
 | — | *(not in the guide)* Roll the design layer onto every page | **DONE 18 Sep** — all 20 remaining public pages. `admin.html`/`quote.html` excluded on purpose (quote PNG fonts). See `CLAUDE.md` → "Design layer" |
 | 52 | Fix low-contrast nav text on dark hero images | **N/A** — nav sits on its own solid header, never over the hero. The logo is grey type on transparency, so the header cannot go transparent without a reversed logo asset |
-| 53 | aria-labels on video elements | **PARTIAL** — sound/play controls have `aria-label` and it now updates on toggle; the `<video>` elements themselves do not. **OPEN** |
+| 53 | aria-labels on video elements | **DONE 22 Sep** — all 21 `<video>` elements now carry one or the other. The five homepage carousel clips and six `contact.html` testimonials got descriptive `aria-label`s written after viewing frames from each clip. The two hero clips got `aria-hidden="true"` instead: they are decoration behind the H1 and a screen reader should skip them, not announce "video" twice before the headline. Gallery labels already existed. **People are named only where the clip names them on screen** (the "Reena Kaur" watermark on `video-4`, the "Sahib – The Groom" and "Reena and Monica" captions) — never from a face. `video-5` is Reena speaking to camera — confirmed by Jayden 22 Sep, and named in its label. Previous state: **PARTIAL** — sound/play controls have `aria-label` and it now updates on toggle; the `<video>` elements themselves do not. **OPEN** |
 | 54 | Card grids centre their last row | **DONE** — `.grid-centred` added |
 | — | *(not in the guide)* Keyboard focus rings | **DONE SITEWIDE 18 Sep** — `main.css` fired an outline on every mouse click; `redesign.css` scopes it to `:focus-visible`, and every public page now loads it |
 | — | *(not in the guide)* Touch targets ≥44px | **DONE SITEWIDE 18 Sep** — footer links, breadcrumbs, dropdown items and social icons padded to ≥44px under `@media (pointer: coarse)` only, so the desktop rhythm is unchanged. Inline prose links excluded (WCAG exempts them; padding wrecks line spacing) |
@@ -259,7 +259,11 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
 11. **`hero-video1.mp4` is not fast-start.** Its `moov` atom sits at 148MB, the end of
     the file, so the browser had to download the whole clip just to read its metadata —
     starving the clip actually on screen and leaving the hero black. Worked around with
-    `preload="none"`; the real fix is `ffmpeg -movflags +faststart`. **OPEN.**
+    `preload="none"`; the real fix is `ffmpeg -movflags +faststart`. **Fixed 22 Sep** —
+    re-encoded to 29MB with `+faststart` and its audio track dropped (see item 45).
+    `preload="none"` stays, now simply because clip 2 is not needed until clip 1 ends.
+    It opens on a "The Picture Patch presents" title card (a videographer's film);
+    Jayden confirmed on 22 Sep that there is permission to use it.
 12. **A dead phone number in the homepage CTA** — "Call Us Now" pointed at
     `tel:+44XXXXXXXXXX`, an unreplaced placeholder. Now the real number.
 13. **`.hero-section p { display: none !important }`** below 480px was deleting the hero
@@ -414,6 +418,6 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     not the root, so nothing propagates, and `clip` never creates a scroll container.
     Sticky verified working, no horizontal scrollbar at any width.
 
-    Smooth scrolling is still broken independently of all this — see the
-    "Needs checking on a real device" note in `SEO-README.md`. It fails identically
-    on the live production site, so it predates every change in this folder.
+    Smooth scrolling looked broken separately, but only in the automated test
+    browser. **Jayden confirmed on 22 Sep that the back-to-top button works in a real
+    browser**, so there is nothing to fix.

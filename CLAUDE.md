@@ -478,10 +478,26 @@ which part of the footage is on screen.** `.hero-section` is pinned to `min-heig
 that shows the middle ~56% of the 1918×1078 frame. Making the hero taller silently
 re-crops the video. Hero content is sized to fit inside 600px for that reason.
 
-`hero-video1.mp4` carries `preload="none"` deliberately: its `moov` atom is at the
-**end** of the file (148MB in), so letting the browser fetch its metadata downloads the
-whole clip and starves the video actually playing. It is `.load()`ed by the rotation
-script when clip 1 ends. See `SEO-README.md` §5 for the `+faststart` fix.
+`hero-video1.mp4` carries `preload="none"` so it does not compete for bandwidth with the
+clip on screen; it is `.load()`ed by the rotation script when clip 1 ends. Until 22 Sep it
+also had its `moov` atom at the end of a 142MB file. It is now 29MB, fast-start, with no
+audio track.
+
+### Video files (22 Sep)
+
+Every video was re-encoded where it saved ≥20% (site total 638MB → 370MB), and **all are
+fast-start**. Recipe, per-file sizes and the colour verification are in `SEO-README.md`
+§5 → "Video optimisation". Originals are backed up at `Downloads/Reena-seo-video-originals/`.
+
+- **Never let ffmpeg touch colour.** No `-vf` on a re-encode; read each file's
+  `colorspace`/`color_trc`/`color_primaries`/`color_range` and write them back. Two
+  special cases: `hero-video1.mp4` is untagged (leave it untagged), and
+  `testimonial-5.mp4` is tagged HLG/BT.2020 (keep those tags).
+- **Posters** are `<clip>-poster.jpg` beside each clip, taken from frame 0 of that clip.
+  They are in git-ignored `assets/videos/`, so, like the videos, only the CLI deploy ships them.
+- **ARIA**: content videos carry an `aria-label`; the two hero clips are
+  `aria-hidden="true"` because they are decoration. Name a person in a label only if the
+  clip itself names them on screen.
 
 ### Header height
 

@@ -38,13 +38,13 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918c">
-    <link rel="stylesheet" href="css/main.css?v=20260918c">
-    <link rel="stylesheet" href="css/animations.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/header.css?v=20260918c">
-    <link rel="stylesheet" href="css/components/footer.css?v=20260918c">
-    <link rel="stylesheet" href="css/responsive.css?v=20260918c">
-    <link rel="stylesheet" href="css/redesign.css?v=20260918c">
+    <link rel="stylesheet" href="css/variables-crimson.css?v=20260918g">
+    <link rel="stylesheet" href="css/main.css?v=20260918g">
+    <link rel="stylesheet" href="css/animations.css?v=20260918g">
+    <link rel="stylesheet" href="css/components/header.css?v=20260918g">
+    <link rel="stylesheet" href="css/components/footer.css?v=20260918g">
+    <link rel="stylesheet" href="css/responsive.css?v=20260918g">
+    <link rel="stylesheet" href="css/redesign.css?v=20260918g">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,10 +90,16 @@
                 "@type": "PostalAddress",
                 "addressCountry": "GB"
             },
-            "areaServed": {
-                "@type": "Country",
-                "name": "United Kingdom"
-            },
+            "areaServed": [
+                {
+                    "@type": "Country",
+                    "name": "United Kingdom"
+                },
+                {
+                    "@type": "Place",
+                    "name": "Worldwide"
+                }
+            ],
             "knowsLanguage": [
                 "en-GB",
                 "pa"
@@ -112,75 +118,110 @@
                         "@type": "Offer",
                         "itemOffered": {
                             "@type": "Service",
-                            "name": "Sangeet Singers",
-                            "url": "https://punjabifolkentertainment.com/services.html",
-                            "provider": {
-                                "@id": "https://punjabifolkentertainment.com/#organization"
-                            },
-                            "areaServed": {
-                                "@type": "Country",
-                                "name": "United Kingdom"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Service",
+                            "@id": "https://punjabifolkentertainment.com/ladies-sangeet.html#service",
                             "name": "Ladies Sangeet",
-                            "url": "https://punjabifolkentertainment.com/services.html",
+                            "url": "https://punjabifolkentertainment.com/ladies-sangeet.html",
                             "provider": {
                                 "@id": "https://punjabifolkentertainment.com/#organization"
                             },
-                            "areaServed": {
-                                "@type": "Country",
-                                "name": "United Kingdom"
-                            }
+                            "areaServed": [
+                                {
+                                    "@type": "Country",
+                                    "name": "United Kingdom"
+                                },
+                                {
+                                    "@type": "Place",
+                                    "name": "Worldwide"
+                                }
+                            ]
                         }
                     },
                     {
                         "@type": "Offer",
                         "itemOffered": {
                             "@type": "Service",
+                            "@id": "https://punjabifolkentertainment.com/punjabi-folk-singers.html#service",
+                            "name": "Punjabi Folk Singers",
+                            "url": "https://punjabifolkentertainment.com/punjabi-folk-singers.html",
+                            "provider": {
+                                "@id": "https://punjabifolkentertainment.com/#organization"
+                            },
+                            "areaServed": [
+                                {
+                                    "@type": "Country",
+                                    "name": "United Kingdom"
+                                },
+                                {
+                                    "@type": "Place",
+                                    "name": "Worldwide"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "@id": "https://punjabifolkentertainment.com/dhol-players.html#service",
                             "name": "Dhol Players",
-                            "url": "https://punjabifolkentertainment.com/services.html",
+                            "url": "https://punjabifolkentertainment.com/dhol-players.html",
                             "provider": {
                                 "@id": "https://punjabifolkentertainment.com/#organization"
                             },
-                            "areaServed": {
-                                "@type": "Country",
-                                "name": "United Kingdom"
-                            }
+                            "areaServed": [
+                                {
+                                    "@type": "Country",
+                                    "name": "United Kingdom"
+                                },
+                                {
+                                    "@type": "Place",
+                                    "name": "Worldwide"
+                                }
+                            ]
                         }
                     },
                     {
                         "@type": "Offer",
                         "itemOffered": {
                             "@type": "Service",
-                            "name": "DJ Services",
-                            "url": "https://punjabifolkentertainment.com/services.html",
+                            "@id": "https://punjabifolkentertainment.com/punjabi-dj.html#service",
+                            "name": "Punjabi DJ Services",
+                            "url": "https://punjabifolkentertainment.com/punjabi-dj.html",
                             "provider": {
                                 "@id": "https://punjabifolkentertainment.com/#organization"
                             },
-                            "areaServed": {
-                                "@type": "Country",
-                                "name": "United Kingdom"
-                            }
+                            "areaServed": [
+                                {
+                                    "@type": "Country",
+                                    "name": "United Kingdom"
+                                },
+                                {
+                                    "@type": "Place",
+                                    "name": "Worldwide"
+                                }
+                            ]
                         }
                     },
                     {
                         "@type": "Offer",
                         "itemOffered": {
                             "@type": "Service",
-                            "name": "Concert Performances",
-                            "url": "https://punjabifolkentertainment.com/services.html",
+                            "@id": "https://punjabifolkentertainment.com/concerts.html#service",
+                            "name": "Concerts & Melas",
+                            "url": "https://punjabifolkentertainment.com/concerts.html",
                             "provider": {
                                 "@id": "https://punjabifolkentertainment.com/#organization"
                             },
-                            "areaServed": {
-                                "@type": "Country",
-                                "name": "United Kingdom"
-                            }
+                            "areaServed": [
+                                {
+                                    "@type": "Country",
+                                    "name": "United Kingdom"
+                                },
+                                {
+                                    "@type": "Place",
+                                    "name": "Worldwide"
+                                }
+                            ]
                         }
                     }
                 ]
@@ -274,14 +315,14 @@
              rather than a flat film across the whole frame.
              ============================================================ -->
         <section class="hero-section">
-            <video id="hero-video-1" class="hero-video active" muted playsinline style="opacity: 1;">
+            <video id="hero-video-1" class="hero-video active" aria-hidden="true" muted playsinline poster="assets/videos/index/hero-video-poster.jpg" style="opacity: 1;">
                 <source src="assets/videos/index/hero-video.mp4" type="video/mp4">
             </video>
-            <!-- preload="none": this file's moov atom is at the end (148MB in), so
-                 letting the browser fetch its metadata up front downloads the whole
-                 clip and starves the video that is actually on screen. It is loaded
-                 by the rotation script when video 1 ends. -->
-            <video id="hero-video-2" class="hero-video" muted playsinline preload="none" style="opacity: 0;">
+            <!-- preload="none": clip 2 is not needed until clip 1 ends, so it should not
+                 compete for bandwidth with the video on screen. It is loaded by the
+                 rotation script when video 1 ends. (Until 22 Sep its moov atom sat at
+                 the end of a 142MB file; it is now fast-start and 29MB.) -->
+            <video id="hero-video-2" class="hero-video" aria-hidden="true" muted playsinline preload="none" style="opacity: 0;">
                 <source src="assets/videos/index/hero-video1.mp4" type="video/mp4">
             </video>
 
@@ -421,19 +462,19 @@
 
                     <div class="scroll-slide-left">
                         <div class="video-carousel">
-                            <video class="carousel-video active" muted loop playsinline preload="metadata" style="opacity: 1;">
+                            <video class="carousel-video active" muted loop playsinline preload="metadata" poster="assets/videos/index/video-5-poster.jpg" style="opacity: 1;" aria-label="Reena Kaur speaking to camera about Punjabi Folk Entertainment, with on-screen captions">
                                 <source src="assets/videos/index/video-5.MP4" type="video/mp4">
                             </video>
-                            <video class="carousel-video" muted loop playsinline preload="none" style="opacity: 0;">
+                            <video class="carousel-video" muted loop playsinline preload="none" poster="assets/videos/index/video-1-poster.jpg" style="opacity: 0;" aria-label="Singers in green performing at a sangeet in front of coloured drapes as guests sing along">
                                 <source src="assets/videos/index/video-1.MP4" type="video/mp4">
                             </video>
-                            <video class="carousel-video" muted loop playsinline preload="none" style="opacity: 0;">
+                            <video class="carousel-video" muted loop playsinline preload="none" poster="assets/videos/index/video-2-poster.jpg" style="opacity: 0;" aria-label="A dhol player leading a baraat past marquees, then singers performing for wedding guests">
                                 <source src="assets/videos/index/video-2.MP4" type="video/mp4">
                             </video>
-                            <video class="carousel-video" muted loop playsinline preload="none" style="opacity: 0;">
+                            <video class="carousel-video" muted loop playsinline preload="none" poster="assets/videos/index/video-3-poster.jpg" style="opacity: 0;" aria-label="Guests dancing at a night-time sangeet with a singer performing on stage">
                                 <source src="assets/videos/index/video-3.MP4" type="video/mp4">
                             </video>
-                            <video class="carousel-video" muted loop playsinline preload="none" style="opacity: 0;">
+                            <video class="carousel-video" muted loop playsinline preload="none" poster="assets/videos/index/video-4-poster.jpg" style="opacity: 0;" aria-label="Reena Kaur singing with a dholki at a Ladies Sangeet as guests dance in a marquee">
                                 <source src="assets/videos/index/video-4.mp4" type="video/mp4">
                             </video>
 
@@ -736,8 +777,8 @@
     <button class="back-to-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
     
     <!-- JavaScript -->
-    <script src="js/main.js?v=20260918c"></script>
-    <script src="js/navigation.js?v=20260918c"></script>
+    <script src="js/main.js?v=20260918g"></script>
+    <script src="js/navigation.js?v=20260918g"></script>
     
     <!-- Hero Video Rotation Script -->
     <script>

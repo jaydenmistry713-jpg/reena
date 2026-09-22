@@ -221,15 +221,10 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 
 ## 5. Still outstanding
 
-**Needs checking on a real device:**
-- **The back-to-top button does nothing.** Smooth scrolling is broken sitewide —
-  `window.scrollTo({behavior: "smooth"})` and CSS `scroll-behavior: smooth` are both
-  no-ops, while `behavior: "instant"` works. This is **not** a regression: the live
-  site behaves identically with its original CSS, and it is not caused by the overflow
-  rules (it still fails with `html`/`body` overflow removed entirely) or by
-  `prefers-reduced-motion` (checked, off). The cause was not identified, so no
-  workaround was applied. Tap it on a phone on the preview and confirm before
-  spending time on it — it may behave differently outside an automated browser.
+**Resolved:**
+- ~~The back-to-top button does nothing.~~ **Jayden confirmed 22 Sep that it works** in
+  a real browser. Smooth scrolling only failed inside the automated test browser, so it
+  was a limit of the test, not a site bug. Do not "fix" it.
 
 **Needs Reena / Jayden:**
 - Booking facts: set lengths, space & power requirements, setup time, deposit and
@@ -241,9 +236,62 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining
   public pages converted. See `CLAUDE.md` → "Design layer".
-- **`ffmpeg -movflags +faststart` on `hero-video1.mp4`.** Its `moov` atom sits at 148MB,
-  the very end of the file, so nothing can play until the whole clip is fetched. A
-  container rewrite, no re-encode, no quality loss. Worth checking every video for this.
+- ~~`ffmpeg -movflags +faststart` on `hero-video1.mp4`.~~ **Done 22 Sep**, along with a
+  full video pass — see "Video optimisation (22 Sep)" below.
+
+- `hero-video1.mp4` opens on a "The Picture Patch presents" title card (a wedding
+  videographer's film). **Jayden confirmed 22 Sep that there is permission to use it.**
+- Carousel clip `video-5` is Reena speaking to camera (confirmed by Jayden 22 Sep); its
+  `aria-label` names her.
+
+### Video optimisation (22 Sep)
+
+Site videos **638MB → 370MB**; the three new testimonials in `assets/new-media/videos/`
+30MB → 28MB. Originals are backed up at `Downloads/Reena-seo-video-originals/` (outside
+the repo, not deployed) — restore by copying back over `assets/videos/`.
+
+| File | Before | After | |
+|---|---|---|---|
+| `index/hero-video1.mp4` | 141MB | 29MB | now fast-start; audio dropped (never unmuted) |
+| `index/video-1.MP4` | 89MB | 41MB | |
+| `index/hero-video.mp4` | 71MB | 56MB | |
+| `index/video-2.MP4` | 50MB | 25MB | |
+| `index/video-5.MP4` | 39MB | 15MB | |
+| `index/video-4.mp4` | 32MB | 20MB | |
+| `testimonial/testimonial-2…6` | 60MB | 41MB | five files |
+| `gallery/performance-2, 4, 6` | 40MB | 28MB | three files |
+
+Nine files were left untouched because re-encoding did not save ≥20% — mostly already
+well-compressed phone clips, several of which came out *larger*.
+
+**How it was done, so it can be repeated:**
+- `libx264 -preset slow -crf 22` (21 for the two hero clips), `-pix_fmt yuv420p`,
+  `-c:a copy`, `-movflags +faststart`. Same resolution and frame rate.
+- **No `-vf` at all** — no scaling, no colour conversion. Each file's own
+  `colorspace` / `color_trc` / `color_primaries` / `color_range` is read with ffprobe
+  and written back explicitly. A file with no tags stays untagged.
+- Pitfalls hit on the way, worth knowing: ffprobe on Windows ends lines with `\r`
+  (strip it or ffmpeg rejects the tag), ffprobe reads stdin and will swallow a
+  `while read` file list (use `</dev/null`), and ffprobe prints fields in its own order,
+  not the order requested.
+- **Verified per file** before swapping: identical tags, fast-start, audio presence,
+  and mean Y/U/V over 30 frames at the midpoint within 1.0 of the original (actual:
+  ≤0.17). All 15 swapped files decode end-to-end with zero errors.
+- ffmpeg is not installed on this machine; the pass used the `ffmpeg-static` /
+  `ffprobe-static` npm packages in a scratch folder.
+
+**Posters** — 12 added (hero clip 1, carousel ×5, contact testimonials ×6), each frame 0
+of its own clip, converted with the clip's own colour matrix. They sit beside the clips
+in the **git-ignored** `assets/videos/`, so they ship only via the CLI deploy, like the
+videos.
+
+**ARIA** — every `<video>` now has a descriptive `aria-label`, or `aria-hidden="true"`
+for the two decorative hero clips.
+
+**Not verified in a browser.** The automated Chrome tab would not load *any* video —
+including untouched originals and the existing Netlify preview — so playback could not
+be checked that way. Open the homepage, gallery and contact page by hand (local server or
+a fresh `--alias seo-preview` deploy) before go-live.
 - Put the 32 Google reviews on the page as plain crawlable HTML. The Elfsight widget
   renders client-side, so **no review text exists in the HTML** — crawlers and AI
   assistants never see it. No schema (see below), just visible text.
@@ -295,6 +343,9 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
   Currently `?v=20260918g`.
+- **Any new video: fast-start, a poster from its own frame, and an `aria-label`** (or
+  `aria-hidden="true"` if purely decorative). Re-encode with no `-vf` and its own colour
+  tags carried through — never let ffmpeg convert colour. Recipe in §5.
 - **Check video `src` casing against disk.** Netlify is case-sensitive; Windows is not,
   so a wrong `.MP4`/`.mp4` looks fine locally and 404s in production. Ten such mismatches
   existed; all were fixed on 18 Sep. Nothing local will warn you, so re-check whenever a
