@@ -4,6 +4,22 @@
 [functions]
   node_bundler = "esbuild"
 
+# One hop from any www or http variant to the canonical https apex. Without these,
+# http://www went to https://www and only then to the apex: two redirects, on a URL
+# that still had 79 clicks in the 17 Sep Search Console baseline. Only matches on the
+# live domain; the preview is unaffected.
+[[redirects]]
+  from = "http://www.punjabifolkentertainment.com/*"
+  to = "https://punjabifolkentertainment.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.punjabifolkentertainment.com/*"
+  to = "https://punjabifolkentertainment.com/:splat"
+  status = 301
+  force = true
+
 # Internal files must not be served publicly. force = true is REQUIRED:
 # without it Netlify serves the file from disk and never reaches the rule. CLAUDE.md was readable on the live
 # site and exposed the Netlify site ID, env var names and the quote-page access
@@ -77,5 +93,23 @@
 # is no longer needed. See SEO-README.md section 1.
 [[headers]]
   for = "/faq-review.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# Private pages. robots.txt no longer disallows these, so Google can fetch them and
+# see this header. A Disallow would hide the noindex from it. They are also noindex
+# in their own markup.
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/quote.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/quote/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"

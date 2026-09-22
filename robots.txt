@@ -4,12 +4,11 @@
 User-agent: *
 Allow: /
 
-# Private / customer-specific pages (also noindex in the markup)
-Disallow: /admin.html
-Disallow: /quote/
-Disallow: /quote.html
+# Private pages (admin, quote, faq-review) are deliberately NOT disallowed here.
+# They are noindex in their markup and via an X-Robots-Tag header (netlify.toml).
+# A Disallow would stop Google fetching them, so it would never see the noindex,
+# and a quote link shared publicly could then be indexed as a bare URL.
 Disallow: /.netlify/
-Disallow: /faq-review.html
 
 # --- AI assistants: explicitly allowed ---
 # Being cited in AI answers is a booking channel for this business.

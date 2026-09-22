@@ -57,6 +57,10 @@ curl -s https://punjabifolkentertainment.com/ | grep -E '<title>|max-image-previ
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/favicon.ico   # must be 200, was 404
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/ladies-sangeet.html
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/llms.txt
+# www must reach the apex in ONE hop now (was two before 22 Sep):
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://www.punjabifolkentertainment.com/
+#   expect: 301 -> https://punjabifolkentertainment.com/
+curl -sI https://punjabifolkentertainment.com/admin.html | grep -i x-robots-tag   # expect noindex, nofollow
 ```
 
 ### Rollback
@@ -274,7 +278,8 @@ round (see the generator's header comment).
 | 1 | 22 Sep | 23 of 52 reviewed, 4 with notes. **Applied:** removed "What if our schedule runs late?" (FAQs page) and "Do you offer MC services?" (FAQs page + Punjabi DJ); "What is a Ladies Sangeet?" no longer mentions boliyan or "informal" (both pages); "What areas do you cover?" shortened to "We perform nationwide across the UK, and we also take international bookings." **28 left**, storage key now `v2`. **Follow-up, 22 Sep: MC removed from the whole site** at Jayden's request. Reena does not offer it. Removed from the DJ page meta/OG/Twitter description, Service schema, standfirst, header lead and "What's included" list, from the DJ card on `services.html`, and from `llms.txt`. Do not reintroduce MC services. |
 
 **Kept out of search:** `noindex` meta, `X-Robots-Tag: noindex` header (netlify.toml),
-`Disallow` in robots.txt, and no links to it from the site. `/tools/*` returns 404.
+and no links to it from the site. It is deliberately *not* disallowed in robots.txt,
+so that Google can see the noindex (see §6). `/tools/*` returns 404.
 Remove it before go-live if the review is done (§1, step 2b).
 
 ## 5. Still outstanding
@@ -406,6 +411,14 @@ it is not rediscovered as a new problem:
   `og:image`, `twitter:image` and both alt tags. The other files in `assets/images/og/`
   are only referenced from schema now.
 - Never state a price. Pricing is bespoke, quoted per event.
+- **Private pages are hidden with noindex, never with robots.txt `Disallow`** (22 Sep).
+  A Disallow stops Google fetching the page, so it never sees the noindex, and a URL
+  shared publicly (a quote link, for example) can still be indexed as a bare URL.
+  `admin.html`, `quote.html`, `/quote/*` and `faq-review.html` carry noindex in their
+  markup *and* an `X-Robots-Tag` header in netlify.toml. Only `/.netlify/` is disallowed.
+- **Link to the homepage as `/`, never `index.html`.** `/index.html` also returns 200,
+  so linking it gives the homepage a second URL. All 68 such links were switched on 22 Sep.
+- **Bump `<lastmod>` in sitemap.xml** for any page whose content changes.
 - **Never mention MC services.** Reena does not offer them; removed sitewide 22 Sep.
 - **Don't repeat shared booking information across service pages** (Jayden, 22 Sep).
   Travel, lead times, line-up and how quoting works live in `faq.html`; a service page
@@ -419,7 +432,7 @@ it is not rediscovered as a new problem:
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260922f`.
+  Currently `?v=20260922g`.
 - **Any new video: fast-start, a poster from its own frame, and an `aria-label`** (or
   `aria-hidden="true"` if purely decorative). Re-encode with no `-vf` and its own colour
   tags carried through — never let ffmpeg convert colour. Recipe in §5.

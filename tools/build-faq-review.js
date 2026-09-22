@@ -18,8 +18,9 @@
 // again (v3, …) whenever REVIEWED grows. Items still pending never have saved state lost that
 // way, as long as every change they carried has been exported and applied first.
 //
-// Not for the live site: faq-review.html is noindex, disallowed in robots.txt and sent with
-// X-Robots-Tag: noindex (netlify.toml). /tools/* is blocked from being served.
+// Not for the live site: faq-review.html is noindex and sent with X-Robots-Tag: noindex
+// (netlify.toml). It is deliberately not disallowed in robots.txt, so Google can see that.
+// /tools/* is blocked from being served.
 
 const fs = require("fs");
 const path = require("path");

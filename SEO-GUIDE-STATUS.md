@@ -78,8 +78,8 @@ again. Legend:
 |---|------|--------|
 | 32 | Every new page in `sitemap.xml` | **DONE** — 5 URLs → 17 |
 | 33 | Refresh `lastmod` | **DONE** — was 2025-11-16, now current |
-| 34 | robots.txt allows crawling and declares the sitemap | **DONE** — rewritten; `Crawl-delay: 5` removed (Bing obeyed it and throttled crawl), both sitemaps declared, AI crawlers explicitly allowed |
-| 35 | Private/admin pages stay noindex and out of the sitemap | **DONE** — `admin`, `quote`, `privacy-policy`, `terms` |
+| 34 | robots.txt allows crawling and declares the sitemap | **DONE** — rewritten; `Crawl-delay: 5` removed (Bing obeyed it and throttled crawl), both sitemaps declared, AI crawlers explicitly allowed. **22 Sep audit:** the `Disallow` lines for `admin`, `quote` and `faq-review` were removed. They hid those pages' noindex from Google; noindex is now sent as a header too. Only `/.netlify/` stays disallowed |
+| 35 | Private/admin pages stay noindex and out of the sitemap | **DONE** — `admin`, `quote`, `privacy-policy`, `terms`, `faq-review`, `404`. `admin`/`quote`/`quote/*`/`faq-review` also send `X-Robots-Tag: noindex, nofollow` |
 | 36 | Resubmit sitemap, request indexing for new URLs | **OPEN** — cannot be done until the site is live. Order is in `SEO-README.md` §2 |
 
 ## Image SEO (37–42)
@@ -422,3 +422,22 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
     Smooth scrolling looked broken separately, but only in the automated test
     browser. **Jayden confirmed on 22 Sep that the back-to-top button works in a real
     browser**, so there is nothing to fix.
+
+29. **Technical audit, 22 Sep: robots, sitemap, canonicals, noindex, duplicates,
+    404s, redirects and orphans.** Passed: every indexable page has a self-canonical and
+    the full robots directive, the sitemap matches the indexable set exactly, 0 broken
+    internal links or assets, custom 404 served with a real 404 status, `/videos*` 301s
+    and internal files 404, every URL in the live sitemap still resolves. Fixed:
+    - `lastmod` was 17/18 Sep on pages changed on 22 Sep; 17 URLs now say 2026-09-22.
+    - 68 internal links (nav Home, logo, breadcrumbs) pointed at `index.html`, which
+      also returns 200, giving the homepage a second URL. Now `/`.
+      `js/navigation.js` updated to treat `/` as home.
+    - Two blog articles were linked only from the blog index. Ladies Sangeet now links
+      "What Is a Ladies Sangeet?" and Dhol Players links "What a Dhol Player Does at a
+      Wedding".
+    - `http://www` reached the apex in two hops (via `https://www`). netlify.toml now
+      301s both www variants straight to the https apex. **Only testable once live.**
+    - robots.txt `Disallow` on the private pages hid their noindex from Google; removed,
+      and `X-Robots-Tag` headers added.
+    Left as is: `/services` and `/services.html` both 200 (Netlify pretty URLs); the
+    canonical resolves it and internal links consistently use `.html`.

@@ -103,7 +103,10 @@ function initActiveLinks() {
         const linkPage = link.getAttribute('href');
         
         // Check if this link matches current page
-        if (linkPage === currentPage || 
+        // Home links point at "/" (22 Sep), not index.html, so /index.html is not
+        // linked as a second homepage URL.
+        if (linkPage === currentPage ||
+            (currentPage === 'index.html' && linkPage === '/') ||
             (currentPage === '' && linkPage === 'index.html') ||
             (currentPage === '/' && linkPage === 'index.html')) {
             link.classList.add('active');
