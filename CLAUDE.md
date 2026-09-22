@@ -386,12 +386,16 @@ rendered by html2canvas against `--font-heading` / `--font-body`.
 
 ### Inner pages: `.page-head`
 
-The homepage opens on video over ink. Inner pages cannot, and faking it with a stock
-photo would be worse than not trying, so they open on the **same ink ground** carrying
-the beat rule — the signature is what ties the site together rather than the footage.
-Before this, every inner page opened on a crimson gradient that competed with the
-crimson closing CTA at the foot of the same page. The arc is now ink → warm bands →
-crimson close on every page, matching the homepage.
+**Changed 22 Sep at Jayden's request: inner-page headers are crimson again**, using
+`--gradient-primary` (the same gradient as the buttons and the closing CTA), not ink.
+Jayden wanted a lighter red that matches the rest of the site. The homepage hero is
+unaffected. Text on it is picked for crimson and measured at the light end of the
+gradient: H1 white 5.8:1, lead `#FDF1E6` 5.3:1, eyebrow `#FFE9A8` 4.9:1. **Do not put
+`--gold-leaf` or `--on-ink-muted` back on it**; they fail at 2.6:1 and 3.0:1. The
+`::after` crimson fade is switched off because it is invisible on crimson.
+
+(Previous rationale, kept for context: inner pages opened on ink to match the homepage
+video, because a crimson header competed with the crimson closing CTA.)
 
 `.page-head h1` is deliberately **a step below `--step-h1`** (~50px against the hero's
 88px at 1440px). The hero is the thesis; an inner header is a signpost and must not

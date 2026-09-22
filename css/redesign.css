@@ -1182,9 +1182,13 @@ body { padding-top: 88px; }
    page the same arc as the homepage.
    ================================ */
 
+/* 22 Sep: Jayden asked for the inner-page header to be a lighter red that matches
+   the rest of the site, so it now takes the same crimson gradient as buttons and
+   the closing CTA rather than ink. Text colours below are chosen for crimson:
+   white 5.8:1, lead #FDF1E6 5.3:1, eyebrow #FFE9A8 4.9:1 (at the light end). */
 .page-head {
-    background: var(--ink);
-    color: var(--on-ink);
+    background: var(--gradient-primary);
+    color: var(--color-white);
     text-align: center;
     /* Top padding clears the 88px fixed header before the eyebrow starts. */
     padding: clamp(5.5rem, 4.5rem + 4vw, 7.5rem) 0 clamp(2.75rem, 2rem + 2.5vw, 4rem);
@@ -1195,6 +1199,7 @@ body { padding-top: 88px; }
 /* Warm floor so the ink hands over to the band below it rather than stopping
    dead on a hard edge. */
 .page-head::after {
+    display: none; /* was a crimson fade out of ink; redundant on a crimson ground */
     content: '';
     position: absolute;
     inset: auto 0 0;
@@ -1209,7 +1214,7 @@ body { padding-top: 88px; }
 }
 
 .page-head .eyebrow {
-    color: var(--gold-leaf);
+    color: #FFE9A8;
 }
 
 /* A step below --step-h1. The homepage hero is the thesis and gets the full
@@ -1222,7 +1227,7 @@ body { padding-top: 88px; }
     font-variation-settings: 'SOFT' 24, 'WONK' 1;
     line-height: 1.08;
     letter-spacing: -0.02em;
-    color: var(--on-ink);
+    color: var(--color-white);
     max-width: 24ch;
     margin: 0 auto 0.9rem;
 }
@@ -1230,7 +1235,7 @@ body { padding-top: 88px; }
 .page-head .lead {
     font-size: var(--step-lead);
     line-height: 1.55;
-    color: var(--on-ink-muted);
+    color: #FDF1E6;
     max-width: 58ch;
     margin: 0 auto;
 }

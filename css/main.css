@@ -738,6 +738,12 @@ textarea:focus {
     object-position: center 28%;
 }
 
+/* For shots where the people are in the lower half (e.g. the beach baraat, whose
+   top half is palm trees and sky), anchor the crop low instead. */
+.article-figure--focus-low img {
+    object-position: center 88%;
+}
+
 /* Two portraits side by side use the measure better than one above the other. */
 .article-figure-pair {
     display: grid;

@@ -345,6 +345,10 @@ a fresh `--alias seo-preview` deploy) before go-live.
   `og:image`, `twitter:image` and both alt tags. The other files in `assets/images/og/`
   are only referenced from schema now.
 - Never state a price. Pricing is bespoke, quoted per event.
+- **Don't repeat shared booking information across service pages** (Jayden, 22 Sep).
+  Travel, lead times, line-up and how quoting works live in `faq.html`; a service page
+  ends with the one-line pricing paragraph and a link there. Add only what is specific
+  to that service. Use plain words: "songs" or "song choices", never "repertoire".
 - **Never let `--color-secondary` (`#FFD700`) carry text on white or crimson.** It is
   1.4:1 on white and 4.17:1 on crimson. Use `--gold-ink` on light grounds, `--gold-leaf`
   on ink, `#FFE9A8` on crimson. Three violations were found and fixed on 18 Sep.
@@ -353,7 +357,7 @@ a fresh `--alias seo-preview` deploy) before go-live.
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260918g`.
+  Currently `?v=20260922a`.
 - **Any new video: fast-start, a poster from its own frame, and an `aria-label`** (or
   `aria-hidden="true"` if purely decorative). Re-encode with no `-vf` and its own colour
   tags carried through — never let ffmpeg convert colour. Recipe in §5.
