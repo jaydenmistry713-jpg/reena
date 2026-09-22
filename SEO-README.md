@@ -298,6 +298,14 @@ a fresh `--alias seo-preview` deploy) before go-live.
 - Deepen the four blog articles (currently 568–676 words).
 - Decide what to do about the 175-impression `punjabi singer provider <city>` cluster.
 
+**Needs doing in the Elfsight dashboard (not this repo):**
+- The Google Reviews widget injects a JSON-LD **`Product`** with `aggregateRating`
+  5.0/32 and invented `mpn`/`sku` once it renders. That is what Search Console shows
+  under Enhancements → Review snippets. Switch off the widget's rich-snippet / schema
+  option. Verify afterwards by loading the homepage, scrolling to the reviews and
+  checking there is only **one** `application/ld+json` block. See `SEO-GUIDE-STATUS.md`
+  item 56.
+
 **Deliberately not done, do not "fix" these later:**
 - **Review / star schema.** Google classifies reviews about the entity that controls the
   page as *self-serving*, and made them ineligible for star rich results in Sept 2019.

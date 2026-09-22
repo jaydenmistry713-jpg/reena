@@ -127,8 +127,8 @@ again. Legend:
 | # | Item | Status |
 |---|------|--------|
 | 55 | FAQ schema will NOT produce FAQ rich results | **UNDERSTOOD** — kept for parsing and AI assistants. Do not expect listing changes |
-| 56 | No review star ratings without genuine reviews | **CONFIRMED, different reason** — there ARE 32 genuine Google reviews (5.0, Elfsight widget). Still not marked up: Google treats reviews about the entity controlling the page as **self-serving** and made them ineligible for star rich results in Sept 2019. `aggregateRating` would produce no stars and risks a manual action. **Do not add it.** |
-| 57 | Sitelinks can't be forced | **UNDERSTOOD** — no action possible |
+| 56 | No review star ratings without genuine reviews | **CONFIRMED, different reason** — there ARE 32 genuine Google reviews (5.0, Elfsight widget). Still not marked up: Google treats reviews about the entity controlling the page as **self-serving** and made them ineligible for star rich results in Sept 2019. `aggregateRating` would produce no stars and risks a manual action. **Do not add it.** **⚠ Found 22 Sep: the Elfsight widget injects review markup anyway.** Once it loads it adds a JSON-LD `Product` with `aggregateRating` 5.0/32, a `review` array and invented `mpn`/`sku` values. Google renders JavaScript, so this is what populates Search Console → Enhancements → *Review snippets*. It is not in any HTML file here, which is why earlier audits missed it; it only exists after the widget renders. **Fix is in the Elfsight dashboard (turn off its rich-snippet / schema option), not in this repo.** Check the Review snippets report empties after a re-crawl |
+| 57 | Sitelinks can't be forced | **UNDERSTOOD** — no switch for them. Google shows them for navigational queries (brand/name searches) when it can see a clear structure. What helps is already in place: distinct titles per page, a consistent nav and footer on every page, matching breadcrumbs, a sitemap, and descriptive internal anchors. Nothing further to do except go live and let brand searches accumulate |
 
 ## Key principles (58–62)
 
@@ -156,9 +156,9 @@ again. Legend:
 | # | Item | Status |
 |---|------|--------|
 | 69 | Find `og:image` set to the logo | **DONE, and worse** — homepage `og:image` pointed at `/assets/images/hero/home-hero.jpg`, which **404s**. Four other pages had no OG tags at all |
-| 70 | Point OG/Twitter at a real photograph, add `og:image:alt` | **DONE** — nine 1200×630 images generated in `assets/images/og/` |
+| 70 | Point OG/Twitter at a real photograph, add `og:image:alt` | **DONE** — nine 1200×630 images generated in `assets/images/og/`. **22 Sep:** the homepage card is now `og-reena-kaur.jpg` — a 1200×630 crop of Reena's studio portrait (face + signature), so `og:image`, `twitter:image` and the schema `primaryImageOfPage` all point at the same portrait rather than sending Google mixed signals. `og-home.jpg` (mela stage) stays in the organisation `image` array and on the pages that already used it |
 | 71 | Audit for pages declaring the wrong photo | **DONE** — checked every page |
-| 72 | Structured data `image` as an array of 2–4 photos | **DONE** — three photos, differing ratios |
+| 72 | Structured data `image` as an array of 2–4 photos | **DONE** — three photos, differing ratios. **22 Sep:** Reena's studio portrait (`assets/images/index/reena-kaur-portrait.jpg`) now leads the organisation's `image` array, is the `Person` image, and is declared as the homepage's `primaryImageOfPage` on a new `WebPage` node — Google's documented hint for which image to use as the search-result thumbnail. It is only a hint; Google chooses |
 | 73 | Keep `logo` as the logo, `image` as photography only | **DONE** — they previously held the same file |
 
 ## Image sitemap (74–77)
