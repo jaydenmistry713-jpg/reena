@@ -441,3 +441,29 @@ Found by inspecting this site specifically; not in `seo-changes.txt`:
       and `X-Robots-Tag` headers added.
     Left as is: `/services` and `/services.html` both 200 (Netlify pretty URLs); the
     canonical resolves it and internal links consistently use `.html`.
+
+30. **A dedicated page for Reena, 23 Sep: `reena-kaur.html`.** Item 13 of the outside
+    plan (`Reena_Kaur_SEO_Suggested_Edits.txt`) asked for a Reena Kaur entity page.
+    Built from a ~1,500-word biography Reena wrote herself, tightened and kept in her
+    own voice (~1,400 words on the page including the fact list). Decisions:
+    - **URL is `/reena-kaur.html`, not the plan's `/artists/reena-kaur/`.** Every other
+      page is a flat `.html`, and there are no other artist pages to justify a folder.
+    - Title and H1 are the plan's: "Reena Kaur | Punjabi Singer & Sangeet Performer" /
+      "Reena Kaur — Punjabi Singer & Sangeet Performer".
+    - It opens with a **third-person entity standfirst** matching the homepage's
+      "Meet Reena Kaur" band ("Twenty-five years of keeping Punjabi folk alive"), then
+      an "At a glance" fact list, then switches to **her first-person story**. The
+      through-line is the homepage's theme: she is still singing the songs her family
+      gave her.
+    - Schema: one `@graph` with `ProfilePage` → `Person` (`#reena-kaur`) →
+      `BreadcrumbList` (Home / Meet the Team / Reena Kaur). The `Person` node adds
+      `description` (the standfirst, word for word: change both together),
+      `birthPlace`, `knowsAbout` and `knowsLanguage`.
+    - **The `Person` `url` now points here** on `index.html` and `team.html`, not at
+      `team.html`.
+    - Linked from the homepage band ("Read Reena's story"), her card on `team.html`, a
+      new **"About Reena Kaur"** footer link on every public page, `llms.txt`, and both
+      sitemaps.
+    - Left out on purpose: no press list, named venues or TV channels beyond what she
+      supplied. Open questions (25 vs 26 years, streaming links) are in
+      `SEO-README.md` §5.

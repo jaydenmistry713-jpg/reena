@@ -49,6 +49,7 @@ them. See "Design layer".
 ```
 index.html, services.html, team.html, gallery.html, contact.html   Public pages
                       (gallery.html was videos.html until 21 Sep; netlify.toml 301s the old URL)
+reena-kaur.html       Reena's own page (23 Sep): entity page + her story. See "Reena Kaur page"
 admin.html            Password-protected admin dashboard (inquiries + quotes)
 quote.html            Customer-facing branded quote page
 punjabi-wedding-entertainment/index.html
@@ -217,9 +218,10 @@ functions need `nodemailer` and `@netlify/blobs`).
 
 Full detail in **`SEO-README.md`**. Summary of what changed versus the live site:
 
-- **12 new pages.** Five service pages split out of `services.html`
+- **13 new pages.** Five service pages split out of `services.html`
   (`ladies-sangeet`, `punjabi-folk-singers`, `dhol-players`, `punjabi-dj`, `concerts`),
-  plus `faq`, `areas-we-cover`, `privacy-policy`, `terms`, and `blog/` with four articles.
+  plus `faq`, `areas-we-cover`, `privacy-policy`, `terms`, `blog/` with four articles,
+  and `reena-kaur.html` (23 Sep).
 - `services.html` cut from 775 words to a routing hub so it stops competing with the
   pages it links to (253 words on 17 Sep; 407 after the 18 Sep pillar restructure; ~320 after its intro paragraph was removed on 22 Sep).
 - Sitewide: full robots directive incl. `max-image-preview:large`, complete OG/Twitter
@@ -314,6 +316,35 @@ Restructured on 18 Sep because it read as location keyword coverage. Rules:
 - Place names live in a single set-apart `Regular areas include:` line per region.
 - Dedicated city pages (London, Birmingham, …) are only worth creating where there is
   **substantial unique information** to put on them. Do not spin up thin city pages.
+
+---
+
+## Reena Kaur page (23 Sep 2026) — `reena-kaur.html`
+
+Reena's entity page, written from a biography she supplied. It uses the article layout
+below (sticky rail, 704px measure), with the breadcrumb **Home / Meet the Team / Reena
+Kaur**. The nav keeps "Meet the Team" active.
+
+- **Two voices, in this order.** First a third-person `.standfirst-note` (the entity
+  definition, echoing the homepage's "Meet Reena Kaur" band) and an "At a glance"
+  `.fact-list`. Then `.story-intro` hands over to **her own first-person story**.
+  Keep the story in her voice and the standfirst in the third person.
+- **The standfirst is mirrored word for word in the `Person` schema `description`.**
+  Change both together.
+- **It is now the `Person` entity's `url`** (`#reena-kaur`) on this page, `index.html`
+  and `team.html`. The page declares a `ProfilePage` with that `Person` as `mainEntity`.
+- **Years: "more than 25"**, like the rest of the site, although her own text says 26.
+  That is an open question for Reena (`SEO-README.md` §5). Change it sitewide or not at all.
+- **Only facts she gave.** Her grandad's dholki, the mandir and bhajans, Mary Kay and
+  bridal make-up, a first concert of 10,000+, a largest audience of 50,000+, releases on
+  streaming platforms, TV appearances (unnamed), single motherhood, a letter from the
+  Queen. Do not add named venues, channels or press she has not supplied.
+- Styles are **section 18 of `redesign.css`**: `.fact-list` (a `<dl>`), `.pull-quote`,
+  `.article-video` and `.profile-links`. `.article-video` floats a 9:16 clip beside the
+  prose from 640px and is capped and centred below that; `.profile .h-section` clears
+  the float.
+- Linked from the homepage band ("Read Reena's story"), her card on `team.html`, and an
+  **"About Reena Kaur"** link under "Meet the Team" in every footer's Quick Links.
 
 ---
 

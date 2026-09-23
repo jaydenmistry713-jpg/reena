@@ -125,27 +125,28 @@ split across two days. Order is by expected value, highest first.
 | # | URL | Why this order |
 |---|-----|----------------|
 | 1 | `/` | New title leads with "Reena Kaur". `reena kaur` = 376 imp at pos 2.95 with only 4.52% CTR. Fastest, highest-confidence win. |
-| 2 | `/punjabi-wedding-entertainment/` | **New 18 Sep.** The wedding pillar, and the parent of the four performer pages. Submit it before its children so the hierarchy is discovered in order. |
-| 3 | `/ladies-sangeet.html` | Biggest cluster: `ladies sangeet` 108 imp, `ladies sangeet singers near me` 82 imp, plus the dholki queries. |
-| 4 | `/punjabi-folk-singers.html` | `punjabi folk singers` 105 imp at pos 10.02, 0.95% CTR. **Title changed 18 Sep.** |
-| 5 | `/dhol-players.html` | `dholki hire birmingham` and `dholki hire near me` both rank **2.4** with zero clicks. **Title and H1 changed 18 Sep.** |
-| 6 | `/services.html` | Now a ~320-word pillar hub (intro paragraph removed 22 Sep). Needs a re-crawl so it stops competing with the pages above, and so the new three-pillar structure is picked up. **Title changed 18 Sep.** |
-| 7 | `/punjabi-dj.html` | New page. |
-| 8 | `/concerts.html` | New page, **rewritten 18 Sep** for melas, South Asian festivals and cultural/community events. Different audience from everything above it. |
-| 9 | `/areas-we-cover.html` | **Restructured 18 Sep** into eight regional sections. |
-| 10 | `/faq.html` | New page, 17 Q&As (19 until the 22 Sep FAQ review). |
+| 2 | `/reena-kaur.html` | **New 23 Sep.** Reena's own page, now the `url` of the `Person` entity sitewide. Same reason as `/`: her name is the #1 query. |
+| 3 | `/punjabi-wedding-entertainment/` | **New 18 Sep.** The wedding pillar, and the parent of the four performer pages. Submit it before its children so the hierarchy is discovered in order. |
+| 4 | `/ladies-sangeet.html` | Biggest cluster: `ladies sangeet` 108 imp, `ladies sangeet singers near me` 82 imp, plus the dholki queries. |
+| 5 | `/punjabi-folk-singers.html` | `punjabi folk singers` 105 imp at pos 10.02, 0.95% CTR. **Title changed 18 Sep.** |
+| 6 | `/dhol-players.html` | `dholki hire birmingham` and `dholki hire near me` both rank **2.4** with zero clicks. **Title and H1 changed 18 Sep.** |
+| 7 | `/services.html` | Now a ~320-word pillar hub (intro paragraph removed 22 Sep). Needs a re-crawl so it stops competing with the pages above, and so the new three-pillar structure is picked up. **Title changed 18 Sep.** |
+| 8 | `/punjabi-dj.html` | New page. |
+| 9 | `/concerts.html` | New page, **rewritten 18 Sep** for melas, South Asian festivals and cultural/community events. Different audience from everything above it. |
+| 10 | `/areas-we-cover.html` | **Restructured 18 Sep** into eight regional sections. |
 
 **Day 2**
 | # | URL |
 |---|-----|
-| 11 | `/blog/` — blog index, gives Google a route to the four articles |
-| 12 | `/blog/what-is-a-ladies-sangeet.html` |
-| 13 | `/blog/dhol-player-wedding-guide.html` |
-| 14 | `/blog/punjabi-wedding-entertainment-guide.html` |
-| 15 | `/blog/sangeet-mehndi-jago-explained.html` |
-| 16 | `/contact.html` — new title; currently **zero impressions**, worth checking index status |
-| 17 | `/team.html` — new title + Person schema; also currently **zero impressions** |
-| 18 | `/gallery.html` — renamed from `/videos.html` on 21 Sep (301 in `netlify.toml`); request indexing on the new URL |
+| 11 | `/faq.html` — new page, 17 Q&As (19 until the 22 Sep FAQ review) |
+| 12 | `/blog/` — blog index, gives Google a route to the four articles |
+| 13 | `/blog/what-is-a-ladies-sangeet.html` |
+| 14 | `/blog/dhol-player-wedding-guide.html` |
+| 15 | `/blog/punjabi-wedding-entertainment-guide.html` |
+| 16 | `/blog/sangeet-mehndi-jago-explained.html` |
+| 17 | `/contact.html` — new title; currently **zero impressions**, worth checking index status |
+| 18 | `/team.html` — new title + Person schema; also currently **zero impressions** |
+| 19 | `/gallery.html` — renamed from `/videos.html` on 21 Sep (301 in `netlify.toml`); request indexing on the new URL |
 
 **Do NOT request indexing for:** `/admin.html`, `/quote.html`, `/privacy-policy.html`,
 `/terms.html`. All four are `noindex` and deliberately out of the sitemap.
@@ -294,6 +295,14 @@ Remove it before go-live if the review is done (§1, step 2b).
   cancellation terms, named venues, signature songs. Service pages are honest without
   these but describe process where they could state specifics.
 - Privacy policy: data retention period, and whether the business is ICO-registered.
+- **25 or 26 years?** Reena's own biography (23 Sep) says "more than 26 years". Every
+  page, the schema and `llms.txt` say "25+" / "over 25". `reena-kaur.html` keeps "more
+  than 25" so the site does not contradict itself (26 is still "more than 25"). If she
+  wants 26, change it sitewide in one pass, not page by page.
+- **Streaming and TV links.** Reena's biography says her songs are on the mainstream
+  streaming platforms and that she has appeared on mainstream TV channels, but names
+  neither. With the artist profile URLs (Spotify, Apple Music) they can go in the
+  `Person` `sameAs`, and named channels can go on the page. Nothing was invented.
 
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining
@@ -432,7 +441,8 @@ it is not rediscovered as a new problem:
 - `admin.html` and `quote.html` stay `noindex` and stay out of the sitemap.
 - Bump the `?v=` cache-busting string on CSS/JS whenever either changes — on **every**
   page, not just the one being edited, since `main.css` and `responsive.css` are shared.
-  Currently `?v=20260922g`.
+  Currently `?v=20260922g`, except `main.css` (`20260923a`, 23 Sep iPad fix) and
+  `redesign.css` (`20260923a`, 23 Sep Reena page styles).
 - **Any new video: fast-start, a poster from its own frame, and an `aria-label`** (or
   `aria-hidden="true"` if purely decorative). Re-encode with no `-vf` and its own colour
   tags carried through — never let ffmpeg convert colour. Recipe in §5.
