@@ -383,7 +383,8 @@ frame. Do the same for any tall shot added to a card.
 > | Selector | Rule | Why |
 > |---|---|---|
 > | `html`, `body` | **no `overflow-x` at all** | anything here propagates to the viewport |
-> | `.site-header`, `main`, `.site-footer` | `overflow-x: clip` | not the root, so nothing propagates; `clip` never creates a scroll container, so sticky is safe |
+> | `main`, `.site-footer` | `overflow-x: clip` | not the root, so nothing propagates; `clip` never creates a scroll container, so sticky is safe |
+> | `.site-header` | `overflow-x: clip` **at ≤1024px only** | on the desktop layout Safari (iPad) clips the Services dropdown at the header edge when the header has `overflow-x: clip`, even with overflow-y visible. Chrome does not, so nothing local shows it (23 Sep) |
 > | `section` (main.css + responsive.css) | `overflow-x: clip` | was `hidden`, which made every section a scroll container |
 > | the article `<section>` | `class="article-section"` → `overflow: visible` | opts out entirely so the rail can stick. A class rather than `:has()`, so it does not depend on selector support |
 >

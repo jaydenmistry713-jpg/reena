@@ -58,10 +58,20 @@ body {
     max-width: 100%;
 }
 
-.site-header,
 main,
 .site-footer {
     overflow-x: clip;
+}
+
+/* The header is clipped on the mobile layout only. On the desktop layout the
+   Services dropdown hangs below the header, and Safari (iPad, 23 Sep) clipped
+   it at the header's bottom edge while the header had `overflow-x: clip`, even
+   though overflow-y is visible. Chrome does not, so it only shows on Apple
+   devices. Do not put the header back in the rule above. */
+@media (max-width: 1024px) {
+    .site-header {
+        overflow-x: clip;
+    }
 }
 
 /* ===== TYPOGRAPHY ===== */
