@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
+    initMobileSubmenus();
     initStickyHeader();
     initActiveLinks();
 });
@@ -69,6 +70,41 @@ function initMobileMenu() {
         if (window.innerWidth > 1024 && navMenu.classList.contains('active')) {
             closeMenu();
         }
+    });
+}
+
+// ===== MOBILE SUBMENUS =====
+// In the slide-in panel the Services list used to sit open under "Services", which
+// pushed Gallery, Meet the Team, Blog and Contact below the fold on a phone (30 Sep,
+// Reena: "I can only see Home and Services"). It is now collapsed behind a chevron.
+// The button is added here, so without JS the list simply stays open. Desktop hides
+// the button and keeps the hover dropdown.
+function initMobileSubmenus() {
+    const items = document.querySelectorAll('.nav-item-has-dropdown');
+
+    items.forEach((item, i) => {
+        const link = item.querySelector('.nav-link');
+        const dropdown = item.querySelector('.nav-dropdown');
+        if (!link || !dropdown) return;
+
+        if (!dropdown.id) dropdown.id = 'nav-submenu-' + (i + 1);
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'nav-sub-toggle';
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-controls', dropdown.id);
+        button.setAttribute('aria-label', 'Show ' + link.textContent.trim() + ' pages');
+        button.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+        link.after(button);
+        item.classList.add('has-sub-toggle');
+
+        button.addEventListener('click', function() {
+            const open = item.classList.toggle('is-open');
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
+            button.setAttribute('aria-label', (open ? 'Hide ' : 'Show ') + link.textContent.trim() + ' pages');
+        });
     });
 }
 

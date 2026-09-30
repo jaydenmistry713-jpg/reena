@@ -247,7 +247,8 @@ the rules in `SEO-README.md` section 6.
 
 ### Hard rules
 - `netlify/functions/form-submission.js` is untouched and must stay that way.
-- Never publish a price — pricing is bespoke, quoted per event.
+- Never publish a price — pricing is bespoke, quoted per event. Package **names** are fine
+  (30 Sep: Silver includes a dhol player, Gold includes a DJ); see `SEO-README.md` §5.
 - The Ladies Sangeet **singers** are female; accompanying musicians including dholki
   players are not always. Do not over-claim this.
 - No review/star schema — self-serving reviews are ineligible. See `SEO-README.md` §5.
@@ -338,8 +339,21 @@ Kaur**. The nav keeps "Meet the Team" active.
 - **Only facts she gave.** Her grandad's dholki, the mandir and bhajans, Mary Kay and
   bridal make-up, a first concert of 10,000+, a largest audience of 50,000+, releases on
   streaming platforms, TV appearances (unnamed), single motherhood, a letter from the
-  Queen. Do not add named venues, channels or press she has not supplied.
-- Styles are **section 18 of `redesign.css`**: `.fact-list` (a `<dl>`), `.pull-quote`,
+  Queen. Added 30 Sep from her feedback: **she plays the dholki as well as sings**, and her
+  dholki videos on YouTube have attracted a lot of views (no figure given, so none is
+  stated). Do not add named venues, channels or press she has not supplied.
+- **Her own wording, 30 Sep.** H1 is her name with "Punjabi Folk Singer" under it (she did
+  not want "Sangeet Performer"; the title tag follows). Audience range is "From intimate
+  gatherings of 50 guests to stages in front of 50,000 people". The first concert (10,000+)
+  lives in her story only, not "At a glance". Where she is named as founder, the company is
+  **Punjabi Folk Entertainment Ltd**.
+- **The name treatment** is `.profile-name` / `.profile-name-title`: Cormorant Garamond 600
+  capitals, loaded on this page only via its Google Fonts link. The subtitle is a `<span>`
+  inside the `<h1>`, so the heading still says what she does.
+- **Still to come:** a soft, faded photo behind the page head and new pictures elsewhere on
+  the page. Reena is sending options; held back with the other image changes.
+- Styles are **section 18 of `redesign.css`**: `.fact-list` (a `<dl>`, one column with a
+  gold label per row since 30 Sep), `.pull-quote`,
   `.article-video` and `.profile-links`. `.article-video` floats a 9:16 clip beside the
   prose from 640px and is capped and centred below that; `.profile .h-section` clears
   the float.
@@ -628,6 +642,10 @@ Now enforced sitewide by `redesign.css`, not per page:
   there is no hover to explain it. Section 16 of `redesign.css` gives the panel one
   indent level, no connector rules, and no "All services" row — tapping **Services**
   goes there, so it was saying the same thing twice.
+  **30 Sep: the Services list is collapsed on mobile** behind a chevron button that
+  `js/navigation.js` (`initMobileSubmenus`) inserts after the link. Open, it pushed
+  Gallery, Meet the Team, Blog and Contact below the fold on a phone, and Reena reported
+  seeing only "Home" and "Services". Without JS the list stays open. Desktop hides the button.
 - **No emoji as icons** on any public page.
 
 ### Signature: the beat rule

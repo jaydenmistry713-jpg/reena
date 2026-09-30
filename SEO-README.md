@@ -303,6 +303,17 @@ Remove it before go-live if the review is done (§1, step 2b).
   streaming platforms and that she has appeared on mainstream TV channels, but names
   neither. With the artist profile URLs (Spotify, Apple Music) they can go in the
   `Person` `sameAs`, and named channels can go on the page. Nothing was invented.
+- **Packages vs "no fixed package" (30 Sep).** Reena's feedback names a **Silver package
+  (includes a dhol player)** and a **Gold package (includes a DJ)**, now stated on
+  `dhol-players.html` and `punjabi-dj.html` (names only, never a price). But the FAQ
+  "How many performers…" answer on `faq.html`, and the "line-up is not a fixed package"
+  wording on `concerts.html`, still say line-ups are not taken from a fixed package. Ask
+  what the packages contain (and whether there are others, e.g. Bronze) before
+  reconciling those, or before adding a packages section anywhere.
+- **Image changes from Reena's 30 Sep feedback, deliberately held back:** singers' photos
+  on the Punjabi Singers card, a different photo of her on `ladies-sangeet.html` (the one
+  where her expression "looks a bit scary"), and a soft faded photo behind the page head
+  on `reena-kaur.html`. She is sending pictures to choose from.
 
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining

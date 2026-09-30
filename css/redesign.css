@@ -1232,6 +1232,10 @@ body { padding-top: 88px; }
 
 .page-head .eyebrow {
     color: #FFE9A8;
+    /* The global p rule caps it at 68ch; without auto margins that box sat at
+       the left of the container, so on wide screens the eyebrow was off-centre. */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* A step below --step-h1. The homepage hero is the thesis and gets the full
@@ -1447,6 +1451,59 @@ body { padding-top: 88px; }
     .nav-dropdown li {
         width: 100%;
     }
+
+    /* Collapsible Services list (30 Sep). The chevron is added by navigation.js,
+       so the list only collapses when the button exists. Open, the full list
+       pushed every other top-level link below the fold on a phone. */
+    .nav-item.has-sub-toggle {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .nav-item.has-sub-toggle > .nav-link {
+        flex: 1 1 auto;
+        width: auto;
+    }
+
+    .nav-item.has-sub-toggle > .nav-dropdown {
+        flex: 0 0 100%;
+        display: none;
+    }
+
+    .nav-item.has-sub-toggle.is-open > .nav-dropdown {
+        display: block;
+    }
+
+    .nav-sub-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        margin-right: -0.6rem;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
+        background: none;
+        color: var(--color-text-primary);
+        cursor: pointer;
+    }
+
+    .nav-sub-toggle svg {
+        transition: transform 0.2s ease;
+    }
+
+    .nav-item.is-open > .nav-sub-toggle svg {
+        transform: rotate(180deg);
+    }
+}
+
+/* The hover dropdown handles desktop. */
+@media (min-width: 1025px) {
+    .nav-sub-toggle {
+        display: none;
+    }
 }
 
 /* ================================
@@ -1463,48 +1520,91 @@ body { padding-top: 88px; }
     font-weight: 600;
 }
 
+/* Reena's name as the page H1 (30 Sep): her name large, in Cormorant Garamond
+   capitals, with "Punjabi Folk Singer" set under it in Fraunces italic. The
+   subtitle stays inside the h1 so the heading still says what she does.
+   Cormorant is loaded on reena-kaur.html only. Capped below the homepage hero. */
+.page-head h1.profile-name {
+    font-family: 'Cormorant Garamond', var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 1.6rem + 3.4vw, 4.25rem);
+    font-variation-settings: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1.02;
+    /* letter-spacing trails the last letter; pull it back so the name centres */
+    text-indent: 0.14em;
+    max-width: none;
+}
+
+.page-head .profile-name-title {
+    display: block;
+    margin-top: 0.7rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 1rem + 0.9vw, 1.65rem);
+    text-transform: none;
+    letter-spacing: 0.01em;
+    text-indent: 0;
+    color: #FFE9A8;
+}
+
 /* At a glance. A <dl> so each label stays tied to its value for screen
-   readers and for anything extracting facts from the page. */
+   readers and for anything extracting facts from the page.
+   30 Sep: was a two-column grid; Reena wanted it to feel more elegant. Now one
+   column, read like a concert programme: a gold label set against each fact,
+   on cream inside a fine inner gold frame. */
 .fact-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
-    margin: 0 0 2rem;
+    position: relative;
+    margin: 0 0 2.25rem;
+    padding: 1.1rem 2rem;
     background: var(--wash-cream);
-    border-radius: 12px;
-    padding: 0.5rem 1.4rem;
+    border-radius: 6px;
+}
+
+/* The inner frame. Decoration only, so --gold-deco rather than --gold-ink. */
+.fact-list::before {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(168, 120, 10, 0.35);
+    border-radius: 3px;
+    pointer-events: none;
 }
 
 .fact-list > div {
-    padding: 0.85rem 0;
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    column-gap: 1.5rem;
+    align-items: baseline;
+    padding: 0.95rem 0;
     border-bottom: 1px solid var(--hairline-paper);
 }
 
-/* Odd rows sit in the left column; the rule under the last row of each
-   column is dropped so the panel does not end on a hairline. */
-.fact-list > div:nth-child(odd) { padding-right: 1.25rem; }
-.fact-list > div:nth-last-child(-n + 2) { border-bottom: 0; }
+.fact-list > div:last-child { border-bottom: 0; }
 
 .fact-list dt {
     font-family: var(--font-ui);
     font-size: var(--step-eyebrow);
-    letter-spacing: 0.09em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--gold-ink);
-    margin: 0 0 0.2rem;
+    margin: 0;
 }
 
 .fact-list dd {
     margin: 0;
-    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
     line-height: 1.45;
+    color: var(--color-text-primary);
 }
 
 @media (max-width: 560px) {
-    .fact-list { grid-template-columns: minmax(0, 1fr); }
-    .fact-list > div:nth-child(odd) { padding-right: 0; }
-    .fact-list > div:nth-last-child(2) { border-bottom: 1px solid var(--hairline-paper); }
+    .fact-list { padding: 0.9rem 1.35rem; }
+    .fact-list > div { grid-template-columns: minmax(0, 1fr); row-gap: 0.25rem; }
 }
 
 /* Marks the switch from the third-person entity copy to Reena's own voice. */
