@@ -88,9 +88,9 @@
   to = "/quote.html"
   status = 200
 
-# FAQ review checklist for Reena (faq-review.html). Internal: never index it. It is also
-# noindex in its own markup and disallowed in robots.txt. Delete it before go-live if it
-# is no longer needed. See SEO-README.md section 1.
+# FAQ review checklist for Reena (faq-review.html). The review finished and the page was
+# deleted on 2 Oct 2026. Kept so that, if tools/build-faq-review.js is ever re-run for a
+# new round, the regenerated page is still never indexed. See SEO-README.md section 4b.
 [[headers]]
   for = "/faq-review.html"
   [headers.values]

@@ -54,9 +54,9 @@ admin.html            Password-protected admin dashboard (inquiries + quotes)
 quote.html            Customer-facing branded quote page
 punjabi-wedding-entertainment/index.html
                       Wedding pillar hub, served at /punjabi-wedding-entertainment/
-faq-review.html       INTERNAL. Reena's FAQ review checklist (noindex, unlinked). Generated,
-                      never edit by hand: node tools/build-faq-review.js. See SEO-README §4b
-tools/                Generators for internal pages. Blocked from being served (netlify.toml)
+tools/                Generators for internal pages. Blocked from being served (netlify.toml).
+                      build-faq-review.js made Reena's FAQ checklist (faq-review.html); the
+                      review finished and the page was deleted on 2 Oct. See SEO-README §4b
 Reena_Kaur_SEO_Suggested_Edits.txt
                       INTERNAL. An outside SEO plan, kept on disk on purpose (Jayden, 22 Sep)
                       but not in git. netlify.toml 404s it, so deploys never publish it.

@@ -42,10 +42,6 @@ ls assets/videos/index/hero-video.mp4     # must exist (lowercase .mp4 — the
 # 2. sanity check before pushing anything public
 python "<scratchpad>/check_links.py"      # or just re-check manually
 
-# 2b. internal pages: faq-review.html is Reena's checklist (noindex, not linked).
-#     If the review is finished, remove it so it is not public on the live domain:
-#     git rm faq-review.html   (tools/ is blocked by netlify.toml, so it can stay)
-
 # 3. THE ACTUAL GO-LIVE
 netlify deploy --prod --dir . --functions netlify/functions
 ```
@@ -230,9 +226,14 @@ Rich results (Search Appearance report): EMPTY — nothing firing
 
 ---
 
-## 4b. FAQ review checklist for Reena (22 Sep)
+## 4b. FAQ review checklist for Reena (22 Sep – 2 Oct)
 
-**URL:** https://seo-preview--beamish-baklava-7f1b21.netlify.app/faq-review.html
+> **Finished 2 Oct 2026. `faq-review.html` has been deleted.** The generator is kept in
+> `tools/` (never served) in case a future round is needed; re-running it recreates the
+> page, and the noindex header in `netlify.toml` is still there for that case. The rest
+> of this section describes how the page worked.
+
+**URL (while it existed):** https://seo-preview--beamish-baklava-7f1b21.netlify.app/faq-review.html
 
 One page listing every FAQ on the site, each with a **Checked** box and a **Notes** box.
 When built, the site had 59 FAQ entries across 8 pages but only **52 distinct questions** (56 and 50 after round 1 of the review):
@@ -277,6 +278,7 @@ round (see the generator's header comment).
 | Round | Date | Result |
 |---|---|---|
 | 1 | 22 Sep | 23 of 52 reviewed, 4 with notes. **Applied:** removed "What if our schedule runs late?" (FAQs page) and "Do you offer MC services?" (FAQs page + Punjabi DJ); "What is a Ladies Sangeet?" no longer mentions boliyan or "informal" (both pages); "What areas do you cover?" shortened to "We perform nationwide across the UK, and we also take international bookings." **28 left**, storage key now `v2`. **Follow-up, 22 Sep: MC removed from the whole site** at Jayden's request. Reena does not offer it. Removed from the DJ page meta/OG/Twitter description, Service schema, standfirst, header lead and "What's included" list, from the DJ card on `services.html`, and from `llms.txt`. Do not reintroduce MC services. |
+| 2 | 2 Oct | Final round, from `faq-review-results-2026-10-02.txt`. 11 of 28 ticked with no changes, 11 notes. Reena left the rest unticked because they repeat the ones she answered, so **each note was applied to every question in its overlap group, worded for that page**. **Packages** (Silver includes a dhol player, Gold includes a DJ): "Can we book more than one service?", "Can you perform alongside a DJ?", "Can we book dhol players alongside singers or a DJ?", "Can we book a DJ and live performers together?". **Sound is specialist vocalist equipment**; DJ sound and lighting come as part of the packages: "Do you bring your own sound equipment?", "Do you provide the sound system?", "Do you provide sound and lighting?". **Line-ups are bespoke**: "How many performers will come?" (no longer says "not a fixed package"), "How many dhol players do we need?". **Venue/planner coordination only for large bookings such as an international Sangeet**: "Do you coordinate with our venue and planner?". **Baraat: not played directly, organised through a third party**: "Do you play for baraat processions?" (FAQs + Dhol Players; the dhol-number answer no longer mentions a baraat). **No performing while Mehndi is being applied**: "Can you perform at a Mehndi or dholki night?". Left as they were, because their overlap partners were ticked with no changes: playlist, DJ music, sound/production team (matches the ticked mela answer), multiple dates, community events. **Page deleted after this round.** |
 
 **Kept out of search:** `noindex` meta, `X-Robots-Tag: noindex` header (netlify.toml),
 and no links to it from the site. It is deliberately *not* disallowed in robots.txt,
@@ -305,11 +307,12 @@ Remove it before go-live if the review is done (§1, step 2b).
   `Person` `sameAs`, and named channels can go on the page. Nothing was invented.
 - **Packages vs "no fixed package" (30 Sep).** Reena's feedback names a **Silver package
   (includes a dhol player)** and a **Gold package (includes a DJ)**, now stated on
-  `dhol-players.html` and `punjabi-dj.html` (names only, never a price). But the FAQ
-  "How many performers…" answer on `faq.html`, and the "line-up is not a fixed package"
-  wording on `concerts.html`, still say line-ups are not taken from a fixed package. Ask
-  what the packages contain (and whether there are others, e.g. Bronze) before
-  reconciling those, or before adding a packages section anywhere.
+  `dhol-players.html` and `punjabi-dj.html` (names only, never a price). **2 Oct:** the
+  FAQs now say "we offer packages" and name the same two, and the `faq.html` "How many
+  performers…" answer says "bespoke" instead of "not a fixed package". `concerts.html`
+  still says the line-up is "not a fixed package" (concerts are a separate audience, so
+  that may be right). Ask what the packages contain (and whether there are others, e.g.
+  Bronze) before adding a packages section anywhere.
 - **Image changes from Reena's 30 Sep feedback, deliberately held back:** singers' photos
   on the Punjabi Singers card, a different photo of her on `ladies-sangeet.html` (the one
   where her expression "looks a bit scary"), and a soft faded photo behind the page head
@@ -434,7 +437,7 @@ it is not rediscovered as a new problem:
 - **Private pages are hidden with noindex, never with robots.txt `Disallow`** (22 Sep).
   A Disallow stops Google fetching the page, so it never sees the noindex, and a URL
   shared publicly (a quote link, for example) can still be indexed as a bare URL.
-  `admin.html`, `quote.html`, `/quote/*` and `faq-review.html` carry noindex in their
+  `admin.html`, `quote.html` and `/quote/*` carry noindex in their
   markup *and* an `X-Robots-Tag` header in netlify.toml. Only `/.netlify/` is disallowed.
 - **Link to the homepage as `/`, never `index.html`.** `/index.html` also returns 200,
   so linking it gives the homepage a second URL. All 68 such links were switched on 22 Sep.

@@ -4,7 +4,7 @@
 User-agent: *
 Allow: /
 
-# Private pages (admin, quote, faq-review) are deliberately NOT disallowed here.
+# Private pages (admin, quote) are deliberately NOT disallowed here.
 # They are noindex in their markup and via an X-Robots-Tag header (netlify.toml).
 # A Disallow would stop Google fetching them, so it would never see the noindex,
 # and a quote link shared publicly could then be indexed as a bare URL.
