@@ -190,23 +190,52 @@ exports.handler = async (event, context) => {
 </html>
     `;
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
+    // Transport (Oct 2026): Resend SMTP from website@punjabifolkentertainment.com when
+    // RESEND_API_KEY is set, with the original Gmail transport as the fallback. The email
+    // itself (template, display name, reply-to, subject) is identical either way.
+    const gmailTransport = () => nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
       }
     });
+    const resendTransport = () => nodemailer.createTransport({
+      host: 'smtp.resend.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'resend',
+        pass: process.env.RESEND_API_KEY
+      }
+    });
 
-    // Send email
-    await transporter.sendMail({
-      from: '"Punjabi Folk Entertainment - Website" <' + process.env.EMAIL_USER + '>',
+    // Preview and branch deploys are served at "<alias>--<site>.netlify.app". Enquiries
+    // sent from those go to Jayden's test inbox, never to Reena. The live domain and the
+    // plain site URL have no "--", so they always go to info@.
+    const host = (event.headers && (event.headers['x-forwarded-host'] || event.headers.host)) || '';
+    const isPreview = host.includes('--');
+    const to = isPreview ? 'jayden@buildsbyleo.com' : 'info@punjabifolkentertainment.com';
+
+    const message = (fromAddress) => ({
+      from: '"Punjabi Folk Entertainment - Website" <' + fromAddress + '>',
       replyTo: data.email,
-      to: 'info@punjabifolkentertainment.com',
+      to,
       subject: `New Enquiry from ${data.name} - ${data['event-type']}`,
       html: emailHTML
     });
+
+    // Send email
+    if (process.env.RESEND_API_KEY) {
+      try {
+        await resendTransport().sendMail(message('website@punjabifolkentertainment.com'));
+      } catch (resendErr) {
+        console.error('Resend send failed, falling back to Gmail:', resendErr);
+        await gmailTransport().sendMail(message(process.env.EMAIL_USER));
+      }
+    } else {
+      await gmailTransport().sendMail(message(process.env.EMAIL_USER));
+    }
 
     return {
       statusCode: 200,

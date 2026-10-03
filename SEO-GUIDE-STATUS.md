@@ -1,13 +1,13 @@
 # `seo-changes.txt` — item-by-item status for this site
 
-Reference guide: `C:\Users\jayde\Desktop\buildsbyleo\seo-changes.txt` (89 numbered items).
+Reference guide: `C:\Users\Jayden\Downloads\buildsbyleo\seo-changes.txt` (89 numbered items).
 
 **Read this before re-reading that guide.** It records what was already applied to
 punjabifolkentertainment.com on 17 Sep 2026, plus corrections from the 18 Sep redesign
 pass and the 18 Sep architecture/audit pass, so nothing already handled gets suggested
 again. Legend:
 
-- **DONE** — applied in `Desktop/Reena-seo`, live once deployed
+- **DONE** — applied in `Downloads/Reena-seo` (formerly `Desktop/`), live once deployed
 - **N/A** — the item describes something that does not exist on this site
 - **SKIPPED** — considered and deliberately not done (reason given)
 - **OPEN** — genuinely still to do
@@ -165,7 +165,7 @@ again. Legend:
 
 | # | Item | Status |
 |---|------|--------|
-| 74 | Image sitemap namespace, image entry per page | **DONE** — regenerated 18 Sep from the markup: **14 pages, 66 images** (was 9/41). Growth is the gallery photography added to the service and blog pages. Regenerate it from the HTML rather than hand-editing |
+| 74 | Image sitemap namespace, image entry per page | **DONE** — regenerated 18 Sep from the markup: **14 pages, 66 images** (was 9/41). Growth is the gallery photography added to the service and blog pages. Regenerate it from the HTML rather than hand-editing. **3 Oct:** regenerated after Reena's new photos: **15 pages, 82 images**. Decorative images (`alt=""`, e.g. the faded page-head photo on `reena-kaur.html`) are excluded |
 | 75 | Emit only the image location tag | **DONE** — no deprecated caption/title/geo tags |
 | 76 | Generate from live markup, not by hand | **DONE** — generated from the HTML; logos, OG images and icons excluded |
 | 77 | Re-verify filenames case-sensitively, re-parse JSON-LD | **DONE** — both automated |

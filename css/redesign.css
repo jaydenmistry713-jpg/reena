@@ -1630,36 +1630,18 @@ body { padding-top: 88px; }
     margin: 0;
 }
 
-/* A 9:16 clip at full column width would be over 1200px tall, so it sits
-   beside the prose on wide screens and is capped and centred below that. */
-.article-video {
+/* A small figure set beside the prose: the childhood school photo (578px square)
+   under "Music was woven into my childhood". It replaced a floated 9:16 video in the
+   same slot on 3 Oct. Floats right from 640px; capped and centred below that. */
+.article-figure--aside {
     margin: 0 auto 2rem;
     max-width: 20rem;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    background: var(--color-off-white);
-}
-
-.article-video video {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 9 / 16;
-    background: var(--ink);
-}
-
-.article-video figcaption {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--color-text-secondary);
-    padding: 0.7rem 0.95rem;
 }
 
 @media (min-width: 640px) {
-    .article-video {
+    .article-figure--aside {
         float: right;
-        width: 15.5rem;
+        width: 17rem;
         margin: 0.35rem 0 1.5rem 2rem;
     }
 
@@ -1689,4 +1671,139 @@ body { padding-top: 88px; }
     aspect-ratio: 4 / 5;
     max-height: none;
     object-position: center 20%;
+}
+
+/* Soft photo behind the page head (3 Oct, from Reena's 30 Sep feedback). A greyscale
+   crop set on the right and faded out towards the name. multiply can only darken the
+   crimson, so the white, cream and #FFE9A8 text keep at least their plain-crimson
+   contrast wherever the photo sits under them. Decorative: alt="" and aria-hidden. */
+.page-head--photo {
+    isolation: isolate;
+}
+
+.page-head-photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(34%, 500px);
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+    mask-image: linear-gradient(to right, transparent, #000 45%);
+    pointer-events: none;
+}
+
+/* Below 1024px the centred text runs into the photo whatever its width, so it is
+   widened and turned down; multiply still only darkens what sits behind the text. */
+@media (max-width: 1023px) {
+    .page-head-photo {
+        width: 60%;
+        opacity: 0.4;
+    }
+}
+
+/* ================================
+   19. ENQUIRY CONFIRMATION MODAL  (3 Oct 2026)
+
+   contact.html shows this <dialog> with showModal() once an enquiry has been sent,
+   replacing the small inline message above the form. The browser centres it in the
+   top layer and dims the page with ::backdrop. Padding sits on the inner card so a
+   click on the backdrop is the only click that targets the dialog itself.
+   ================================ */
+/* margin: auto and inset: 0 are what centre a modal dialog. They are the browser
+   defaults, but the global `* { margin: 0 }` reset strips the margin and pins it top-left. */
+.enquiry-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(28rem, calc(100vw - 2rem));
+    height: fit-content;
+    max-height: calc(100dvh - 2rem);
+    padding: 0;
+    border: 0;
+    border-radius: 18px;
+    background: var(--color-white);
+    box-shadow: 0 30px 60px -20px rgba(26, 11, 16, 0.45);
+    color: var(--color-text-primary);
+    overscroll-behavior: contain;
+}
+
+.enquiry-modal::backdrop {
+    background: rgba(26, 11, 16, 0.62);
+    backdrop-filter: blur(3px);
+}
+
+.enquiry-modal-inner {
+    position: relative;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    background: var(--wash-cream);
+}
+
+/* The same fine inner gold frame as the fact panel on reena-kaur.html. */
+.enquiry-modal-inner::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(168, 120, 10, 0.35);
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+.enquiry-modal-icon {
+    display: block;
+    margin: 0 auto 1rem;
+    color: var(--gold-deco);
+}
+
+.enquiry-modal .eyebrow {
+    margin: 0 auto 0.5rem;
+}
+
+.enquiry-modal-title {
+    font-family: var(--font-display);
+    font-size: var(--step-h2);
+    line-height: 1.15;
+    color: var(--color-primary);
+    margin: 0 0 0.75rem;
+}
+
+.enquiry-modal-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0 auto 1.75rem;
+    max-width: 30ch;
+}
+
+.enquiry-modal form {
+    margin: 0;
+}
+
+.enquiry-modal[open] {
+    animation: enquiry-modal-in 0.28s ease-out;
+}
+
+.enquiry-modal[open]::backdrop {
+    animation: enquiry-backdrop-in 0.28s ease-out;
+}
+
+@keyframes enquiry-modal-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes enquiry-backdrop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .enquiry-modal[open],
+    .enquiry-modal[open]::backdrop {
+        animation: none;
+    }
 }

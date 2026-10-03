@@ -38,3 +38,26 @@ Each has a `-poster.jpg` (frame at 1s) for the `poster` attribute.
 | `client-testimonial-ladies-sangeet.mp4` | 576×1024 / 30 | 21s | Client thank-you after a ladies sangeet (captioned) |
 | `client-testimonial-garden-party.mp4` | 1080×1920 / 60 | 7s | Client thank-you at an outdoor party (captioned) |
 | `bride-and-groom-wedding-testimonial.mp4` | 1080×1920 / 30 | 24s | Bride and groom testimonial (captioned; names shown on screen) |
+
+## 3 Oct 2026 batch
+
+From `Downloads/Reena Images and Videos (1)` (20 files). Same image recipe as above
+(mozjpeg q84, 4:4:4, progressive, sRGB profile embedded, EXIF/GPS stripped), made with
+`sharp`. Seven used:
+
+| File | Size | From | Used on |
+|---|---|---|---|
+| `assets/images/gallery/reena-kaur-with-guests-sangeet-marquee.jpg` | 2000×1125 | IMG_5845 | Ladies Sangeet card (`services.html`), gallery |
+| `assets/images/gallery/reena-kaur-sangeet-selfie-with-guests.jpg` | 1800×1013 | IMG_5848 | gallery |
+| `assets/images/reena-kaur/reena-kaur-page-head.jpg` | 900×1216 | IMG_0734, cropped to Reena, greyscale | faded page-head photo, `reena-kaur.html` |
+| `assets/images/reena-kaur/reena-kaur-childhood-school-photo.jpg` | 578×578 | 12914, scan border trimmed | `reena-kaur.html` |
+| `assets/images/reena-kaur/reena-kaur-with-family.jpg` | 1600×1246 | IMG_0521 | `reena-kaur.html` |
+| `assets/images/reena-kaur/reena-kaur-evening-out.jpg` | 1200×1600 | IMG_0876 | `reena-kaur.html` (replaced the Taj Mahal shot, IMG_9360, same day; that file was deleted) |
+| `assets/images/reena-kaur/reena-kaur-afternoon-tea.jpg` | 1200×1601 | IMG_2894 | `reena-kaur.html` |
+
+**Held back, waiting on Reena:** the black-and-white man with a dholki and harmonium
+(6F9D3DB5) and the colour older couple (5f9f893d) — identities unknown; Reena with two
+older women (EE190564) — same; an old flyer (IMG_0587) calling her the author of
+*Opening Doors to Tradition*, a fact never supplied. **Not used:** holiday and lifestyle
+shots, two photos with no people. **Not processed:** a 14s client-testimonial clip
+(F0A85309…mov, "Client Love" captions burned in); it would join the three below.

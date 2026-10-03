@@ -2,14 +2,15 @@
 
 > ## ⚠️ READ FIRST — this folder is an SEO staging copy, not the live site
 >
-> **You are in `Desktop/Reena-seo`.** It holds a completed SEO rebuild that has
+> **You are in `Downloads/Reena-seo`** (it moved from `Desktop/`; older notes say Desktop). It holds a completed SEO rebuild that has
 > **not been published**. The live site still serves the old version.
 >
 > - Go-live steps, indexing order and the Search Console baseline: **[`SEO-README.md`](SEO-README.md)**
 > - **Before re-reading `buildsbyleo/seo-changes.txt`, read [`SEO-GUIDE-STATUS.md`](SEO-GUIDE-STATUS.md)**
 >   — it maps all 89 guide items to done / skipped / open so nothing already handled gets re-suggested.
 > - Preview: https://seo-preview--beamish-baklava-7f1b21.netlify.app
-> - Untouched original: `Desktop/Reena`
+> - Untouched original: was `Desktop/Reena`, no longer at that path (3 Oct). `OneDrive/Reena`
+>   is an older, non-git copy. Go-live does not need it: it deploys from this folder.
 > - **The visual redesign is now sitewide** (18 Sep). Every public page uses
 >   `css/redesign.css`; only `admin.html` and `quote.html` are deliberately excluded.
 >   See "Design layer" below before touching CSS.
@@ -54,7 +55,10 @@ admin.html            Password-protected admin dashboard (inquiries + quotes)
 quote.html            Customer-facing branded quote page
 punjabi-wedding-entertainment/index.html
                       Wedding pillar hub, served at /punjabi-wedding-entertainment/
-tools/                Generators for internal pages. Blocked from being served (netlify.toml).
+tools/                Internal scripts. Blocked from being served (netlify.toml).
+                      check-links.js: run `node tools/check-links.js` before every deploy. It checks
+                      every local href/src with exact letter case (Netlify is case-sensitive,
+                      Windows is not) and every #anchor. Added 3 Oct.
                       build-faq-review.js made Reena's FAQ checklist (faq-review.html); the
                       review finished and the page was deleted on 2 Oct. See SEO-README §4b
 Reena_Kaur_SEO_Suggested_Edits.txt
@@ -69,6 +73,7 @@ css/                  Shared stylesheets (variables-crimson.css = design tokens)
     redesign.css      Design layer, Sept 2026. Public pages only, loaded LAST
 js/                   Page scripts + html2canvas.min.js (bundled locally)
 assets/               images/ and videos/  (videos are git-ignored — see below)
+    images/reena-kaur/  Photos Reena sent for her own page (3 Oct)
 favicon/, manifest.json, robots.txt, sitemap.xml, BingSiteAuth.xml
 netlify.toml          Functions dir, esbuild bundler, /quote/* rewrite
 package.json          Function dependencies (nodemailer, @netlify/blobs)
@@ -82,7 +87,8 @@ netlify/functions/
 
 | Var | Purpose |
 |-----|---------|
-| `EMAIL_USER` / `EMAIL_PASS` | Gmail account used by nodemailer to send inquiry emails |
+| `RESEND_API_KEY` | Resend (send-only key) for enquiry emails from `website@punjabifolkentertainment.com`. Added 3 Oct |
+| `EMAIL_USER` / `EMAIL_PASS` | Gmail account used by nodemailer; now only the fallback if Resend fails or the key is unset |
 | `ADMIN_PASSWORD` | Password for the admin dashboard (checked server-side) |
 | `BLOBS_SITE_ID` | Netlify site ID, for explicit Netlify Blobs config |
 | `BLOBS_TOKEN` | Netlify personal access token, for explicit Netlify Blobs config |
@@ -102,12 +108,28 @@ formatted HTML email** and sends it via Gmail (nodemailer) to
 `info@punjabifolkentertainment.com`. That inbox **auto-forwards** to the end
 account — the exact formatting is relied upon downstream.
 
-> ⚠️ **Do not change the email template, transport, recipient, or subject in
-> `form-submission.js`.** The formatting is intentional. Only additive changes
-> are acceptable here.
+> ⚠️ **Do not change the email template, recipient, or subject in
+> `form-submission.js`.** The formatting is intentional.
+>
+> **Transport changed 3 Oct (Jayden's request):** with `RESEND_API_KEY` set it sends
+> through Resend SMTP from `website@punjabifolkentertainment.com` (domain verified in
+> Jayden's buildsbyleo Resend account, EU region; DNS records `resend._domainkey`, `send`,
+> `rsend`, `_dmarc` on her domain). If Resend throws, it falls back to the Gmail transport.
+> **Requests from a host containing `--` (preview/branch deploys such as
+> `seo-preview--beamish-baklava-7f1b21.netlify.app`) go to `jayden@buildsbyleo.com`, not
+> info@.** The live domain has no `--`, so it always reaches Reena. Preview test enquiries
+> are still saved to the `inquiries` Blobs store; delete them in the admin dashboard.
+> If her auto-forward filters on the sender, it must accept the new address.
 
 Form fields: `name, email, phone, event-type, event-date, event-time, venue,
 event-location, number-of-guests, message`.
+
+**Confirmation (3 Oct):** a successful send opens `#enquiry-modal`, a native `<dialog>`
+shown with `showModal()` (styles: section 19 of `redesign.css`). It greets the visitor by
+first name (set with `textContent`). Browsers without `<dialog>` get the old inline
+message. Errors stay inline above the form and scroll into view. The dialog sets
+`margin: auto; inset: 0` itself because the global `* { margin: 0 }` reset in `main.css`
+otherwise pins it to the top-left corner.
 
 ### 2. Inquiry storage (added)
 
@@ -246,7 +268,8 @@ They are **not** in this repo. Editing the generated HTML directly is fine — j
 the rules in `SEO-README.md` section 6.
 
 ### Hard rules
-- `netlify/functions/form-submission.js` is untouched and must stay that way.
+- `netlify/functions/form-submission.js`: template, recipient and subject must not change.
+  Only the transport was changed (3 Oct, Resend). See "Contact form" above.
 - Never publish a price — pricing is bespoke, quoted per event. Package **names** are fine
   (30 Sep: Silver includes a dhol player, Gold includes a DJ); see `SEO-README.md` §5.
 - The Ladies Sangeet **singers** are female; accompanying musicians including dholki
@@ -350,13 +373,23 @@ Kaur**. The nav keeps "Meet the Team" active.
 - **The name treatment** is `.profile-name` / `.profile-name-title`: Cormorant Garamond 600
   capitals, loaded on this page only via its Google Fonts link. The subtitle is a `<span>`
   inside the `<h1>`, so the heading still says what she does.
-- **Still to come:** a soft, faded photo behind the page head and new pictures elsewhere on
-  the page. Reena is sending options; held back with the other image changes.
+- **Photos from Reena (3 Oct).** The page head carries a faded greyscale crop of her
+  (`.page-head--photo` / `.page-head-photo`, `mix-blend-mode: multiply`, so it can only
+  darken the crimson and never lowers text contrast). In the story: the childhood school
+  photo floated beside "Music was woven into my childhood", a family photo, and an
+  evening-out / afternoon tea pair under "Away from the stage".
+- **Removed on Jayden's request (3 Oct):** the floated *Desaan Da Raja* video (the
+  childhood photo took its slot), the "Singing for film director Gurinder Chadha" graphic,
+  and the Taj Mahal photo (replaced by the evening-out shot). The video and the Gurinder
+  Chadha graphic are still in the gallery. Do not put them back on this page.
+  Files are in `assets/images/reena-kaur/`. Captions avoid naming anyone, because she has
+  not said who is in them: confirm before adding names or relationships.
 - Styles are **section 18 of `redesign.css`**: `.fact-list` (a `<dl>`, one column with a
   gold label per row since 30 Sep), `.pull-quote`,
-  `.article-video` and `.profile-links`. `.article-video` floats a 9:16 clip beside the
-  prose from 640px and is capped and centred below that; `.profile .h-section` clears
-  the float.
+  `.article-figure--aside` and `.profile-links`. `.article-figure--aside` floats a small
+  figure (17rem) beside the prose from 640px and is capped and centred below that;
+  `.profile .h-section` clears the float. It replaced `.article-video`, which was removed
+  with the video on 3 Oct. The `.page-head-photo` rules sit at the end of the section.
 - Linked from the homepage band ("Read Reena's story"), her card on `team.html`, and an
   **"About Reena Kaur"** link under "Meet the Team" in every footer's Quick Links.
 
@@ -671,7 +704,7 @@ handles the 2-column reflow under 640px. Videos are `preload="none"` with a
 (threshold 0.3, because a feature tile can be taller than the viewport); no
 autoplay under reduced motion. **Load more:** tiles with `data-batch="2"`/`"3"` are
 hidden until the button is pressed; each batch must end on a complete 4-column row
-(currently tiles 1-10, 11-20, 21-26). Without JS all tiles show. The Gurinder Chadha graphic uses `.g-contain` so
+(currently tiles 1-12, 13-22, 23-28). Without JS all tiles show. The Gurinder Chadha graphic uses `.g-contain` so
 its text is letterboxed rather than cropped.
 
 ### Removed on purpose — do not reinstate

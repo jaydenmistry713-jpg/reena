@@ -1,11 +1,12 @@
 # SEO rebuild — working folder & go-live runbook
 
-**This folder (`Desktop/Reena-seo`) is a staging copy. It is NOT the live site.**
+**This folder (`Downloads/Reena-seo`) is a staging copy. It is NOT the live site.**
 The live site still runs the old version until someone runs the go-live steps below.
 
 - Live site: https://punjabifolkentertainment.com (unchanged so far)
 - Preview of this work: https://seo-preview--beamish-baklava-7f1b21.netlify.app
-- Original folder: `Desktop/Reena` — left untouched, `git status` clean
+- Original folder: was `Desktop/Reena`; not found at that path on 3 Oct. `OneDrive/Reena` is an
+  older non-git copy. Neither is needed to go live.
 - Netlify site: `beamish-baklava-7f1b21` (both folders link to the same site ID)
 
 Work started 17 Sep 2026. Guide followed: `Desktop/buildsbyleo/seo-changes.txt`.
@@ -28,66 +29,88 @@ Read that before re-reading the guide, or you will re-suggest work already done.
 
 ## 1. GO LIVE
 
-Run these from `Desktop/Reena-seo`. Nothing here is live until step 3.
+Updated 3 Oct 2026. Go-live is one command: `netlify deploy --prod` from this folder
+publishes it over the old site in place. Same Netlify site, same domain, so there are no
+DNS, hosting or domain changes. Everything before "THE ACTUAL GO-LIVE" changes nothing public.
+
+### Before the day
+
+1. **Reena signs off the preview**: https://seo-preview--beamish-baklava-7f1b21.netlify.app
+2. **Enquiry email works on the preview.** Submit the contact form there. It must arrive at
+   jayden@buildsbyleo.com from `website@punjabifolkentertainment.com`. If it arrives from the
+   old Gmail address, Resend failed and the Gmail fallback sent it: check the domain shows
+   *Verified* in Resend and read the function log in Netlify.
+3. **Her auto-forward.** Find out whether the rule on info@ (Microsoft 365) filters on the
+   sender. If it does, add `website@punjabifolkentertainment.com` to it, or live enquiries will
+   arrive at info@ but stop being forwarded.
+4. **Pick a quiet time** and tell Reena, so she can watch for the first real enquiry.
+
+### On the day
 
 ```bash
-cd /c/Users/jayde/Desktop/Reena-seo
+cd /c/Users/Jayden/Downloads/Reena-seo
 
-# 1. make sure dependencies + videos are present
-#    (videos are git-ignored and must exist locally or the deploy ships without them)
+# 1. commit everything, so the deploy matches a known commit
+git status                     # Reena_Kaur_SEO_Suggested_Edits.txt and assets/new-media/
+                               # are deliberately untracked; anything else, commit it
+
+# 2. dependencies + videos (videos are git-ignored; without them the deploy ships none)
 npm install
-ls assets/videos/index/hero-video.mp4     # must exist (lowercase .mp4 — the
-                                          #  repo referenced .MP4 until 18 Sep)
+ls assets/videos/index/hero-video.mp4
 
-# 2. sanity check before pushing anything public
-python "<scratchpad>/check_links.py"      # or just re-check manually
+# 3. checks: must print "0 problem(s)"
+node tools/check-links.js
+netlify env:list --plain | cut -d= -f1
+#   expect RESEND_API_KEY, EMAIL_USER, EMAIL_PASS, ADMIN_PASSWORD, BLOBS_SITE_ID, BLOBS_TOKEN
 
-# 3. THE ACTUAL GO-LIVE
+# 4. THE ACTUAL GO-LIVE
 netlify deploy --prod --dir . --functions netlify/functions
 ```
 
-Then immediately verify the live site is serving the new build:
+The preview's "send enquiries to Jayden" behaviour does **not** need switching off. It is
+keyed on the address the form is submitted from (preview addresses contain `--`), so on
+punjabifolkentertainment.com enquiries go to info@ automatically.
+
+### Straight after
 
 ```bash
 curl -s https://punjabifolkentertainment.com/ | grep -E '<title>|max-image-preview'
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/favicon.ico   # must be 200, was 404
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/ladies-sangeet.html
+curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/reena-kaur.html
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/llms.txt
-# www must reach the apex in ONE hop now (was two before 22 Sep):
+# old URL must redirect: expect 301 -> /gallery.html
+curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" https://punjabifolkentertainment.com/videos.html
+# www must reach the apex in ONE hop: expect 301 -> https://punjabifolkentertainment.com/
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://www.punjabifolkentertainment.com/
-#   expect: 301 -> https://punjabifolkentertainment.com/
 curl -sI https://punjabifolkentertainment.com/admin.html | grep -i x-robots-tag   # expect noindex, nofollow
 ```
 
+Then, by hand:
+- **Send one real test enquiry on the live site** ("TEST, please ignore"). It must reach
+  **info@** from `website@punjabifolkentertainment.com`, Reply must address the customer, and
+  the auto-forward must fire. The centred "Thank you" confirmation should appear.
+- Log in to `/admin.html`: the test enquiry is listed. Delete it.
+- Click through on a phone: menu, Services chevron, a service page, the gallery's Load more.
+- Start Search Console, section 2 below.
+
 ### Rollback
-Netlify keeps every previous deploy. If anything is wrong:
-Netlify dashboard → Deploys → find the last good deploy → **Publish deploy**.
-One click, no CLI needed.
 
-### After go-live: reconcile the two folders
-Both folders are clones of the same git repo. Work so far is already committed on
-branch `seo-rebuild`:
+Netlify keeps every previous deploy: dashboard → Deploys → the last good one →
+**Publish deploy**. One click, no CLI needed. Enquiries keep working after a rollback
+because the old code sends through Gmail, which is why **`EMAIL_USER` / `EMAIL_PASS` must
+stay in Netlify** until the new site has been live for a few weeks.
 
-| Commit | What |
-|---|---|
-| `3c899e1` | SEO rebuild — service page split, blog, FAQ, schema, favicons |
-| `5cce877` | Homepage redesign — type, warm band system, hero fixes |
-| `2128f00` | Docs brought up to date |
-| `f2269f4` | Wedding pillar architecture, concerts retarget, areas restructure, titles, schema + technical audit fixes |
+### After go-live: tidy up
 
-To undo the redesign but keep the SEO work: `git reset --hard 3c899e1`.
-Neither command touches the live site — this repo is not Git-connected to Netlify.
-
-```bash
-cd /c/Users/jayde/Desktop/Reena-seo
-git push
-
-cd /c/Users/jayde/Desktop/Reena
-git pull        # brings the live folder up to date
-```
-
-Simplest alternative: just start using `Reena-seo` as the working folder from then on
-and archive the old one. It contains everything (including videos).
+- **Git:** the work is on branch `seo-rebuild`. Merge it into `main` and push
+  (`git checkout main && git merge seo-rebuild && git push`), or open a PR on GitHub.
+  Pushing does not deploy: this repo is not Git-connected to Netlify.
+- **Use this folder from now on.** It contains everything, including the git-ignored videos.
+- **After a few weeks of clean enquiries:** delete `EMAIL_USER` / `EMAIL_PASS` in Netlify,
+  revoke that Gmail app password, and remove the Gmail fallback from `form-submission.js`.
+- **Rotate the Resend API key** (it was pasted into a chat on 3 Oct): create a new
+  send-only key, update `RESEND_API_KEY` in Netlify, redeploy, then delete the old key.
 
 ---
 
@@ -293,6 +316,8 @@ Remove it before go-live if the review is done (§1, step 2b).
   was a limit of the test, not a site bug. Do not "fix" it.
 
 **Needs Reena / Jayden:**
+- **Who is in her photos?** Captions on `reena-kaur.html` name nobody beyond "Reena with
+  her family". Confirm before adding names or relationships (husband, sons, grandad).
 - Booking facts: set lengths, space & power requirements, setup time, deposit and
   cancellation terms, named venues, signature songs. Service pages are honest without
   these but describe process where they could state specifics.
@@ -313,10 +338,20 @@ Remove it before go-live if the review is done (§1, step 2b).
   still says the line-up is "not a fixed package" (concerts are a separate audience, so
   that may be right). Ask what the packages contain (and whether there are others, e.g.
   Bronze) before adding a packages section anywhere.
-- **Image changes from Reena's 30 Sep feedback, deliberately held back:** singers' photos
-  on the Punjabi Singers card, a different photo of her on `ladies-sangeet.html` (the one
-  where her expression "looks a bit scary"), and a soft faded photo behind the page head
-  on `reena-kaur.html`. She is sending pictures to choose from.
+- **Image changes from Reena's 30 Sep feedback: done 3 Oct** from the photos she sent.
+  The Punjabi Singers card on `services.html` now shows her with her Ladies Sangeet team.
+  The "looks a bit scary" photo (`reena-kaur-singing-sangeet-dholki.jpg`) is gone from
+  `ladies-sangeet.html`, the Ladies Sangeet card and the `reena-kaur.html` pair. It is still
+  a gallery feature tile and in the homepage `LocalBusiness` image list; ask whether she
+  wants it removed everywhere. `reena-kaur.html` has the faded page-head photo and four story
+  photos (childhood, family, an evening out, afternoon tea). Later on 3 Oct, at Jayden's
+  request, its *Desaan Da Raja* video, the Gurinder Chadha graphic and the Taj Mahal photo
+  were removed. Two new Sangeet shots were added to the gallery. **Not used, pending her answers:**
+  the black-and-white portrait of a man with a dholki and harmonium, and the colour portrait
+  of an older couple (who are they? if it is her grandad, it belongs beside that paragraph),
+  and an old flyer that calls her an "author" of *Opening Doors to Tradition* (a fact we
+  have never been given). The client-testimonial .mov was not processed; it would join the
+  three held-back clips in `assets/new-media/videos/`.
 
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining
@@ -417,9 +452,14 @@ it is not rediscovered as a new problem:
 
 ## 6. Rules for anyone editing this site
 
-- **Never touch `netlify/functions/form-submission.js`.** The email template, transport,
-  recipient and subject are relied on downstream. Verified byte-identical throughout
-  this rebuild. Additive changes only.
+- **`netlify/functions/form-submission.js`: keep the email template, recipient and subject
+  as they are.** They are relied on downstream. The transport alone was changed on 3 Oct
+  (Resend from `website@punjabifolkentertainment.com`, Gmail fallback; preview hosts send
+  to jayden@buildsbyleo.com). See `CLAUDE.md` → "Contact form".
+- **Run `node tools/check-links.js` before every deploy.** It must report 0 problems.
+- **New photos follow the recipe in `assets/new-media/MEDIA-MANIFEST.md`**: mozjpeg q84,
+  4:4:4 chroma, progressive, sRGB profile embedded, EXIF/GPS stripped, long edge 2000px max.
+  Phone photos carry the location they were taken at; stripping it is not optional.
 - **Every new indexable page must carry the full robots directive**, or it silently opts
   out of image thumbnails in search and nothing warns you:
   ```html
