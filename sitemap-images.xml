@@ -27,9 +27,6 @@
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/mehndi-singer-dholki-henna-guest.jpg</image:loc>
         </image:image>
-        <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-with-reena-kaur-signage.jpg</image:loc>
-        </image:image>
     </url>
     <url>
         <loc>https://punjabifolkentertainment.com/blog/what-is-a-ladies-sangeet.html</loc>
@@ -268,12 +265,6 @@
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/destination-wedding-baraat-dhol-beach.jpg</image:loc>
         </image:image>
         <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-singing-for-gurinder-chadha.jpg</image:loc>
-        </image:image>
-        <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-with-gurinder-chadha-celebration.jpg</image:loc>
-        </image:image>
-        <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/reena-kaur-and-team-ladies-sangeet.jpg</image:loc>
         </image:image>
         <image:image>
@@ -287,9 +278,6 @@
         </image:image>
         <image:image>
             <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/mehndi-celebration-guests.jpg</image:loc>
-        </image:image>
-        <image:image>
-            <image:loc>https://punjabifolkentertainment.com/assets/images/gallery/sangeet-with-reena-kaur-signage.jpg</image:loc>
         </image:image>
     </url>
 </urlset>

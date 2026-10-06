@@ -14,6 +14,9 @@
 > - **The visual redesign is now sitewide** (18 Sep). Every public page uses
 >   `css/redesign.css`; only `admin.html` and `quote.html` are deliberately excluded.
 >   See "Design layer" below before touching CSS.
+> - **`admin.html` and `quote.html` were deleted on 6 Oct at Jayden's request.** Sections 3–4
+>   below and the font rules that cite them describe what they were. `admin-api.js`,
+>   `get-quote.js` and the `/quote/*` rewrite and headers in `netlify.toml` were left in place.
 >
 > **Do not run `netlify deploy --prod` unless the user explicitly asks to go live.**
 > Use `netlify deploy --alias seo-preview` for previews — it never touches the live site.
@@ -393,8 +396,8 @@ Kaur**. The nav keeps "Meet the Team" active.
   local shows it. Scoped to this page only; check an iPhone before changing it sitewide.
 - **Removed on Jayden's request (3 Oct):** the floated *Desaan Da Raja* video (the
   childhood photo took its slot), the "Singing for film director Gurinder Chadha" graphic,
-  and the Taj Mahal photo (replaced by the evening-out shot). The video and the Gurinder
-  Chadha graphic are still in the gallery. Do not put them back on this page.
+  and the Taj Mahal photo (replaced by the evening-out shot). The video is still in the gallery;
+  the Gurinder Chadha graphic left the gallery too on 6 Oct. Do not put them back on this page.
   Files are in `assets/images/reena-kaur/`. Captions avoid naming anyone, because she has
   not said who is in them: confirm before adding names or relationships.
 - Styles are **section 18 of `redesign.css`**: `.fact-list` (a `<dl>`, one column with a
@@ -717,8 +720,11 @@ handles the 2-column reflow under 640px. Videos are `preload="none"` with a
 (threshold 0.3, because a feature tile can be taller than the viewport); no
 autoplay under reduced motion. **Load more:** tiles with `data-batch="2"`/`"3"` are
 hidden until the button is pressed; each batch must end on a complete 4-column row
-(currently tiles 1-12, 13-22, 23-28). Without JS all tiles show. The Gurinder Chadha graphic uses `.g-contain` so
-its text is letterboxed rather than cropped.
+(currently tiles 1-12, 13-20, 21-25). Without JS all tiles show. `.g-contain` letterboxes
+a tile instead of cropping it; nothing uses it since the Gurinder Chadha graphic was removed
+(6 Oct, with one of the two near-identical Gurinder Chadha selfies and the signage photo, which was
+also taken out of the Sangeet/Mehndi/Jago blog post; its file is now unused). To keep the rows full, the Mehndi group photo became
+a `.g-wide` tile with `object-position: center 28%` to keep the faces in frame.
 
 ### Removed on purpose — do not reinstate
 

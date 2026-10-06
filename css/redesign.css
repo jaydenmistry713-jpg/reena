@@ -272,6 +272,20 @@ summary:focus-visible,
     padding: 0;
 }
 
+/* No blur on the mobile layout (6 Oct). backdrop-filter makes the header the
+   containing block for the position: fixed menu panel inside it, and with the
+   header's mobile overflow-x: clip (main.css) Safari cut the open panel off at
+   the header's 85px height: the menu showed as a white strip beside the logo.
+   Chrome does not clip it, so nothing local shows it. A solid ground instead. */
+@media (max-width: 1024px) {
+    .site-header,
+    .site-header.scrolled {
+        background: var(--paper);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}
+
 .navigation { padding-top: 0.75rem; padding-bottom: 0.75rem; }
 
 /* The bar is 60 + 24 + 1 = 85px, so the body reserves 88. Previously the logo
