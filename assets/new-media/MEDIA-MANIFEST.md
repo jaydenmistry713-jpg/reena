@@ -61,3 +61,25 @@ older women (EE190564) — same; an old flyer (IMG_0587) calling her the author 
 *Opening Doors to Tradition*, a fact never supplied. **Not used:** holiday and lifestyle
 shots, two photos with no people. **Not processed:** a 14s client-testimonial clip
 (F0A85309…mov, "Client Love" captions burned in); it would join the three below.
+
+## 6 Oct 2026 batch
+
+From `Downloads/Reena Images and Videos (2)` (27 new images uploaded to Dropbox on 3 and
+6 Oct; a re-upload of FullSizeRender was dropped as a duplicate). Same recipe as above.
+Reena asked for western photos only on `reena-kaur.html` and the tea photo in its header.
+Only that page was changed: other pages were tried and reverted the same day at Jayden's request.
+
+| File | Size | From | Used on |
+|---|---|---|---|
+| `reena-kaur/reena-kaur-page-head-afternoon-tea.jpg` | 1100×886 | IMG_2894 (3 Oct batch), cropped, greyscale | page head, `reena-kaur.html` (replaced IMG_0734 crop) |
+| `reena-kaur/reena-kaur-beach.jpg` | 1200×1600 | IMG_2426, cropped | `reena-kaur.html` opening pair (replaced a tumbi shot, IMG_0590, same day) |
+| `reena-kaur/reena-kaur-iced-coffee.jpg` | 670×860 | IMG_6943 (3 Oct batch), cropped to Reena alone | `reena-kaur.html`, floated in "From intimate gatherings…" (after a ballgown portrait, 247137, and an at-home photo with a man, IMG_8593, were both turned down) |
+| `reena-kaur/reena-kaur-home-studio.jpg` | 1200×1600 | IMG_0591, cropped | `reena-kaur.html` opening pair |
+| `reena-kaur/reena-kaur-waterfall.jpg` | 1200×1600 | FullSizeRender (3 Oct batch) | `reena-kaur.html` (replaced the afternoon tea photo in the pair) |
+
+**Not used yet:** IMG_9376 (stacks of the book *Opening Doors to Tradition*) and IMG_8030 (a
+newspaper page, "Reena Kaur is bringing back Tradition"). With the 2 Oct book-launch interview
+video and the IMG_0587 flyer, these point to her being an author. Confirm with Reena before
+the site says so. The stage and portrait shots (IMG_8027, 8029, 8891, 8892, 8895, 1337,
+8016, 8017, 8071, 8109, 8883, 5690, 7529, 8022, 7486, 247137) are unused; only add them
+to other pages if asked.

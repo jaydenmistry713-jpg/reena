@@ -352,6 +352,15 @@ Remove it before go-live if the review is done (§1, step 2b).
   and an old flyer that calls her an "author" of *Opening Doors to Tradition* (a fact we
   have never been given). The client-testimonial .mov was not processed; it would join the
   three held-back clips in `assets/new-media/videos/`.
+- **Reena's page is western photos only: done 6 Oct** (her WhatsApp request, "only western
+  pictures on this page… so it's different from the other pages and who I am"). Header is
+  now her afternoon tea photo; the opening pair is the beach and her home studio; a solo
+  iced-coffee shot sits in "From intimate gatherings…"; the waterfall replaced afternoon tea
+  in "Away from the stage". The portrait, pink Sangeet and Wolverhampton Mela photos left
+  this page only. **Still to ask:** the family photo shows her in a lehenga (she did not
+  flag it; she mentioned she may send a baking photo); and her 3 Oct uploads include stacks
+  of the book *Opening Doors to Tradition*, a newspaper page and a book-launch interview,
+  so confirm whether the page should say she is an author.
 
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining

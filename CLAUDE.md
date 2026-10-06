@@ -373,11 +373,24 @@ Kaur**. The nav keeps "Meet the Team" active.
 - **The name treatment** is `.profile-name` / `.profile-name-title`: Cormorant Garamond 600
   capitals, loaded on this page only via its Google Fonts link. The subtitle is a `<span>`
   inside the `<h1>`, so the heading still says what she does.
-- **Photos from Reena (3 Oct).** The page head carries a faded greyscale crop of her
-  (`.page-head--photo` / `.page-head-photo`, `mix-blend-mode: multiply`, so it can only
-  darken the crimson and never lowers text contrast). In the story: the childhood school
-  photo floated beside "Music was woven into my childhood", a family photo, and an
-  evening-out / afternoon tea pair under "Away from the stage".
+- **Western photos only on this page (Reena, 6 Oct).** She asked for "only western pictures
+  on this page, just so it's different from the other pages and who I am". Performance
+  shots in Asian dress belong on the service pages and the gallery, not here. Current set:
+  page head = faded greyscale crop of her **afternoon tea** photo (she asked for it there);
+  opening pair = at the **beach** and singing in her **home studio** (a tumbi photo was
+  tried first and rejected as not western enough); the childhood
+  school photo floated beside "Music was woven into my childhood"; a solo iced-coffee holiday photo
+  (cropped from IMG_6943; Jayden wants her alone here) floated beside "From intimate gatherings…" (same `.article-figure--aside`); a
+  family photo; and an
+  evening-out / waterfall ("Travelling.") pair under "Away from the stage". The Wolverhampton
+  Mela photo was removed from this page (still on concerts.html). **The family photo shows
+  her in a lehenga** and is the one image left that may break her rule; she did not flag it.
+  The page head uses `.page-head--photo` / `.page-head-photo` (`mix-blend-mode: multiply`,
+  so it can only darken the crimson and never lowers text contrast).
+- **`.profile p { text-wrap: wrap }` (6 Oct).** Safari's `text-wrap: pretty` (on every `p`
+  sitewide) evens out whole paragraphs, so on an iPhone this page's long story paragraphs
+  stopped well short of the right edge. Chrome only adjusts the last lines, so nothing
+  local shows it. Scoped to this page only; check an iPhone before changing it sitewide.
 - **Removed on Jayden's request (3 Oct):** the floated *Desaan Da Raja* video (the
   childhood photo took its slot), the "Singing for film director Gurinder Chadha" graphic,
   and the Taj Mahal photo (replaced by the evening-out shot). The video and the Gurinder

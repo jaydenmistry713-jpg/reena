@@ -165,7 +165,7 @@ again. Legend:
 
 | # | Item | Status |
 |---|------|--------|
-| 74 | Image sitemap namespace, image entry per page | **DONE** — regenerated 18 Sep from the markup: **14 pages, 66 images** (was 9/41). Growth is the gallery photography added to the service and blog pages. Regenerate it from the HTML rather than hand-editing. **3 Oct:** regenerated after Reena's new photos: **15 pages, 82 images**. Decorative images (`alt=""`, e.g. the faded page-head photo on `reena-kaur.html`) are excluded |
+| 74 | Image sitemap namespace, image entry per page | **DONE** — regenerated 18 Sep from the markup: **14 pages, 66 images** (was 9/41). Growth is the gallery photography added to the service and blog pages. Regenerate it from the HTML rather than hand-editing. **3 Oct:** regenerated after Reena's new photos: **15 pages, 82 images**. **6 Oct:** regenerated after the western-photo swap on `reena-kaur.html`: still **15 pages, 82 images**. Decorative images (`alt=""`, e.g. the faded page-head photo on `reena-kaur.html`) are excluded |
 | 75 | Emit only the image location tag | **DONE** — no deprecated caption/title/geo tags |
 | 76 | Generate from live markup, not by hand | **DONE** — generated from the HTML; logos, OG images and icons excluded |
 | 77 | Re-verify filenames case-sensitively, re-parse JSON-LD | **DONE** — both automated |

@@ -1514,6 +1514,12 @@ body { padding-top: 88px; }
    panel, a pull quote and a portrait video set beside the prose.
    ================================ */
 
+/* Safari's text-wrap: pretty (set on every p, section 1) evens out the whole
+   paragraph rather than just the last lines, so on an iPhone this page's long
+   story paragraphs stopped well short of the right edge (6 Oct). Plain wrapping
+   here; the rest of the site keeps pretty. */
+.profile p { text-wrap: wrap; }
+
 /* Inline prose links: the service pages style these inline, this page by class. */
 .profile p a:not(.btn) {
     color: var(--color-primary);
