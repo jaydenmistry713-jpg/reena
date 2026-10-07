@@ -361,6 +361,12 @@ Remove it before go-live if the review is done (§1, step 2b).
   flag it; she mentioned she may send a baking photo); and her 3 Oct uploads include stacks
   of the book *Opening Doors to Tradition*, a newspaper page and a book-launch interview,
   so confirm whether the page should say she is an author.
+- **Dhol Players baraat photo replaced: done 7 Oct.** At Reena's request, her IMG_8121 (the
+  dhol line-up with the groom on a white horse at a palm-lined hotel) replaced the beach
+  baraat on `dhol-players.html`, with the colours and lighting corrected (see `CLAUDE.md` →
+  "Figures"). **Still to ask:** is "A baraat at a destination wedding." right for this
+  photo? Also, should the beach baraat be replaced on the blog dhol guide, the wedding hub
+  and the gallery too? It was swapped on the Dhol Players page only.
 
 **Ready to do on request:**
 - ~~Roll the redesign out to the remaining pages.~~ **Done 18 Sep** — all 20 remaining

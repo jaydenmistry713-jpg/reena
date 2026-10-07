@@ -495,6 +495,19 @@ shot ran to **1056px** in a 704px column. `.article-figure-pair` puts two portra
 side by side. The pre-existing hero figure on each service page was folded into the
 same classes.
 
+That cap shows only about half a portrait's height in the 704px column, so **check which
+half**. `.article-figure--focus-low` anchors the crop at 88% (for the beach baraat, still on
+the blog dhol guide and the wedding hub). A one-off position goes inline on the `<img>`,
+as with the services cards.
+
+**Dhol Players baraat photo (7 Oct, Reena):** the beach baraat was replaced on
+`dhol-players.html` only by her IMG_8121 (`assets/images/services/dhol-players-baraat-white-horse.jpg`,
+inline `object-position: center 70%` so the white horse stays in frame). She said the
+colours and lighting looked wrong. The original was over-processed, with a yellow-green
+midtone cast, neon blues, orange skin and crushed shadows. It was corrected with sharp:
+cast neutralised, saturation ×0.85, shadows lifted and highlights eased. The original
+(`Downloads/IMG_8121 REENA KAUR.jpeg`) is not in the repo.
+
 Every `<h2>` in `.article-main` carries a slug `id`, which the rail links to and
 which gives the pages jump anchors. If you add an h2, add it to the rail list.
 
