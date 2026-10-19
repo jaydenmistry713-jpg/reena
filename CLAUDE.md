@@ -496,12 +496,13 @@ side by side. The pre-existing hero figure on each service page was folded into 
 same classes.
 
 That cap shows only about half a portrait's height in the 704px column, so **check which
-half**. `.article-figure--focus-low` anchors the crop at 88% (for the beach baraat, still on
-the blog dhol guide and the wedding hub). A one-off position goes inline on the `<img>`,
-as with the services cards.
+half**. `.article-figure--focus-low` anchors the crop at 88%. It was made for the beach baraat;
+nothing uses it since that photo left the service pages (19 Oct). A one-off position goes
+inline on the `<img>`, as with the services cards.
 
 **Dhol Players baraat photo (7 Oct, Reena):** the beach baraat was replaced on
-`dhol-players.html` only by her IMG_8121 (`assets/images/services/dhol-players-baraat-white-horse.jpg`,
+`dhol-players.html` (then on the wedding hub and the blog dhol guide too, 19 Oct; the
+beach photo is now only a gallery tile) by her IMG_8121 (`assets/images/services/dhol-players-baraat-white-horse.jpg`,
 inline `object-position: center 70%` so the white horse stays in frame). She said the
 colours and lighting looked wrong. The original was over-processed, with a yellow-green
 midtone cast, neon blues, orange skin and crushed shadows. It was corrected with sharp:
