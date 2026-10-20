@@ -3,7 +3,9 @@
 **Went live 20 Oct 2026.** This folder (`Downloads/Reena-seo`) was deployed over the old site
 with `netlify deploy --prod` at Reena's request, together with the visitor statistics dashboard
 (`/dashboard`, see `CLAUDE.md` → "5. Visitor statistics"). Section 1 below is kept as the record
-of how, plus the rollback and the checks to repeat.
+of how, plus the rollback and the checks to repeat. A live test enquiry the same day reached Reena
+at info@; the test record was then deleted from the `inquiries` store, and its visit from the
+`analytics` store. Search Console progress: section 2 → "Progress log".
 
 - Live site: https://punjabifolkentertainment.com (the SEO rebuild, since 20 Oct 2026)
 - Preview of this work: https://seo-preview--beamish-baklava-7f1b21.netlify.app
@@ -130,6 +132,27 @@ stay in Netlify** until the new site has been live for a few weeks.
 ## 2. SEARCH CONSOLE — what to do, in what order
 
 Do these **after** the prod deploy, not before.
+
+### Progress log
+
+**20 Oct 2026 (go-live day)** — done in the `sc-domain:punjabifolkentertainment.com` property:
+- **Sitemaps:** `sitemap.xml` re-submitted and `sitemap-images.xml` added. Both read
+  *Success* the same day: 19 and 15 discovered pages. (The image sitemap showed "Couldn't
+  fetch" for the first minute; that is Google's status before the first read, not an error.)
+- **Indexing requested (9):** `/`, `/reena-kaur.html`, `/punjabi-wedding-entertainment/`,
+  `/ladies-sangeet.html`, `/punjabi-folk-singers.html`, `/dhol-players.html`,
+  `/services.html`, `/punjabi-dj.html`, `/concerts.html`. The daily quota ran out on the 10th.
+- **Status before the request:** only `/` and `/services.html` were indexed.
+  *Discovered – currently not indexed*: `/reena-kaur.html`, `/punjabi-folk-singers.html`,
+  `/dhol-players.html`, `/punjabi-dj.html`. *URL is unknown to Google*:
+  `/punjabi-wedding-entertainment/`, `/ladies-sangeet.html`, `/concerts.html`,
+  `/areas-we-cover.html`.
+- Step 1 (baseline export and inspecting `http://www`) was not redone; the 17 Sep baseline
+  in section 4 stands.
+
+**Still to do (from 21 Oct, ~10 a day):** `/areas-we-cover.html` (refused on quota), then
+all of Day 2 below (`/faq.html` … `/gallery.html`): ten URLs, so one more day covers it.
+Then Step 4 (Bing) and the follow-ups in Step 5 (2 weeks: ~3 Nov; 6 weeks: ~1 Dec).
 
 ### Step 1 — record the baseline first
 Before submitting anything, screenshot or export Performance (3 months) so there is
