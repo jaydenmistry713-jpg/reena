@@ -50,6 +50,9 @@
         .login label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
         .login input { width: 100%; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
         .login .error { color: var(--bad); margin: 0.75rem 0 0; min-height: 1.5em; }
+        .login .remember { display: flex; align-items: center; gap: 0.5rem; margin: 0.9rem 0 0; font-weight: 400; color: var(--ink-2); cursor: pointer; }
+        .login .remember input { width: 16px; height: 16px; padding: 0; accent-color: var(--crimson); }
+        .login .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
         .btn-primary { margin-top: 1rem; width: 100%; padding: 0.75rem; border: 0; border-radius: 8px; background: var(--crimson); color: #fff; font-weight: 700; }
         .btn-primary:hover { background: var(--crimson-dark); }
 
@@ -163,12 +166,15 @@
 <body>
 
 <section class="login" id="login" hidden>
-    <form id="login-form">
+    <form id="login-form" method="post" action="/dashboard">
         <h1>Site statistics</h1>
         <p>Punjabi Folk Entertainment</p>
+        <!-- Password managers file a saved password under a username; this gives them one. -->
+        <input class="visually-hidden" type="text" name="username" autocomplete="username" value="Statistics dashboard" tabindex="-1" aria-hidden="true">
         <label for="password">Password</label>
-        <input id="password" type="password" autocomplete="current-password" required>
-        <button class="btn-primary" type="submit">Sign in</button>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <label class="remember"><input type="checkbox" id="remember" checked> Keep me signed in on this device</label>
+        <button class="btn-primary" id="sign-in" type="submit">Sign in</button>
         <p class="error" id="login-error" role="alert"></p>
     </form>
 </section>
@@ -319,7 +325,10 @@
     'use strict';
 
     var API = '/.netlify/functions/stats-api';
-    var PW_KEY = 'pfe-dashboard-pw';
+    // A signed sign-in token from stats-api.js, never the password itself: in localStorage
+    // with "Keep me signed in" ticked (lasts until 90 days without a visit), otherwise in
+    // sessionStorage (gone when the tab closes).
+    var TOKEN_KEY = 'pfe-dashboard-token';
     var IGNORE_KEY = 'pfe-stats-ignore';
 
     var state = {
@@ -411,9 +420,20 @@
 
     // ---- API -------------------------------------------------------------------
     var requestId = 0;
-    function load() {
-        var pw = safeGet(sessionStorage, PW_KEY);
-        if (!pw) return showLogin('');
+    function getToken() { return safeGet(localStorage, TOKEN_KEY) || safeGet(sessionStorage, TOKEN_KEY); }
+    function saveToken(token, remember) {
+        safeSet(remember ? localStorage : sessionStorage, TOKEN_KEY, token);
+        safeSet(remember ? sessionStorage : localStorage, TOKEN_KEY, null);
+    }
+    function clearToken() {
+        safeSet(localStorage, TOKEN_KEY, null);
+        safeSet(sessionStorage, TOKEN_KEY, null);
+    }
+
+    // Called with the password only from the sign-in form; every other load uses the token.
+    function load(password) {
+        var token = password ? null : getToken();
+        if (!password && !token) return showLogin('');
         var dates = rangeDates(state.range);
         state.from = dates[0];
         state.to = dates[1];
@@ -428,12 +448,21 @@
         fetch(API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: pw, from: state.from, to: state.to, group: state.group, filter: state.filter })
+            body: JSON.stringify(password
+                ? { password: password, from: state.from, to: state.to, group: state.group, filter: state.filter }
+                : { token: token, from: state.from, to: state.to, group: state.group, filter: state.filter })
         }).then(function (res) {
-            if (res.status === 401) { safeSet(sessionStorage, PW_KEY, null); throw { auth: true }; }
+            if (res.status === 401) {
+                if (!password) clearToken();
+                throw { auth: password ? 'That password was not accepted.' : 'Your sign-in has expired. Enter the password again.' };
+            }
             if (!res.ok) throw new Error('HTTP ' + res.status);
             return res.json();
         }).then(function (data) {
+            // The API sends a fresh token each time, so a kept sign-in only lapses after
+            // 90 days without a visit.
+            if (data.token) saveToken(data.token, password ? $('remember').checked : !!safeGet(localStorage, TOKEN_KEY));
+            if (password) signedIn(password);
             if (id !== requestId) return;
             state.data = data;
             content.classList.remove('loading-veil');
@@ -443,7 +472,8 @@
         }).catch(function (err) {
             if (id !== requestId) return;
             content.classList.remove('loading-veil');
-            if (err && err.auth) return showLogin('That password was not accepted.');
+            if (err && err.auth) return showLogin(err.auth);
+            if (password) return signInFailed('Could not reach the server. Check your connection and try again.');
             showStatus('Could not load the statistics. Check your connection and press Refresh.');
         });
     }
@@ -457,25 +487,51 @@
     function showLogin(msg) {
         $('app').hidden = true;
         $('login').hidden = false;
+        $('sign-in').disabled = false;
+        $('sign-in').textContent = 'Sign in';
         $('login-error').textContent = msg || '';
         $('password').value = '';
         $('password').focus();
     }
 
-    $('login-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        safeSet(sessionStorage, PW_KEY, $('password').value);
+    function signInFailed(msg) {
+        $('sign-in').disabled = false;
+        $('sign-in').textContent = 'Sign in';
+        $('login-error').textContent = msg;
+    }
+
+    // The form is hidden only after the password is accepted, which is what browsers
+    // watch for before offering to save it. Chrome and Edge are also asked directly.
+    function signedIn(password) {
+        if (window.PasswordCredential && navigator.credentials && navigator.credentials.store) {
+            try {
+                navigator.credentials.store(new PasswordCredential({ id: 'Statistics dashboard', name: 'Statistics dashboard', password: password }))
+                    .catch(function () {});
+            } catch (e) {}
+        }
         $('login').hidden = true;
         $('app').hidden = false;
-        load();
+        $('password').value = '';
+        $('sign-in').disabled = false;
+        $('sign-in').textContent = 'Sign in';
+    }
+
+    $('login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var password = $('password').value;
+        if (!password) return;
+        $('sign-in').disabled = true;
+        $('sign-in').textContent = 'Signing in…';
+        $('login-error').textContent = '';
+        load(password);
     });
     $('sign-out').addEventListener('click', function () {
-        safeSet(sessionStorage, PW_KEY, null);
+        clearToken();
         state.data = null;
         $('content').hidden = true;
         showLogin('');
     });
-    $('refresh').addEventListener('click', load);
+    $('refresh').addEventListener('click', function () { load(); });
 
     // ---- Controls ----------------------------------------------------------------
     function syncControls() {
@@ -856,7 +912,8 @@
     }
 
     // ---- Start -------------------------------------------------------------------------
-    if (safeGet(sessionStorage, PW_KEY)) {
+    safeSet(sessionStorage, 'pfe-dashboard-pw', null); // held the password before 20 Oct
+    if (getToken()) {
         $('app').hidden = false;
         load();
     } else {

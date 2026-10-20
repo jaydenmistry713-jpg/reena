@@ -3,11 +3,11 @@
 // Password-gated read API for the visitor-statistics dashboard (dashboard.html).
 // The password is checked SERVER-SIDE against process.env.DASHBOARD_PASSWORD.
 //
-// POST { password, from: "YYYY-MM-DD", to: "YYYY-MM-DD", group: "hour"|"day"|"week"|"month",
+// POST { password or token, from: "YYYY-MM-DD", to: "YYYY-MM-DD", group: "hour"|"day"|"week"|"month",
 //        filter: { page?, source?, channel?, device?, country?, city? } }
 //   -> { totals, previous, series, pages, entries, sources, channels, campaigns,
 //        devices, browsers, oses, countries, cities, enquiryTypes, clicks,
-//        journeys, heatmap, live }
+//        journeys, heatmap, live, token }
 //
 // Everything is counted per visitor-day (see netlify/lib/stats-core.js). A filter keeps
 // the visitors who match it, with all of their activity: "page" means "visitors who
@@ -29,6 +29,28 @@ function passwordMatches(provided) {
   const a = crypto.createHash('sha256').update(String(provided || '')).digest();
   const b = crypto.createHash('sha256').update(expected).digest();
   return crypto.timingSafeEqual(a, b);
+}
+
+// "Keep me signed in": after a correct password the API returns a token, and the dashboard
+// keeps that instead of the password. Token = "<expiry ms>.<HMAC>", keyed on the password,
+// so changing DASHBOARD_PASSWORD signs every device out. Each successful request returns a
+// fresh token, so it only expires after TOKEN_DAYS without a visit.
+const TOKEN_DAYS = 90;
+
+function signToken(expires) {
+  return crypto.createHmac('sha256', process.env.DASHBOARD_PASSWORD).update(`stats-dashboard|${expires}`).digest('hex');
+}
+
+function issueToken() {
+  const expires = Date.now() + TOKEN_DAYS * 86400000;
+  return `${expires}.${signToken(expires)}`;
+}
+
+function tokenValid(token) {
+  if (!process.env.DASHBOARD_PASSWORD) return false;
+  const m = /^(\d{13})\.([0-9a-f]{64})$/.exec(String(token || ''));
+  if (!m || Number(m[1]) < Date.now()) return false;
+  return crypto.timingSafeEqual(Buffer.from(m[2], 'hex'), Buffer.from(signToken(m[1]), 'hex'));
 }
 
 const CONTACT_CLICKS = new Set(['phone', 'email', 'whatsapp']);
@@ -128,7 +150,7 @@ exports.handler = async (event) => {
     return json(400, { error: 'Invalid JSON' });
   }
 
-  if (!passwordMatches(body.password)) {
+  if (!(body.token ? tokenValid(body.token) : passwordMatches(body.password))) {
     // Slow down guessing.
     await new Promise((r) => setTimeout(r, 800));
     return json(401, { error: 'Unauthorized' });
@@ -222,6 +244,7 @@ exports.handler = async (event) => {
     const live = to === today ? all.filter((r) => r.date === today && r.last >= cutoff).length : null;
 
     return json(200, {
+      token: issueToken(),
       from, to, group, span, filter,
       totals: totalsOf(recs),
       previous: { from: prevFrom, to: prevTo, ...totalsOf(prev) },

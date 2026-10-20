@@ -126,6 +126,8 @@ stay in Netlify** until the new site has been live for a few weeks.
   send-only key, update `RESEND_API_KEY` in Netlify, redeploy, then delete the old key.
 - **Change the dashboard password** (it was also pasted into a chat, on 20 Oct): set a new
   `DASHBOARD_PASSWORD` in Netlify (Site configuration → Environment variables), then redeploy.
+  This also signs out every device that ticked "Keep me signed in", and any password saved
+  in a browser will need updating.
 
 ---
 

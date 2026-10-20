@@ -231,7 +231,15 @@ conversion and which pages people read. No third-party analytics script is invol
   rule as the enquiry email. The dashboard on a preview URL reads the preview store.
 - **Dashboard:** `/dashboard` (`dashboard.html`), standalone styles, `noindex` in markup and
   via `X-Robots-Tag`, not in the sitemaps. The password is checked server-side by
-  `stats-api.js` against the `DASHBOARD_PASSWORD` env var and held in `sessionStorage`.
+  `stats-api.js` against the `DASHBOARD_PASSWORD` env var.
+- **Staying signed in (20 Oct):** a correct password gets back a token
+  (`<expiry ms>.<HMAC>`, keyed on `DASHBOARD_PASSWORD`), and the dashboard keeps that, never
+  the password. "Keep me signed in on this device" (ticked by default) puts it in
+  `localStorage`; unticked, `sessionStorage`. Every request returns a fresh token, so it lapses
+  after 90 days without a visit. **Changing `DASHBOARD_PASSWORD` signs every device out.**
+  Sign out clears it. The form has a hidden `username` field and hides only after the
+  password is accepted, so browsers offer to save the password (Chrome/Edge are also asked
+  through `navigator.credentials.store`).
   Periods (today … 12 months, custom), grouping by hour/day/week/month, comparison with the
   previous period, click-to-filter by page/source/type/device/town/country.
   **Everything from a visitor (paths, referrers, UTM values) is escaped before `innerHTML`.**
