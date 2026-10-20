@@ -4,6 +4,11 @@
 [functions]
   node_bundler = "esbuild"
 
+# Visitor statistics: nightly summary of the previous days (00:20 UTC). Scheduled
+# functions only run on the published production deploy. See netlify/lib/stats-core.js.
+[functions."stats-compact"]
+  schedule = "20 0 * * *"
+
 # One hop from any www or http variant to the canonical https apex. Without these,
 # http://www went to https://www and only then to the apex: two redirects, on a URL
 # that still had 79 clicks in the 17 Sep Search Console baseline. Only matches on the
@@ -60,6 +65,14 @@
   status = 404
   force = true
 
+# Function source and its shared code (netlify/functions, netlify/lib). The functions
+# themselves are served at /.netlify/functions/, which this does not touch.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # Generator scripts for internal pages (tools/build-faq-review.js).
 [[redirects]]
   from = "/tools/*"
@@ -99,6 +112,19 @@
 # Private pages. robots.txt no longer disallows these, so Google can fetch them and
 # see this header. A Disallow would hide the noindex from it. They are also noindex
 # in their own markup.
+# Visitor statistics dashboard (password-gated by stats-api.js). Also noindex in its markup.
+[[headers]]
+  for = "/dashboard.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/dashboard"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
 [[headers]]
   for = "/admin.html"
   [headers.values]

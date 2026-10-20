@@ -1,9 +1,11 @@
 # SEO rebuild — working folder & go-live runbook
 
-**This folder (`Downloads/Reena-seo`) is a staging copy. It is NOT the live site.**
-The live site still runs the old version until someone runs the go-live steps below.
+**Went live 20 Oct 2026.** This folder (`Downloads/Reena-seo`) was deployed over the old site
+with `netlify deploy --prod` at Reena's request, together with the visitor statistics dashboard
+(`/dashboard`, see `CLAUDE.md` → "5. Visitor statistics"). Section 1 below is kept as the record
+of how, plus the rollback and the checks to repeat.
 
-- Live site: https://punjabifolkentertainment.com (unchanged so far)
+- Live site: https://punjabifolkentertainment.com (the SEO rebuild, since 20 Oct 2026)
 - Preview of this work: https://seo-preview--beamish-baklava-7f1b21.netlify.app
 - Original folder: was `Desktop/Reena`; not found at that path on 3 Oct. `OneDrive/Reena` is an
   older non-git copy. Neither is needed to go live.
@@ -61,7 +63,8 @@ ls assets/videos/index/hero-video.mp4
 # 3. checks: must print "0 problem(s)"
 node tools/check-links.js
 netlify env:list --plain | cut -d= -f1
-#   expect RESEND_API_KEY, EMAIL_USER, EMAIL_PASS, ADMIN_PASSWORD, BLOBS_SITE_ID, BLOBS_TOKEN
+#   expect RESEND_API_KEY, EMAIL_USER, EMAIL_PASS, ADMIN_PASSWORD, BLOBS_SITE_ID, BLOBS_TOKEN,
+#   DASHBOARD_PASSWORD (statistics dashboard, added 20 Oct)
 
 # 4. THE ACTUAL GO-LIVE
 netlify deploy --prod --dir . --functions netlify/functions
@@ -83,14 +86,20 @@ curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/ll
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" https://punjabifolkentertainment.com/videos.html
 # www must reach the apex in ONE hop: expect 301 -> https://punjabifolkentertainment.com/
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://www.punjabifolkentertainment.com/
-curl -sI https://punjabifolkentertainment.com/admin.html | grep -i x-robots-tag   # expect noindex, nofollow
+curl -sI https://punjabifolkentertainment.com/dashboard | grep -i x-robots-tag   # expect noindex, nofollow
+# statistics beacon: expect 204
+curl -s -o /dev/null -w "%{http_code}\n" -X POST -A "Mozilla/5.0" --data '{"t":"view","p":"/"}' https://punjabifolkentertainment.com/.netlify/functions/visit
 ```
 
 Then, by hand:
 - **Send one real test enquiry on the live site** ("TEST, please ignore"). It must reach
   **info@** from `website@punjabifolkentertainment.com`, Reply must address the customer, and
   the auto-forward must fire. The centred "Thank you" confirmation should appear.
-- Log in to `/admin.html`: the test enquiry is listed. Delete it.
+- `admin.html` was deleted on 6 Oct, so the test enquiry can only be seen in the `inquiries`
+  Blobs store (Netlify dashboard → Blobs). Sign in to `/dashboard`: the test visit and the
+  enquiry appear under Today, with its journey in "Recent journeys to an enquiry".
+- On each of your own browsers and phones, open `/dashboard` and tick "Don't count my visits
+  on this browser", so your checks don't inflate Reena's numbers.
 - Click through on a phone: menu, Services chevron, a service page, the gallery's Load more.
 - Start Search Console, section 2 below.
 
@@ -111,6 +120,8 @@ stay in Netlify** until the new site has been live for a few weeks.
   revoke that Gmail app password, and remove the Gmail fallback from `form-submission.js`.
 - **Rotate the Resend API key** (it was pasted into a chat on 3 Oct): create a new
   send-only key, update `RESEND_API_KEY` in Netlify, redeploy, then delete the old key.
+- **Change the dashboard password** (it was also pasted into a chat, on 20 Oct): set a new
+  `DASHBOARD_PASSWORD` in Netlify (Site configuration → Environment variables), then redeploy.
 
 ---
 
@@ -167,7 +178,7 @@ split across two days. Order is by expected value, highest first.
 | 18 | `/team.html` — new title + Person schema; also currently **zero impressions** |
 | 19 | `/gallery.html` — renamed from `/videos.html` on 21 Sep (301 in `netlify.toml`); request indexing on the new URL |
 
-**Do NOT request indexing for:** `/admin.html`, `/quote.html`, `/privacy-policy.html`,
+**Do NOT request indexing for:** `/dashboard`, `/admin.html`, `/quote.html`, `/privacy-policy.html`,
 `/terms.html`. All four are `noindex` and deliberately out of the sitemap.
 
 ### Step 4 — Bing Webmaster Tools

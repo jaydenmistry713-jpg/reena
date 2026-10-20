@@ -616,6 +616,7 @@
     <button class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
     <script src="js/main.js?v=20260922g"></script>
     <script src="js/navigation.js?v=20260930a"></script>
+    <script src="js/visit.js?v=20261020a" defer></script>
     <script>
         
         // Testimonial Video Interactions
@@ -737,6 +738,9 @@
                     const modal = document.getElementById('enquiry-modal');
                     const firstName = formData.name.trim().split(/\s+/)[0];
                     formStatus.style.display = 'none';
+
+                    // Conversion for the statistics dashboard (js/visit.js).
+                    if (window.pfeStats) window.pfeStats.enquiry(formData['event-type']);
 
                     // Reset form
                     this.reset();

@@ -1,11 +1,16 @@
 # CLAUDE.md
 
-> ## ⚠️ READ FIRST — this folder is an SEO staging copy, not the live site
+> ## ⚠️ READ FIRST — this folder IS the live site (since 20 Oct 2026)
 >
-> **You are in `Downloads/Reena-seo`** (it moved from `Desktop/`; older notes say Desktop). It holds a completed SEO rebuild that has
-> **not been published**. The live site still serves the old version.
+> **You are in `Downloads/Reena-seo`** (it moved from `Desktop/`; older notes say Desktop). It holds the SEO
+> rebuild, which **went live on 20 Oct 2026** (`netlify deploy --prod` from this folder, at Reena's request).
+> Older notes below that call this a "staging copy" or say the live site "still serves the old version"
+> describe the time before that.
 >
-> - Go-live steps, indexing order and the Search Console baseline: **[`SEO-README.md`](SEO-README.md)**
+> - **Visitor statistics dashboard** (20 Oct): `/dashboard`, password in the `DASHBOARD_PASSWORD`
+>   env var. See "5. Visitor statistics" below.
+> - Go-live record, rollback, post-launch checks, indexing order and the Search Console baseline:
+>   **[`SEO-README.md`](SEO-README.md)**
 > - **Before re-reading `buildsbyleo/seo-changes.txt`, read [`SEO-GUIDE-STATUS.md`](SEO-GUIDE-STATUS.md)**
 >   — it maps all 89 guide items to done / skipped / open so nothing already handled gets re-suggested.
 > - Preview: https://seo-preview--beamish-baklava-7f1b21.netlify.app
@@ -54,7 +59,9 @@ them. See "Design layer".
 index.html, services.html, team.html, gallery.html, contact.html   Public pages
                       (gallery.html was videos.html until 21 Sep; netlify.toml 301s the old URL)
 reena-kaur.html       Reena's own page (23 Sep): entity page + her story. See "Reena Kaur page"
-admin.html            Password-protected admin dashboard (inquiries + quotes)
+dashboard.html        Visitor statistics dashboard (20 Oct). Served at /dashboard, noindex, password-gated.
+                      See "5. Visitor statistics"
+admin.html            Password-protected admin dashboard (inquiries + quotes). DELETED 6 Oct
 quote.html            Customer-facing branded quote page
 punjabi-wedding-entertainment/index.html
                       Wedding pillar hub, served at /punjabi-wedding-entertainment/
@@ -84,6 +91,13 @@ netlify/functions/
     form-submission.js  Contact form: sends email + saves inquiry to Blobs
     admin-api.js        Password-gated CRUD for inquiries + quotes
     get-quote.js        Public read of one quote by id (for quote.html)
+    visit.js            Visitor statistics: stores one event from js/visit.js
+    stats-api.js        Visitor statistics: password-gated read API for dashboard.html
+    stats-compact.js    Visitor statistics: nightly scheduled summary (netlify.toml)
+netlify/lib/
+    stats-core.js       Shared by the three stats functions. Outside functions/ so it is not
+                        deployed as a function itself; esbuild bundles it into each one
+js/visit.js           The statistics beacon, loaded by every public page (not dashboard.html)
 ```
 
 ## Environment variables (set in Netlify, never in the repo)
@@ -193,6 +207,39 @@ Dashboard behaviour:
 - The customer quote page has **no contact buttons** by design — customers are
   directed to **reply to the email** that contained the link, not to contact via
   the quote page. (The Save-image PNG does still carry contact details.)
+
+### 5. Visitor statistics (20 Oct 2026) — `dashboard.html`
+
+Self-hosted, cookieless analytics, built at Jayden's request so he can see visitors,
+conversion and which pages people read. No third-party analytics script is involved.
+
+- **Beacon:** `js/visit.js`, one `defer` tag after `navigation.js` on all 22 public pages
+  (`404.html` uses `/js/visit.js` with `data-404`, so missing URLs show as "Page not found").
+  It sends a page view, visible time on page (on hide/pagehide), taps on tel/mailto/WhatsApp/
+  social links, and, from `contact.html` after a successful send, `pfeStats.enquiry(eventType)`.
+  **New pages need the tag too**, or they are invisible on the dashboard.
+- **Collector:** `netlify/functions/visit.js`. Drops bots by user agent and events posted from
+  another origin. The visitor id is `sha256(salt | London date | host | IP | UA)`, 16 hex chars:
+  nothing is stored on the device and the IP is never saved, so **visitors are counted per
+  day** (one person on three days = three visitors). Geo comes from Netlify's `x-nf-geo`.
+- **Storage:** Blobs store `analytics`. Raw events at `e/<YYYY-MM-DD>/<ms>-<hex>`; per-day
+  summaries (one record per visitor) at `d/<date>`, written the first time a finished day is
+  read and nightly by `stats-compact.js` (`20 0 * * *` UTC in `netlify.toml`). Bump
+  `SUMMARY_VERSION` in `netlify/lib/stats-core.js` when the summary shape changes; old
+  summaries are then rebuilt from the raw events, which are kept.
+- **Preview deploys write to `analytics-preview`**, chosen by host (`--` in it), the same
+  rule as the enquiry email. The dashboard on a preview URL reads the preview store.
+- **Dashboard:** `/dashboard` (`dashboard.html`), standalone styles, `noindex` in markup and
+  via `X-Robots-Tag`, not in the sitemaps. The password is checked server-side by
+  `stats-api.js` against the `DASHBOARD_PASSWORD` env var and held in `sessionStorage`.
+  Periods (today … 12 months, custom), grouping by hour/day/week/month, comparison with the
+  previous period, click-to-filter by page/source/type/device/town/country.
+  **Everything from a visitor (paths, referrers, UTM values) is escaped before `innerHTML`.**
+- "Don't count my visits on this browser" sets `localStorage pfe-stats-ignore=1`, which
+  `js/visit.js` checks. It is per browser, so it has to be ticked on each device.
+- `privacy-policy.html` has a "Visitor statistics" section describing this. Change it if
+  what is collected changes.
+- Statistics start on 20 Oct 2026. Earlier traffic is only in Search Console.
 
 ## Deployment
 
