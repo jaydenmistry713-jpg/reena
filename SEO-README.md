@@ -152,8 +152,18 @@ Do these **after** the prod deploy, not before.
 - Step 1 (baseline export and inspecting `http://www`) was not redone; the 17 Sep baseline
   in section 4 stands.
 
-**Still to do (from 21 Oct, ~10 a day):** `/areas-we-cover.html` (refused on quota), then
-all of Day 2 below (`/faq.html` … `/gallery.html`): ten URLs, so one more day covers it.
+**20 Oct, evening (21:15 UK)** — two more requests before the quota ran out again:
+- **Indexing requested:** `/areas-we-cover.html` (now *Discovered – currently not indexed*;
+  it was unknown to Google that morning) and `/faq.html` (already indexed; requested for a recrawl).
+- The 11th request of the day was refused. **The quota is a rolling 24 hours, not a midnight
+  reset**: the morning's nine counted against it until about 06:00 UK on 21 Oct.
+- **Status of the rest (inspected, not requested):** *Discovered – currently not indexed*:
+  `/blog/`, `/contact.html`, `/team.html`, `/gallery.html`. *Indexed* (recrawl only):
+  all four blog posts.
+
+**Still to do (from ~06:00 UK, 21 Oct):** request `/blog/`, `/contact.html`, `/team.html`,
+`/gallery.html` first (not indexed), then the four blog posts (indexed; a recrawl picks up the
+rebuilt versions). Eight URLs, inside one day's quota.
 Then Step 4 (Bing) and the follow-ups in Step 5 (2 weeks: ~3 Nov; 6 weeks: ~1 Dec).
 
 ### Step 1 — record the baseline first
