@@ -84,7 +84,9 @@ curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/re
 curl -s -o /dev/null -w "%{http_code}\n" https://punjabifolkentertainment.com/llms.txt
 # old URL must redirect: expect 301 -> /gallery.html
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" https://punjabifolkentertainment.com/videos.html
-# www must reach the apex in ONE hop: expect 301 -> https://punjabifolkentertainment.com/
+# www must reach the apex. Measured 20 Oct: http://www takes TWO 301s (Netlify's own HTTPS
+# upgrade runs before netlify.toml, -> https://www, then -> apex). https://www is one hop.
+# Both end on the apex with 301s; the toml rule cannot remove the first hop.
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://www.punjabifolkentertainment.com/
 curl -sI https://punjabifolkentertainment.com/dashboard | grep -i x-robots-tag   # expect noindex, nofollow
 # statistics beacon: expect 204
