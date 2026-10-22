@@ -373,6 +373,9 @@ services.html  (Punjabi Entertainment Services — routing hub, ~320 words)
 - The footer service column mirrors it with `.footer-link--child`.
 - `services.html` declares an `ItemList` whose first item is the hub, with the four
   performer services inside its `hasOfferCatalog`.
+- On the page itself, the crimson **"Our main pillar"** box linking to the wedding hub
+  sits at the **bottom**, after Locations and before the closing CTA (moved from above the
+  four wedding cards on 22 Oct, Jayden). The page now opens on the cards.
 
 ### `concerts.html` is a separate audience — keep it that way
 
@@ -449,6 +452,8 @@ Kaur**. The nav keeps "Meet the Team" active.
   sitewide) evens out whole paragraphs, so on an iPhone this page's long story paragraphs
   stopped well short of the right edge. Chrome only adjusts the last lines, so nothing
   local shows it. Scoped to this page only; check an iPhone before changing it sitewide.
+  (22 Oct: every `.article-main` page now gets `text-wrap: wrap` below 1025px; see
+  "Article text on phones" under "Article layout".)
 - **Removed on Jayden's request (3 Oct):** the floated *Desaan Da Raja* video (the
   childhood photo took its slot), the "Singing for film director Gurinder Chadha" graphic,
   and the Taj Mahal photo (replaced by the evening-out shot). The video is still in the gallery;
@@ -506,6 +511,20 @@ Punjabi Singers, Dhol (Jayden's wording, not "Dhol Players"), Punjabi DJ, Concer
 and "your wedding" on the hub. A new service page follows the same pattern. Only buttons
 changed: the rail-card title "Check your date" and the h2s "Let's check your date"
 (homepage) and "Ready to check your date?" (hub) were left as they were.
+
+**Header quote button on phones (22 Oct, Jayden).** The five service pages and the wedding
+hub carry a gold "Get a quote" button under the lead in `.page-head`
+(`<div class="page-head-cta">`, styles beside `.page-head .lead` in `redesign.css`). It is
+**hidden from 1025px**, where the nav's own "Get a quote" is always on screen; below that the
+nav button is inside the hamburger panel. A new service page needs the same `div`.
+
+**Article text on phones (22 Oct, Jayden).** Below 1025px, `.article-main p, li` use
+`text-wrap: wrap` instead of the sitewide `pretty` (rule under the `p` block near the top
+of `redesign.css`). `pretty` stopped lines well short of the edge on a phone; plain wrapping
+fills them, at the cost of an occasional one-word last line. Applies to the five service
+pages, the wedding hub and the four blog posts. **Justified text was tried on
+`dhol-players.html` and rejected**: with 6–8 words a line the word gaps showed badly, and
+Chrome did not hyphenate. Do not reintroduce it.
 
 **Service pages open with what we provide, not a definition** (22 Sep, Jayden). Ladies
 Sangeet, Punjabi Folk Singers and Dhol Players used to start with "A Ladies Sangeet is…",
@@ -766,12 +785,16 @@ Now enforced sitewide by `redesign.css`, not per page:
   A floating menu's `white-space: nowrap` clipped "Punjabi Wedding Entertainment" off
   the panel edge, and the pillar/child hairline tree read as fussy at phone size where
   there is no hover to explain it. Section 16 of `redesign.css` gives the panel one
-  indent level, no connector rules, and no "All services" row — tapping **Services**
-  goes there, so it was saying the same thing twice.
+  indent level and no connector rules.
   **30 Sep: the Services list is collapsed on mobile** behind a chevron button that
   `js/navigation.js` (`initMobileSubmenus`) inserts after the link. Open, it pushed
   Gallery, Meet the Team, Blog and Contact below the fold on a phone, and Reena reported
   seeing only "Home" and "Services". Without JS the list stays open. Desktop hides the button.
+  **22 Oct (Jayden): tapping the word "Services" in the panel opens the list too**, instead
+  of going to `services.html` (it was reported as a bug). The panel stays open on that tap.
+  The **"All services"** row, hidden on mobile until then, is shown again as the panel's
+  route to `services.html`. At ≥1025px the link still navigates and the dropdown is on hover.
+  The breakpoint is checked at tap time with `matchMedia('(max-width: 1024px)')`.
 - **No emoji as icons** on any public page.
 
 ### Signature: the beat rule

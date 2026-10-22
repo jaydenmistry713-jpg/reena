@@ -31,10 +31,11 @@ function initMobileMenu() {
         });
     }
 
-    // Close menu when nav link is clicked
+    // Close menu when nav link is clicked. Not for "Services", which opens its
+    // submenu in the panel instead (see initMobileSubmenus).
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            if (window.innerWidth <= 1024) {
+            if (window.innerWidth <= 1024 && !link.closest('.has-sub-toggle')) {
                 closeMenu();
             }
         });
@@ -79,7 +80,11 @@ function initMobileMenu() {
 // Reena: "I can only see Home and Services"). It is now collapsed behind a chevron.
 // The button is added here, so without JS the list simply stays open. Desktop hides
 // the button and keeps the hover dropdown.
+// 22 Oct (Jayden): in the panel, tapping "Services" itself opens the list too rather
+// than going to services.html, which is reached through the "All services" row.
 function initMobileSubmenus() {
+    const panel = window.matchMedia('(max-width: 1024px)');
+
     const items = document.querySelectorAll('.nav-item-has-dropdown');
 
     items.forEach((item, i) => {
@@ -100,10 +105,18 @@ function initMobileSubmenus() {
         link.after(button);
         item.classList.add('has-sub-toggle');
 
-        button.addEventListener('click', function() {
+        function toggle() {
             const open = item.classList.toggle('is-open');
             button.setAttribute('aria-expanded', open ? 'true' : 'false');
             button.setAttribute('aria-label', (open ? 'Hide ' : 'Show ') + link.textContent.trim() + ' pages');
+        }
+
+        button.addEventListener('click', toggle);
+
+        link.addEventListener('click', function(e) {
+            if (!panel.matches) return;
+            e.preventDefault();
+            toggle();
         });
     });
 }
