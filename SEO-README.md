@@ -13,6 +13,14 @@ at info@; the test record was then deleted from the `inquiries` store, and its v
   older non-git copy. Neither is needed to go live.
 - Netlify site: `beamish-baklava-7f1b21` (both folders link to the same site ID)
 
+**Deploys since go-live**
+- **22 Oct 2026**, deploy `6ad9d39c5f9aee92c9c04215`, commit `33ac629`: "Check your date"
+  buttons → "Get a quote"; "Enquire about …" article-end buttons on the service pages; on
+  mobile, tapping Services opens its list, a quote button in the service-page headers and
+  fuller article lines; the wedding pillar box on `services.html` moved to the bottom.
+  No function changes. Post-deploy checks in "Straight after" all passed (the beacon check
+  adds one test view of `/` to the live statistics). Detail in `CLAUDE.md`.
+
 Work started 17 Sep 2026. Guide followed: `Desktop/buildsbyleo/seo-changes.txt`.
 
 A second content pass on **18 Sep 2026** made weddings the primary topical pillar,
