@@ -502,7 +502,7 @@ later and sets `.btn` to `inline-flex`. A plain class loses and the button stays
 **Button labels (22 Oct, Jayden).** Every button that said "Check your date" now says
 **"Get a quote"** (page heads, homepage hero and closing, Reena's page). The article-end
 button on each service page names the service as **"Enquire about …"**: Ladies Sangeet,
-Punjabi Singers, Dhol (his wording, not "Dhol Players"), Punjabi DJ, Concerts & Melas,
+Punjabi Singers, Dhol (Jayden's wording, not "Dhol Players"), Punjabi DJ, Concerts & Melas,
 and "your wedding" on the hub. A new service page follows the same pattern. Only buttons
 changed: the rail-card title "Check your date" and the h2s "Let's check your date"
 (homepage) and "Ready to check your date?" (hub) were left as they were.
