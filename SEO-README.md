@@ -161,10 +161,16 @@ Do these **after** the prod deploy, not before.
   `/blog/`, `/contact.html`, `/team.html`, `/gallery.html`. *Indexed* (recrawl only):
   all four blog posts.
 
-**Still to do (from ~06:00 UK, 21 Oct):** request `/blog/`, `/contact.html`, `/team.html`,
-`/gallery.html` first (not indexed), then the four blog posts (indexed; a recrawl picks up the
-rebuilt versions). Eight URLs, inside one day's quota.
-Then Step 4 (Bing) and the follow-ups in Step 5 (2 weeks: ~3 Nov; 6 weeks: ~1 Dec).
+**22 Oct** — the last eight, all accepted ("Indexing requested"):
+- `/blog/` and `/contact.html`: *URL is unknown to Google* (no referring sitemap or page
+  detected, although both are in `sitemap.xml`; `/contact.html` read *Discovered* on 20 Oct).
+- `/team.html` and `/gallery.html`: *Discovered – currently not indexed*.
+- All four blog posts: *Indexed*; requested for a recrawl.
+- These were requested before the "Get a quote" / "Enquire about …" button change of the same
+  day was deployed, so Google will crawl the old labels. Labels do not affect indexing.
+
+**Every URL in the Step 3 list has now been requested.** Next: Step 4 (Bing) and the
+follow-ups in Step 5 (2 weeks: ~3 Nov; 6 weeks: ~1 Dec).
 
 ### Step 1 — record the baseline first
 Before submitting anything, screenshot or export Performance (3 months) so there is
