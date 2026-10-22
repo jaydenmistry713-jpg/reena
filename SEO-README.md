@@ -14,6 +14,13 @@ at info@; the test record was then deleted from the `inquiries` store, and its v
 - Netlify site: `beamish-baklava-7f1b21` (both folders link to the same site ID)
 
 **Deploys since go-live**
+- **22 Oct 2026 (second)**, deploy `6ada773ff9f9a606ecd50684`, commit `842a421`: statistics
+  dashboard only. An optional Compare (off by default; previous period, year before, custom),
+  and the fix for the page scrolling sideways on phones. `stats-api.js` changed: it now
+  returns a `compare` summary when asked, instead of always sending `previous` totals. Checks
+  in "Straight after" passed. The beacon POST was skipped on purpose (`visit.js` did not
+  change, and the test would add a visit to the live figures). Instead, `/dashboard` serves the
+  Compare control, and `stats-api` returns 401 without a password. Detail in `CLAUDE.md` §5.
 - **22 Oct 2026**, deploy `6ad9d39c5f9aee92c9c04215`, commit `33ac629`: "Check your date"
   buttons → "Get a quote"; "Enquire about …" article-end buttons on the service pages; on
   mobile, tapping Services opens its list, a quote button in the service-page headers and
