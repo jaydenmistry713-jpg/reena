@@ -499,6 +499,14 @@ every page with one. The **wedding hub** has no FAQ band, so its article-end but
 hidden below 1024px. The selector is `.btn.cta-hide-mobile` because `redesign.css` loads
 later and sets `.btn` to `inline-flex`. A plain class loses and the button stays.
 
+**Button labels (22 Oct, Jayden).** Every button that said "Check your date" now says
+**"Get a quote"** (page heads, homepage hero and closing, Reena's page). The article-end
+button on each service page names the service as **"Enquire about …"**: Ladies Sangeet,
+Punjabi Singers, Dhol (his wording, not "Dhol Players"), Punjabi DJ, Concerts & Melas,
+and "your wedding" on the hub. A new service page follows the same pattern. Only buttons
+changed: the rail-card title "Check your date" and the h2s "Let's check your date"
+(homepage) and "Ready to check your date?" (hub) were left as they were.
+
 **Service pages open with what we provide, not a definition** (22 Sep, Jayden). Ladies
 Sangeet, Punjabi Folk Singers and Dhol Players used to start with "A Ladies Sangeet is…",
 "A Punjabi folk singer performs…" and "The dhol is…". Those are gone. Definitions live
@@ -618,7 +626,7 @@ out-shout it. Measured page-head heights are 311–433px, all under the 600px he
 | Google Fonts link | Playfair/Poppins → Fraunces + Karla |
 | `redesign.css` | added **last**, after `responsive.css` |
 | Logo | inline `height: 75px` removed — this is what fixed the 20px header overlap on all 20 pages |
-| Nav CTA | "Book Now" → "Check your date" |
+| Nav CTA | "Book Now" → "Check your date" (→ "Get a quote" on 22 Oct) |
 | Hero | crimson-gradient `<section style=...>` → `.page-head` with eyebrow + beat rule |
 | Closing CTA | crimson-gradient section → `.closing` |
 | Section grounds | inline backgrounds → `.band band--cream` / `--blush` / `--white` |
@@ -651,8 +659,8 @@ Its tokens live in a **REDESIGN TOKENS** block appended to the bottom of
    `Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1` + `Karla:wght@300..800`.
 2. Replace inline `style="..."` section backgrounds with `.band` + a ground class.
 3. Remove the inline `height: 75px` from the logo `<img>` (see header note below).
-4. Change the nav CTA from "Book Now" to **"Check your date"** — index already says this,
-   so the two differ until every page is converted.
+4. Change the nav CTA from "Book Now" to **"Get a quote"** (it was "Check your date" until
+   22 Oct; see "Button labels" under "Article layout").
 5. Bump `?v=` on every page (`main.css`/`responsive.css` are shared).
 
 ### Grounds and colour
