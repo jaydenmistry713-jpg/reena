@@ -4,10 +4,16 @@
 // The password is checked SERVER-SIDE against process.env.DASHBOARD_PASSWORD.
 //
 // POST { password or token, from: "YYYY-MM-DD", to: "YYYY-MM-DD", group: "hour"|"day"|"week"|"month",
-//        filter: { page?, source?, channel?, device?, country?, city? } }
-//   -> { totals, previous, series, pages, entries, sources, channels, campaigns,
+//        filter: { page?, source?, channel?, device?, country?, city? },
+//        compare?: { from, to } }
+//   -> { totals, series, pages, entries, sources, channels, campaigns,
 //        devices, browsers, oses, countries, cities, enquiryTypes, clicks,
-//        journeys, heatmap, live, token }
+//        journeys, heatmap, live, token,
+//        compare: null | { from, to, totals, series, pages, ... clicks } }
+//
+// "compare" is sent only when the dashboard's Compare control is on. The dashboard works
+// out its dates (previous period, year before or custom); the same filter and grouping
+// apply to both periods.
 //
 // Everything is counted per visitor-day (see netlify/lib/stats-core.js). A filter keeps
 // the visitors who match it, with all of their activity: "page" means "visitors who
@@ -132,6 +138,76 @@ function emptyBuckets(from, to, group) {
   return keys;
 }
 
+// Keep a requested range inside the data there can be: not after today, and capped at
+// roughly 13 months so one request stays inside the function time limit.
+function clampRange(from, to, today) {
+  if (!isDate(from) || !isDate(to)) return null;
+  if (to > today) to = today;
+  if (from > to) from = to;
+  if (core.daysBetween(from, to).length > 400) from = core.addDays(to, -399);
+  return { from, to };
+}
+
+// Everything the dashboard shows for one period. Run for the selected period and, when
+// comparing, again for the comparison period.
+function summarise(recs, from, to, group) {
+  // Time series.
+  const buckets = new Map(emptyBuckets(from, to, group).map((k) => [k, { key: k, visitors: 0, views: 0, enquiries: 0, converted: 0 }]));
+  for (const r of recs) {
+    const b = buckets.get(bucketKey(r.date, r.first, group));
+    if (!b) continue;
+    b.visitors++;
+    b.views += r.views;
+    b.enquiries += r.enq;
+    if (r.enq > 0) b.converted++;
+  }
+
+  // Pages: views, visitors, average time per view, entries, and the share of the
+  // page's visitors who went on to send an enquiry.
+  const pageMap = new Map();
+  for (const r of recs) {
+    for (const [p, n] of Object.entries(r.pages)) {
+      let row = pageMap.get(p);
+      if (!row) pageMap.set(p, (row = { key: p, views: 0, visitors: 0, time: 0, entries: 0, converted: 0 }));
+      row.views += n;
+      row.visitors++;
+      row.time += (r.pt && r.pt[p]) || 0;
+      if (r.enq > 0) row.converted++;
+    }
+    const e = pageMap.get(r.entry);
+    if (e) e.entries++;
+  }
+  const pages = [...pageMap.values()]
+    .map((row) => ({ ...row, avgTime: row.views ? row.time / row.views : 0 }))
+    .sort((a, b) => b.views - a.views)
+    .slice(0, 60);
+
+  // Enquiry event types and link clicks.
+  const enqTypes = new Map();
+  const clickMap = new Map();
+  for (const r of recs) {
+    for (const t of r.enqTypes || []) enqTypes.set(t, (enqTypes.get(t) || 0) + 1);
+    for (const [k, v] of Object.entries(r.clicks || {})) clickMap.set(k, (clickMap.get(k) || 0) + v);
+  }
+
+  return {
+    totals: totalsOf(recs),
+    series: [...buckets.values()],
+    pages,
+    entries: tally(recs, (r) => r.entry),
+    sources: tally(recs, (r) => r.src),
+    channels: tally(recs, (r) => r.ch),
+    campaigns: tally(recs, (r) => (r.utm && r.utm.c ? `${r.utm.c} (${r.utm.s || '-'})` : null)),
+    devices: tally(recs, (r) => r.dev),
+    browsers: tally(recs, (r) => r.br),
+    oses: tally(recs, (r) => r.os),
+    countries: tally(recs, (r) => r.cn || r.cc || 'Unknown'),
+    cities: tally(recs, (r) => r.city || 'Unknown'),
+    enquiryTypes: [...enqTypes].map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count),
+    clicks: [...clickMap].map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count)
+  };
+}
+
 async function loadRange(store, haveData, from, to) {
   const dates = core.daysBetween(from, to).filter((d) => haveData.has(d));
   const days = await core.mapLimit(dates, 8, (d) => core.loadDay(store, d));
@@ -157,15 +233,11 @@ exports.handler = async (event) => {
   }
 
   const today = core.londonDate(Date.now());
-  let from = isDate(body.from) ? body.from : core.addDays(today, -29);
-  let to = isDate(body.to) ? body.to : today;
-  if (to > today) to = today;
-  if (from > to) from = to;
-  // Cap at roughly 13 months so one request stays inside the function time limit.
-  if (core.daysBetween(from, to).length > 400) from = core.addDays(to, -399);
+  const { from, to } = clampRange(body.from, body.to, today) || clampRange(core.addDays(today, -29), today, today);
   const span = core.daysBetween(from, to).length;
   const group = ['hour', 'day', 'week', 'month'].includes(body.group) ? body.group : 'day';
   const filter = body.filter && typeof body.filter === 'object' ? body.filter : {};
+  const cmp = body.compare ? clampRange(body.compare.from, body.compare.to, today) : null;
 
   try {
     const { getStore } = await import('@netlify/blobs');
@@ -173,53 +245,11 @@ exports.handler = async (event) => {
     const store = core.openStore(getStore, core.storeNameForHost(host));
     const haveData = await core.datesWithData(store);
 
-    const prevTo = core.addDays(from, -1);
-    const prevFrom = core.addDays(from, -span);
-    const [all, prevAll] = await Promise.all([
+    const [all, cmpAll] = await Promise.all([
       loadRange(store, haveData, from, to),
-      loadRange(store, haveData, prevFrom, prevTo)
+      cmp ? loadRange(store, haveData, cmp.from, cmp.to) : null
     ]);
     const recs = all.filter((r) => matches(r, filter));
-    const prev = prevAll.filter((r) => matches(r, filter));
-
-    // Time series.
-    const buckets = new Map(emptyBuckets(from, to, group).map((k) => [k, { key: k, visitors: 0, views: 0, enquiries: 0, converted: 0 }]));
-    for (const r of recs) {
-      const b = buckets.get(bucketKey(r.date, r.first, group));
-      if (!b) continue;
-      b.visitors++;
-      b.views += r.views;
-      b.enquiries += r.enq;
-      if (r.enq > 0) b.converted++;
-    }
-
-    // Pages: views, visitors, average time per view, entries, and the share of the
-    // page's visitors who went on to send an enquiry.
-    const pageMap = new Map();
-    for (const r of recs) {
-      for (const [p, n] of Object.entries(r.pages)) {
-        let row = pageMap.get(p);
-        if (!row) pageMap.set(p, (row = { key: p, views: 0, visitors: 0, time: 0, entries: 0, converted: 0 }));
-        row.views += n;
-        row.visitors++;
-        row.time += (r.pt && r.pt[p]) || 0;
-        if (r.enq > 0) row.converted++;
-      }
-      const e = pageMap.get(r.entry);
-      if (e) e.entries++;
-    }
-    const pages = [...pageMap.values()]
-      .map((row) => ({ ...row, avgTime: row.views ? row.time / row.views : 0 }))
-      .sort((a, b) => b.views - a.views)
-      .slice(0, 60);
-
-    // Enquiry event types and link clicks.
-    const enqTypes = new Map();
-    const clickMap = new Map();
-    for (const r of recs) {
-      for (const t of r.enqTypes || []) enqTypes.set(t, (enqTypes.get(t) || 0) + 1);
-      for (const [k, v] of Object.entries(r.clicks || {})) clickMap.set(k, (clickMap.get(k) || 0) + v);
-    }
 
     // Weekday x hour of arrival.
     const heatmap = Array.from({ length: 7 }, () => new Array(24).fill(0));
@@ -246,21 +276,8 @@ exports.handler = async (event) => {
     return json(200, {
       token: issueToken(),
       from, to, group, span, filter,
-      totals: totalsOf(recs),
-      previous: { from: prevFrom, to: prevTo, ...totalsOf(prev) },
-      series: [...buckets.values()],
-      pages,
-      entries: tally(recs, (r) => r.entry),
-      sources: tally(recs, (r) => r.src),
-      channels: tally(recs, (r) => r.ch),
-      campaigns: tally(recs, (r) => (r.utm && r.utm.c ? `${r.utm.c} (${r.utm.s || '-'})` : null)),
-      devices: tally(recs, (r) => r.dev),
-      browsers: tally(recs, (r) => r.br),
-      oses: tally(recs, (r) => r.os),
-      countries: tally(recs, (r) => r.cn || r.cc || 'Unknown'),
-      cities: tally(recs, (r) => r.city || 'Unknown'),
-      enquiryTypes: [...enqTypes].map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count),
-      clicks: [...clickMap].map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count),
+      ...summarise(recs, from, to, group),
+      compare: cmp ? { ...cmp, ...summarise(cmpAll.filter((r) => matches(r, filter)), cmp.from, cmp.to, group) } : null,
       journeys,
       heatmap,
       live

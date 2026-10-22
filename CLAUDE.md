@@ -240,8 +240,19 @@ conversion and which pages people read. No third-party analytics script is invol
   Sign out clears it. The form has a hidden `username` field and hides only after the
   password is accepted, so browsers offer to save the password (Chrome/Edge are also asked
   through `navigator.credentials.store`).
-  Periods (today … 12 months, custom), grouping by hour/day/week/month, comparison with the
-  previous period, click-to-filter by page/source/type/device/town/country.
+  Periods (today … 12 months, custom), grouping by hour/day/week/month, click-to-filter by
+  page/source/type/device/town/country.
+- **Compare (22 Oct, Jayden):** off by default, like Search Console. Options: previous period,
+  year before, custom. The dashboard works out the dates (`compareDates`: last month against the
+  whole month before, this month so far against the same days of last month, otherwise the same
+  number of days just before) and sends `compare: {from, to}`. Only then does `stats-api.js`
+  return a second `compare` summary (same filter and grouping). With it on, the tiles show both
+  values and the change, the chart adds a dashed grey line lined up bucket by bucket, and the
+  tables get a column per period. The heatmap and journeys stay on the selected period. Until
+  Oct 2027, "Year before" is empty: there is no data before 20 Oct 2026, and the legend says so.
+- **Mobile width (22 Oct):** the chart's four metric tabs and the custom date pickers did not
+  wrap, so the page scrolled sideways on narrow phones (the tabs had 0–1px spare at 375–414px).
+  Both now wrap, and the chart tooltip is kept inside the chart by measuring its width.
   **Everything from a visitor (paths, referrers, UTM values) is escaped before `innerHTML`.**
 - "Don't count my visits on this browser" sets `localStorage pfe-stats-ignore=1`, which
   `js/visit.js` checks. It is per browser, so it has to be ticked on each device.
