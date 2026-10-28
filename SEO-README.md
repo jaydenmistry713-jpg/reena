@@ -184,6 +184,10 @@ Do these **after** the prod deploy, not before.
 - These were requested before the "Get a quote" / "Enquire about …" button change of the same
   day was deployed, so Google will crawl the old labels. Labels do not affect indexing.
 
+**28 Oct** — Page indexing report (last update 23 Oct): **all 19 sitemap URLs are *Indexed***,
+20 indexed in total. Nothing left to request. *Discovered* and *Crawled – currently not indexed*
+are both 0. The 15 not indexed are expected: 9 alternate-with-canonical, 4 redirects, 2 noindex.
+
 **Every URL in the Step 3 list has now been requested.** Next: Step 4 (Bing) and the
 follow-ups in Step 5 (2 weeks: ~3 Nov; 6 weeks: ~1 Dec).
 

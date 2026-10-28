@@ -80,7 +80,7 @@ again. Legend:
 | 33 | Refresh `lastmod` | **DONE** — was 2025-11-16, now current |
 | 34 | robots.txt allows crawling and declares the sitemap | **DONE** — rewritten; `Crawl-delay: 5` removed (Bing obeyed it and throttled crawl), both sitemaps declared, AI crawlers explicitly allowed. **22 Sep audit:** the `Disallow` lines for `admin`, `quote` and `faq-review` were removed. They hid those pages' noindex from Google; noindex is now sent as a header too. Only `/.netlify/` stays disallowed |
 | 35 | Private/admin pages stay noindex and out of the sitemap | **DONE** — `admin`, `quote`, `privacy-policy`, `terms`, `faq-review`, `404`. `admin`/`quote`/`quote/*`/`faq-review` also send `X-Robots-Tag: noindex, nofollow` |
-| 36 | Resubmit sitemap, request indexing for new URLs | **OPEN** — cannot be done until the site is live. Order is in `SEO-README.md` §2 |
+| 36 | Resubmit sitemap, request indexing for new URLs | **DONE** — sitemaps 20 Oct; indexing requested for all 19 URLs 20–22 Oct. By 28 Oct all 19 were *Indexed*. Log in `SEO-README.md` §2 |
 
 ## Image SEO (37–42)
 
@@ -174,7 +174,7 @@ again. Legend:
 
 | # | Item | Status |
 |---|------|--------|
-| 78 | Distinguish unknown / crawled-not-indexed / indexed | **OPEN** — do at go-live. `contact.html` and `team.html` have **zero impressions**, so check those first |
+| 78 | Distinguish unknown / crawled-not-indexed / indexed | **DONE** — each URL's state was recorded 20–22 Oct (`SEO-README.md` §2 log). On 28 Oct all 19 sitemap URLs, `contact.html` and `team.html` included, were *Indexed* |
 | 79 | Don't tune rankings for a page that isn't indexed | **UNDERSTOOD** |
 | 80 | Read the Discovery rows | **OPEN** — at go-live |
 | 81 | Check Last crawl date to learn crawl frequency | **OPEN** — at go-live |
