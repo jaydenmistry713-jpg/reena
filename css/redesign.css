@@ -1850,3 +1850,43 @@ body { padding-top: 88px; }
         animation: none;
     }
 }
+
+/* ================================
+   20. SITE CREDIT  (5 Nov 2026)
+
+   "Website by Builds by Leo" under the footer-bottom row on every public page,
+   at Jayden's request. A followed link (no nofollow) to buildsbyleo.com.
+   Quiet by design: small, centred, below the legal links. The link is underlined
+   in gold so it reads as clickable without shouting, and turns gold on hover.
+   Contrast on the crimson-dark ground: lead-in 6.2:1, link 9.0:1, hover 6.7:1.
+   ================================ */
+
+.site-footer .site-credit {
+    margin-top: 1.25rem;
+    text-align: center;
+    color: rgba(250, 249, 246, 0.8);
+    letter-spacing: 0.02em;
+}
+
+.site-footer .site-credit a {
+    color: var(--color-off-white);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-secondary);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-thickness 0.2s ease;
+}
+
+.site-footer .site-credit a:hover {
+    color: var(--color-secondary);
+    text-decoration-thickness: 2px;
+}
+
+@media (pointer: coarse) {
+    .site-footer .site-credit a {
+        display: inline-block;
+        padding: 0.6rem 0;
+        min-height: 44px;
+    }
+}

@@ -837,6 +837,14 @@ a tile instead of cropping it; nothing uses it since the Gurinder Chadha graphic
 also taken out of the Sangeet/Mehndi/Jago blog post; its file is now unused). To keep the rows full, the Mehndi group photo became
 a `.g-wide` tile with `object-position: center 28%` to keep the faces in frame.
 
+### Footer credit (5 Nov 2026, Jayden)
+
+Every public page ends its footer with `<p class="site-credit">Website by <a
+href="https://buildsbyleo.com">Builds by Leo</a></p>`, after `.footer-bottom-content` and
+inside `.footer-bottom`. It is a **followed** backlink (`rel="noopener"` only, no `nofollow`)
+because Jayden built the site. Styles are section 20 of `redesign.css`: small, centred,
+off-white with a gold underline, gold on hover. **A new page needs the same line.**
+
 ### Removed on purpose — do not reinstate
 
 - The `.hero-overlay` rules and their six `!important` media-query repeats in
