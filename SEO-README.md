@@ -14,6 +14,9 @@ at info@; the test record was then deleted from the `inquiries` store, and its v
 - Netlify site: `beamish-baklava-7f1b21` (both folders link to the same site ID)
 
 **Deploys since go-live**
+- **5 Nov 2026**, deploy `6aec945ac30def80cb495235`, commit `ba0621b`: "Website by Builds by
+  Leo" footer credit (followed link to buildsbyleo.com) on all 22 public pages. No function
+  changes. Checked live on `/`, `/services.html`, `/blog/`, the wedding hub and the 404 page.
 - **22 Oct 2026 (second)**, deploy `6ada773ff9f9a606ecd50684`, commit `842a421`: statistics
   dashboard only. An optional Compare (off by default; previous period, year before, custom),
   and the fix for the page scrolling sideways on phones. `stats-api.js` changed: it now
